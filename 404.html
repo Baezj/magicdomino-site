@@ -333,7 +333,7 @@
         ///    which is true of every kind of code. Never show an error here: the
         ///    reader can't act on it, and the download buttons work regardless.
         function describeCode(code) {
-            fetch("https://live.magicdominoapp.com/code/" + code)
+            fetch("https://live.magicdomino.com/code/" + code)
                 .then(function (r) { return r.ok ? r.json() : null; })
                 .then(function (info) {
                     if (!info) return;
