@@ -682,10 +682,9 @@ footer {
     [dir="rtl"] .pane-play .pane-inner { margin-left: 0; margin-right: auto; text-align: left; justify-items: start; }
     [dir="rtl"] .pane-score .pane-inner { text-align: right; justify-items: end; margin-left: auto; }
     .mock { width: clamp(162px, 44vw, 186px); top: auto; bottom: -17%; padding: 2.2%; }
-    .mock-score { right: 0.55rem; rotate: 0deg; }
-    .mock-play { left: 0.55rem; rotate: 0deg; }
-    [dir="rtl"] .mock-score { right: auto; left: 0.55rem; }
-    [dir="rtl"] .mock-play { left: auto; right: 0.55rem; }
+    /* Each phone centred in its own half (left/right 0 + auto margins, so the
+       float's `translate` is free for the up-and-down). */
+    .mock-score, .mock-play { left: 0; right: 0; margin-inline: auto; rotate: 0deg; }
     .mock-play img { border-radius: 16.1% / 7.4%; }
     .mock-play { padding: 1.4%; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(242, 189, 87, 0.22), 0 0 0 1px rgba(255, 255, 255, 0.12); }
     /* No icon on the seam here: the two phones nearly touch, and it covered the
