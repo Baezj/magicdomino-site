@@ -16,9 +16,14 @@ folder as-is on every push to `main`; there is no build step.
   New copy uses the app's own renderings of game terms (see the glossary note there).
 - `SCREENSHOTS.md` — which PNGs the home page shows, how each was captured on the
   simulator, and how to replace one. `social-card.html` renders `social-card.png`.
-- ⚠️ Every asset reference carries `?v=…`. Cloudflare caches a miss for four
-  hours, so a probe that beats a Pages build pins a 404; bump the value when an
-  asset changes (`grep -o '?v=[a-z0-9]*' index.html | sort -u`).
+- ⚠️ Every asset reference carries `?v=…`. Cloudflare caches whatever it first
+  serves under a URL for four hours, so a probe that beats a Pages build pins a
+  404 — or, worse, the OLD file under the NEW version string (2026-09-30, twice).
+  Bump the value when an asset changes (`grep -o '?v=[a-z0-9]*' index.html | sort
+  -u`), and **do not request a versioned URL until the Pages build for that commit
+  reports `built`** (`gh api repos/Baezj/magicdomino-site/pages/builds/latest`,
+  matching the commit, not just the status — "latest" is the previous build until
+  the new one starts). If a version string is pinned stale, bump it again.
 - The old domain, magicdominoapp.com, redirects here permanently from Cloudflare.
   See the app repo's CLAUDE.md, section "TWO DOMAINS", before touching either.
 
