@@ -17,27 +17,37 @@ may be cropped at the top and bottom.
 | `shot-2.png` | The scoreboard |
 | `shot-3.png` | A tournament bracket |
 | `shot-4.png` | Game history |
-| `shot-5.png` | (free — currently sharing) |
-| `shot-6.png` | (free — currently custom backgrounds) |
 
-These six exist today.
+Four, down from six (2026-09-30): the game now carries half the page, so the
+scorekeeper strip shows its four strongest and no more.
 
-## The game strip (felt) — **missing, placeholders showing**
+## The game strip (felt)
 
-| File | Shows | Suggested capture |
-|---|---|---|
-| `play-shot-1.png` | The table mid-hand | Dominican, 2 vs 2, a few tiles down, your rack lit, a call card if you can catch one |
-| `play-shot-2.png` | Pick your game | The table picker with the ten tables, Dominican selected |
-| `play-shot-3.png` | Play together | An Anywhere lobby with the six-letter code and two seats filled |
-| `play-shot-4.png` | The bracket | A tournament bracket a round or two in |
+| File | Shows |
+|---|---|
+| `play-shot-1.png` | The table mid-hand: 1 v 1 against Rico, ten tiles down, three playable tiles lit |
+| `play-shot-2.png` | The Play home: the three cards, Computer in front, Table setup row, Deal |
+| `play-shot-3.png` | Pick your game: the ten tables, Dominican selected |
+| `play-shot-4.png` | An Anywhere lobby with its six-letter code, one open seat |
+| `play-shot-5.png` | A tournament bracket: Singles · 4, semi-final You vs Vega |
+| `play-shot-6.png` | The hand card: RICO TAKES THE HAND · NO SCORE · Race to 200 |
 
-Capture on the simulator or a device in **English** — the page's own captions are
-translated under each frame, the screenshot itself is not. Light or dark, either
-reads on the felt frame; dark matches the strip.
+Captured 2026-09-30 on an iPhone 17 Pro simulator (a fresh device named
+"MD Site Shots", launched with `-debugLaunchTab play -debugPremium 1` so no ad
+banner shows; `hasSeenOnboarding` set with `simctl spawn … defaults write`).
+Replace any of them by dropping a new PNG under the same name.
+
+## The Duo
+
+`duo-split.png` (1800 wide) is the opened iPhone Duo's inner screen: the scoreboard
+on the left half, a 2 vs 2 hand on the right. Captured with
+`-debugLaunchTab playSplit -debugDuoDemo deal -debugPremium 1` on the Duo simulator
+and `simctl io <duo> screenshot --display=3 --mask=black`. It is the one picture
+that shows the whole idea at once, which is why it has its own section.
 
 ## The social card
 
 `social-card.png` (1024 × 500) is what iMessage, WhatsApp and X show when the
-link is shared. It still shows the scorekeeper alone. Worth redoing as the split
-picture — the score card on the left, the felt table on the right, the icon on the
-seam — once the game screenshots exist. The `og:image` tags already point at it.
+link is shared. It is now the split picture, rendered from `social-card.html` with
+the same CSS as the hero — the command is in that file's header. Re-render it
+whenever the hero's look changes.
