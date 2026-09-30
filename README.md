@@ -1,4 +1,30 @@
-# Magic Domino: AI Scorekeeper™
+# Magic Domino™ — magicdomino.com
+
+The marketing site for Magic Domino: the dominoes scorekeeper and, since
+2026-09-30, the dominoes game — "two rooms, one app". GitHub Pages serves this
+folder as-is on every push to `main`; there is no build step.
+
+## How the site is built
+
+- `index.html` — the split home. `support.html`, `privacy.html`, `terms.html` — the
+  secondary pages. `404.html` — the not-found page, which also probes a room code.
+- `site.css` — ONE stylesheet for every page. Two worlds: `.world-score` (light,
+  the brand blue) and `.world-play` (Play's felt, brass and ivory). Tokens are
+  re-set inside `.world-play`, so the same components render in either world.
+- `i18n.js` — every string in all 17 languages, one line per key. Markup ships
+  English with `data-i18n` keys; read the header of that file before adding a word.
+  New copy uses the app's own renderings of game terms (see the glossary note there).
+- `SCREENSHOTS.md` — which PNGs the home page shows, how each was captured on the
+  simulator, and how to replace one. `social-card.html` renders `social-card.png`.
+- ⚠️ Every asset reference carries `?v=…`. Cloudflare caches a miss for four
+  hours, so a probe that beats a Pages build pins a 404; bump the value when an
+  asset changes (`grep -o '?v=[a-z0-9]*' index.html | sort -u`).
+- The old domain, magicdominoapp.com, redirects here permanently from Cloudflare.
+  See the app repo's CLAUDE.md, section "TWO DOMAINS", before touching either.
+
+---
+
+# Magic Domino: AI Scorekeeper™ (original notes)
 
 The ultimate AI-powered domino scorekeeper for iOS.
 
