@@ -296,13 +296,10 @@ section { padding: 6rem 0; }
 .mock-score::before { background: radial-gradient(closest-side, rgba(61, 149, 239, 0.55), transparent); }
 .mock-play  { left: clamp(2rem, 5vw, 4.5rem); rotate: -3deg; transform-origin: top center;
     animation-name: mockUp, mockFloatDown; animation-delay: 0.15s, 1.25s;
-    /* Same dark frame as the scoreboard's; a lit rim OUTSIDE it so the phone still
-       lifts off the felt without the frame itself looking wider. */
-    box-shadow: 0 50px 100px rgba(0, 0, 0, 0.6), 0 0 0 1.5px rgba(247, 245, 238, 0.32), 0 0 40px rgba(242, 189, 87, 0.18), inset 0 0 0 1px rgba(255, 255, 255, 0.06); }
-/* The game's screen is dark to its edges, so frame and felt merge into one band that
-   reads as a thick bezel. A hairline at the screen's edge shows where the frame stops. */
-.mock img { box-sizing: border-box; }
-.mock-play img { border: 1px solid rgba(247, 245, 238, 0.38); }
+    /* EXACTLY the scoreboard's frame — no rim outside it, no hairline inside it. Both
+       were tried (2026-09-30) and each extra ring read as more bezel. The graphite
+       frame alone separates from the felt; only the glow differs. */
+    box-shadow: 0 50px 100px rgba(0, 0, 0, 0.6), 0 0 40px rgba(242, 189, 87, 0.18), 0 0 0 1px rgba(255, 255, 255, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.06); }
 .mock-play::before { background: radial-gradient(closest-side, rgba(242, 189, 87, 0.6), transparent); }
 @keyframes mockUp { from { opacity: 0; translate: 0 90px; } }
 @keyframes mockFloat { 0%, 100% { translate: 0 0; } 50% { translate: 0 -10px; } }
@@ -646,7 +643,7 @@ footer {
     .mock-play { left: 0.55rem; rotate: 0deg; }
     [dir="rtl"] .mock-score { right: auto; left: 0.55rem; }
     [dir="rtl"] .mock-play { left: auto; right: 0.55rem; }
-    .mock-play { box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 0 1.5px rgba(247, 245, 238, 0.3), 0 0 30px rgba(242, 189, 87, 0.22); }
+    .mock-play { box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(242, 189, 87, 0.22), 0 0 0 1px rgba(255, 255, 255, 0.12); }
     /* No icon on the seam here: the two phones nearly touch, and it covered the
        game's standings rail. The split says "two rooms"; the line below says "one app". */
     .hinge { display: none; }
