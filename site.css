@@ -198,14 +198,21 @@ section { padding: 6rem 0; }
 .hero { padding: 0; position: relative; }
 .hero-split {
     display: grid; grid-template-columns: 1fr 1fr;
-    min-height: min(82vh, 760px);
     padding-top: 4.4rem; /* under the fixed bar */
     position: relative;
 }
+/* Desktop is the PHONE'S layout scaled up (Juan, 2026-09-30: "desktop needs work, to
+   match the style of mobile browser view"): each half is a stack — eyebrow, headline,
+   then a straight phone centred under it, rising out of the pane's bottom edge and
+   cropped there. The earlier desktop (phones tilted toward the seam, a paragraph
+   beside each, the app icon on the hinge) is gone. The pane's height is fixed so the
+   crop is deliberate; the phone is in FLOW under the words, so no window size can
+   lift it into them. */
 .pane {
     position: relative; overflow: hidden;
-    display: flex; flex-direction: column; justify-content: flex-start;
-    padding: 3.2rem clamp(1.5rem, 5vw, 5rem) 3.5rem;
+    display: flex; flex-direction: column; justify-content: flex-start; align-items: center;
+    height: clamp(560px, 78vh, 760px);
+    padding: 3rem clamp(1.5rem, 5vw, 5rem) 0;
 }
 .pane-score {
     background:
@@ -221,24 +228,33 @@ section { padding: 6rem 0; }
         linear-gradient(180deg, #16130f, var(--felt));
     color: var(--ivory);
 }
-.pane-inner { position: relative; z-index: 2; display: grid; gap: 1rem; max-width: 21rem; }
-.pane-play .pane-inner { margin-left: auto; text-align: right; justify-items: end; }
+.pane-inner { position: relative; z-index: 2; display: grid; gap: 0.9rem; max-width: 28rem; text-align: center; justify-items: center; }
 .pane-title {
     font-family: var(--display); font-weight: 700; letter-spacing: -0.03em; line-height: 0.98;
     font-size: clamp(2.6rem, 5.4vw, 4.6rem); text-wrap: balance;
+    /* Two lines on both sides, always: "Play the game." fitted on one line at desktop
+       width while "Keep the score." wrapped, and the two phones under them started at
+       different heights. The width forces the break; the height holds the slot even
+       when a language does not wrap. */
+    width: fit-content; max-width: 8ch; min-width: min-content; min-height: 1.96em;
 }
 .pane-score .pane-title em { font-style: italic; font-weight: 500; color: var(--accent-deep); }
 .pane-play .pane-title em { font-style: italic; font-weight: 500; color: var(--brass); }
-.pane-desc { font-size: 1.02rem; line-height: 1.5; opacity: 0.85; max-width: 16.5rem; text-wrap: pretty; }
+/* The paragraph stays in the markup (it is translated and the sections below carry
+   the same message) but is not drawn: on the phone it never was, and on desktop it
+   pushed the phone down until only its top third showed. */
+.pane-desc { display: none; }
 .pane-play .eyebrow { color: var(--brass); }
 .pane-link {
-    display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 0.4rem;
+    display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 0.1rem;
     font-weight: 600; font-size: 0.95rem; text-decoration: none; color: inherit;
     border-bottom: 2px solid currentColor; padding-bottom: 1px;
 }
 .pane-link:hover { opacity: 0.8; }
 
-/* The hinge: the one app icon, on the seam between the two worlds. */
+/* The hinge: the one app icon on the seam. NOT in the home page's hero any more
+   (removed from both widths, 2026-09-30 — the phones say "two rooms", the line under
+   them says "one app"); the rules stay for social-card.html, which still draws it. */
 .hinge {
     position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
     z-index: 5; display: grid; justify-items: center; gap: 0.6rem;
@@ -271,13 +287,14 @@ section { padding: 6rem 0; }
 .hero-one .lead { margin: 0 auto 1.8rem; max-width: 40rem; }
 .hero-meta { margin-top: 1.4rem; display: flex; gap: 0.7rem; justify-content: center; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); }
 
-/* ---- The phones. Real screenshots in a bezel, rising out of the bottom of each
-   pane and leaning toward the seam, each with its world's glow behind it. ---- */
+/* ---- The phones. Real screenshots in a bezel, straight, centred in their half,
+   rising out of the bottom of each pane, each with its world's glow behind it. ---- */
 .mock {
-    /* Anchored from the TOP, under the headline, so a short window never lifts a
-       phone into the words: it extends down and the pane's edge crops it. */
-    position: absolute; z-index: 1; top: max(300px, 40%); bottom: auto; margin: 0;
-    width: clamp(250px, 23vw, 330px); aspect-ratio: 736 / 1600;
+    /* In flow under the headline (a flex column), so the words always come first
+       and the pane's fixed height crops the phone at the bottom. Desktop only —
+       the phone block below positions it absolutely against the pane's bottom. */
+    position: relative; z-index: 1; flex: none; margin: 2.4rem auto 0;
+    width: clamp(250px, 24vw, 340px); aspect-ratio: 736 / 1600;
     padding: 2%; border-radius: 17.5% / 8.05%;
     /* Graphite, not black: a frame that is visibly a different material from the
        screen, so a dark screen (the felt) cannot merge with it and look like a
@@ -296,9 +313,8 @@ section { padding: 6rem 0; }
     content: ""; position: absolute; left: -30%; right: -30%; top: -10%; bottom: 10%; z-index: -1;
     border-radius: 50%; filter: blur(46px); opacity: 0.75;
 }
-.mock-score { right: clamp(2rem, 5vw, 4.5rem); rotate: 3deg; transform-origin: top center; }
 .mock-score::before { background: radial-gradient(closest-side, rgba(61, 149, 239, 0.55), transparent); }
-.mock-play  { left: clamp(2rem, 5vw, 4.5rem); rotate: -3deg; transform-origin: top center;
+.mock-play  {
     animation-name: mockUp, mockFloatDown; animation-delay: 0.15s, 1.25s;
     /* EXACTLY the scoreboard's frame — no rim outside it, no hairline inside it. Both
        were tried (2026-09-30) and each extra ring read as more bezel. The graphite
@@ -633,8 +649,6 @@ footer {
 #backToTournament .btt-code { font-variant-numeric: tabular-nums; letter-spacing: 0.14em; color: var(--accent-deep); font-weight: 700; }
 
 /* ===== Right-to-left (Arabic, Urdu) ============================================ */
-[dir="rtl"] .pane-play .pane-inner { margin-left: 0; margin-right: auto; text-align: left; justify-items: start; }
-[dir="rtl"] .pane-score .pane-inner { text-align: right; justify-items: end; margin-left: auto; }
 [dir="rtl"] .ill-score { right: auto; left: clamp(1rem, 4vw, 4rem); transform: rotate(4deg); }
 [dir="rtl"] .ill-play { left: auto; right: clamp(1rem, 4vw, 4rem); }
 [dir="rtl"] .card::before { transform-origin: right; }
@@ -677,23 +691,21 @@ footer {
        the seam, the one sentence and the store badges right under it. The pane
        paragraphs and links hide here; the shared line below carries the message. ── */
     .hero-split { grid-template-columns: 1fr 1fr; min-height: 0; padding-top: 3.9rem; }
-    .pane { min-height: 0; height: clamp(420px, 62vh, 490px); padding: 1.4rem 0.9rem 0; justify-content: flex-start; overflow: hidden; }
-    .pane-inner { gap: 0.5rem; max-width: none; }
+    .pane { min-height: 0; height: clamp(420px, 62vh, 490px); padding: 1.4rem 0.9rem 0; justify-content: flex-start; align-items: stretch; overflow: hidden; }
+    .pane-inner { gap: 0.5rem; max-width: none; text-align: left; justify-items: start; }
     .pane-desc, .pane-link { display: none; }
     .eyebrow { font-size: 0.6rem; letter-spacing: 0.12em; }
     .pane-title { font-size: clamp(1.7rem, 8.4vw, 2.2rem); line-height: 1; }
     .pane-play .pane-inner { margin-left: auto; text-align: right; justify-items: end; }
     [dir="rtl"] .pane-play .pane-inner { margin-left: 0; margin-right: auto; text-align: left; justify-items: start; }
     [dir="rtl"] .pane-score .pane-inner { text-align: right; justify-items: end; margin-left: auto; }
-    .mock { width: clamp(162px, 44vw, 186px); top: auto; bottom: -17%; padding: 2.2%; }
-    /* Each phone centred in its own half (left/right 0 + auto margins, so the
-       float's `translate` is free for the up-and-down). */
-    .mock-score, .mock-play { left: 0; right: 0; margin-inline: auto; rotate: 0deg; }
+    /* Pinned to the pane's bottom edge here (the halves are too short for the phone
+       to follow the words in flow), each centred in its own half: left/right 0 + auto
+       margins, so the float's `translate` is free for the up-and-down. */
+    .mock { position: absolute; width: clamp(162px, 44vw, 186px); top: auto; bottom: -17%; margin: 0; padding: 2.2%; }
+    .mock-score, .mock-play { left: 0; right: 0; margin-inline: auto; }
     .mock-play img { border-radius: 16.1% / 7.4%; }
     .mock-play { padding: 1.4%; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(242, 189, 87, 0.22), 0 0 0 1px rgba(255, 255, 255, 0.12); }
-    /* No icon on the seam here: the two phones nearly touch, and it covered the
-       game's standings rail. The split says "two rooms"; the line below says "one app". */
-    .hinge { display: none; }
     .hero-one .lead { display: none; }
     .hero-one { padding: 1.5rem 1.25rem 2rem; }
     .hero-one h1 { font-size: clamp(1.6rem, 7vw, 2rem); margin-bottom: 0.6rem; }

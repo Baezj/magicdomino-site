@@ -17,9 +17,11 @@ mode, the MINIMAL header tier — `-headerSize_MagicDomino Minimal` at launch, s
 of the board shows in the crop) and the table mid-hand. Captured 2026-09-30 on the "MD Site Shots"
 simulator; the scoreboard by naming the teams and adding six rounds by hand, the
 table from the same capture as `play-shot-1.png`, unshifted, so the names and
-scores stay at the top of the phone. The bezel, tilt, glow and
-entrance are CSS (`.mock` in site.css); drop a new PNG under the same name and
-bump the `?v=` to replace either.
+scores stay at the top of the phone. The scoreboard was recaptured the same evening
+after the wordmark went to caps (MAGIC · mark · DOMINO™), so the phone on the site
+shows the header the app ships. The bezel, glow and entrance are CSS (`.mock` in
+site.css); at every width the phone stands straight, centred under its headline.
+Drop a new PNG under the same name and bump the `?v=` to replace either.
 
 ## The scorekeeper strip (light)
 
