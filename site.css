@@ -293,9 +293,13 @@ section { padding: 6rem 0; }
 .mock-score::before { background: radial-gradient(closest-side, rgba(61, 149, 239, 0.55), transparent); }
 .mock-play  { left: clamp(2rem, 5vw, 4.5rem); rotate: -3deg; transform-origin: top center;
     animation-name: mockUp, mockFloatDown; animation-delay: 0.15s, 1.25s;
-    /* A lit rim and a lighter bezel, or a dark phone on dark felt reads as a hole. */
-    background: linear-gradient(160deg, #4a443b, #1a1714);
-    box-shadow: 0 50px 100px rgba(0, 0, 0, 0.6), 0 0 0 1.5px rgba(247, 245, 238, 0.28), 0 0 40px rgba(242, 189, 87, 0.18), inset 0 0 0 1px rgba(255, 255, 255, 0.08); }
+    /* Same dark frame as the scoreboard's; a lit rim OUTSIDE it so the phone still
+       lifts off the felt without the frame itself looking wider. */
+    box-shadow: 0 50px 100px rgba(0, 0, 0, 0.6), 0 0 0 1.5px rgba(247, 245, 238, 0.32), 0 0 40px rgba(242, 189, 87, 0.18), inset 0 0 0 1px rgba(255, 255, 255, 0.06); }
+/* The game's screen is dark to its edges, so frame and felt merge into one band that
+   reads as a thick bezel. A hairline at the screen's edge shows where the frame stops. */
+.mock img { box-sizing: border-box; }
+.mock-play img { border: 1px solid rgba(247, 245, 238, 0.22); }
 .mock-play::before { background: radial-gradient(closest-side, rgba(242, 189, 87, 0.6), transparent); }
 @keyframes mockUp { from { opacity: 0; translate: 0 90px; } }
 @keyframes mockFloat { 0%, 100% { translate: 0 0; } 50% { translate: 0 -10px; } }
