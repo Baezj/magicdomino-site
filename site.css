@@ -638,9 +638,9 @@ footer {
     [dir="rtl"] .mock-score { right: auto; left: 0.55rem; }
     [dir="rtl"] .mock-play { left: auto; right: 0.55rem; }
     .mock-play { box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 0 1.5px rgba(247, 245, 238, 0.3), 0 0 30px rgba(242, 189, 87, 0.22); }
-    .hinge { top: 44%; }
-    .hinge-icon { width: 66px; height: 66px; border-radius: 26%; box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45), 0 0 0 4px rgba(255, 255, 255, 0.92), 0 0 0 5px rgba(15, 26, 58, 0.08); }
-    .hinge-label { font-size: 0.58rem; padding: 0.28rem 0.6rem; }
+    /* No icon on the seam here: the two phones nearly touch, and it covered the
+       game's standings rail. The split says "two rooms"; the line below says "one app". */
+    .hinge { display: none; }
     .hero-one .lead { display: none; }
     .hero-one { padding: 1.5rem 1.25rem 2rem; }
     .hero-one h1 { font-size: clamp(1.6rem, 7vw, 2rem); margin-bottom: 0.6rem; }
