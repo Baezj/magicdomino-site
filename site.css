@@ -28,15 +28,14 @@
     --border: #dbe6f2;
     --muted: #6b7a99;
 
-    /* The fixed bar's exact height, derived from the same numbers that draw it:
-       vertical padding × 2 + the 32px brand icon (the menu toggle is 32px too) +
-       the 1px bottom line. The hero starts at exactly this height, so its top edge
-       sits ON the bar's line. Before (2026-09-30) the hero hard-coded 4.4rem /
-       3.9rem against a ~60px bar, and Juan saw a strip of page between the line
-       and the dark pane: "get rid of that, it bothers me". Change the bar's padding
-       here, never in .navbar, or the two drift apart again. */
-    --nav-pad: 0.85rem;
-    --nav-h: calc(var(--nav-pad) * 2 + 32px + 1px);
+    /* The fixed bar's height, ONE number the bar and the hero both use: the bar IS
+       this tall (height, not padding — its tallest child used to decide, and the
+       "Get the app" pill is taller than the 32px icon), and the hero's top padding
+       is the same value, so the bar's 1px line and the panes meet at the same pixel
+       in every browser. Juan, 2026-09-30, on a strip of page showing between the
+       line and the dark pane: "get rid of that, it bothers me". Verified by a pixel
+       scan at 402, 1024 and 1440 wide. */
+    --nav-h: 60px;
 
     /* The game's palette (PlayPalette): felt, brass, ivory. */
     --felt: #0d0b0a;
@@ -114,7 +113,7 @@ a { color: inherit; }
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: var(--nav-pad) 2.25rem; /* --nav-pad: see :root — the hero is sized from it */
+    height: var(--nav-h); padding: 0 2.25rem; /* --nav-h: see :root — the hero starts at it */
     background: rgba(247, 249, 252, 0.82);
     -webkit-backdrop-filter: blur(18px);
     backdrop-filter: blur(18px);
@@ -262,26 +261,6 @@ section { padding: 6rem 0; }
 }
 .pane-link:hover { opacity: 0.8; }
 
-/* The hinge: the one app icon on the seam. NOT in the home page's hero any more
-   (removed from both widths, 2026-09-30 — the phones say "two rooms", the line under
-   them says "one app"); the rules stay for social-card.html, which still draws it. */
-.hinge {
-    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
-    z-index: 5; display: grid; justify-items: center; gap: 0.6rem;
-    pointer-events: none;
-}
-.hinge-icon {
-    width: 108px; height: 108px; border-radius: 26%;
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35), 0 0 0 6px rgba(255, 255, 255, 0.9), 0 0 0 7px rgba(15, 26, 58, 0.08);
-    animation: hingeFloat 7s ease-in-out infinite;
-}
-.hinge-label {
-    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
-    padding: 0.35rem 0.75rem; border-radius: 999px;
-    background: var(--paper); color: var(--ink); box-shadow: var(--shadow-md);
-}
-@keyframes hingeFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-
 /* Shared block under the split: the one sentence, the badges, the meta line. */
 .hero-one {
     text-align: center; padding: 3.5rem 1.5rem 4rem;
@@ -377,78 +356,6 @@ section { padding: 6rem 0; }
 .mock-play::before  { animation: haloGame  7s linear 1.25s infinite; }
 @keyframes haloScore { 0%, 100% { opacity: 0.75; } 25% { opacity: 1; } 75% { opacity: 0.5; } }
 @keyframes haloGame  { 0%, 100% { opacity: 0.75; } 25% { opacity: 0.5; } 75% { opacity: 1; } }
-
-/* ---- Pane illustrations (kept for social-card.html). ---- */
-.ill { position: absolute; z-index: 1; pointer-events: none; user-select: none; }
-
-/* Score: a small scoreboard card. */
-.ill-score {
-    right: clamp(1rem, 4vw, 4rem); bottom: 2.4rem;
-    width: 250px; background: var(--paper); border-radius: 18px; border: 1px solid var(--border);
-    box-shadow: var(--shadow-lg); padding: 0.9rem 1rem 1rem;
-    transform: rotate(-4deg);
-    animation: cardIn 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-}
-.ill-score .row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; align-items: end; }
-.ill-score .team { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
-.ill-score .team.b { text-align: right; }
-.ill-score .total { font-family: var(--display); font-weight: 700; font-size: 2.6rem; line-height: 1; letter-spacing: -0.03em; color: var(--ink); }
-.ill-score .total.b { text-align: right; color: var(--accent-deep); }
-.ill-score .ledger { margin-top: 0.7rem; border-top: 1px dashed var(--border); padding-top: 0.55rem; display: grid; gap: 0.32rem; }
-.ill-score .ledger div { display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
-.ill-score .ledger div span:first-child { color: var(--muted); font-size: 0.7rem; }
-.ill-score .cam {
-    position: absolute; top: -14px; left: 14px;
-    display: inline-flex; align-items: center; gap: 0.35rem;
-    background: var(--accent); color: #fff; font-size: 0.7rem; font-weight: 700;
-    padding: 0.32rem 0.6rem; border-radius: 999px; box-shadow: var(--shadow-md);
-}
-.ill-score .cam svg { width: 12px; height: 12px; }
-/* Animates `translate`, not `transform`, so it composes with the card's own
-   rotate/scale instead of overriding them (the phone scales this card down). */
-@keyframes cardIn { from { opacity: 0; translate: 0 18px; } }
-
-/* Play: a line of dominoes on the felt, one just played (brass edge), a rack below. */
-.ill-play { left: clamp(1rem, 4vw, 4rem); bottom: 2.2rem; width: 300px; height: 190px; }
-.tile {
-    position: absolute; width: 34px; height: 68px; border-radius: 5px;
-    background: linear-gradient(180deg, #ffffff, #e9e6dd);
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.55), inset 0 -2px 0 rgba(0, 0, 0, 0.12);
-    display: grid; grid-template-rows: 1fr 1fr;
-}
-.tile::after { content: ""; position: absolute; left: 4px; right: 4px; top: 50%; height: 1px; background: rgba(0, 0, 0, 0.28); }
-.tile.h { width: 68px; height: 34px; grid-template-rows: 1fr; grid-template-columns: 1fr 1fr; }
-.tile.h::after { left: 50%; right: auto; top: 4px; bottom: 4px; height: auto; width: 1px; }
-.tile.just { box-shadow: 0 0 0 2px var(--brass), 0 6px 18px rgba(242, 189, 87, 0.35), 0 6px 14px rgba(0, 0, 0, 0.55); }
-.tile.back { background: linear-gradient(160deg, #3a332a, #221d17); }
-.tile.back::after { display: none; }
-/* Pips: a 3×3 grid, dots switched on by class. */
-.face { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); padding: 4px; }
-.face i { border-radius: 50%; background: #171410; margin: auto; width: 5px; height: 5px; visibility: hidden; }
-.face.p1 i:nth-child(5), .face.p3 i:nth-child(5), .face.p5 i:nth-child(5) { visibility: visible; }
-.face.p2 i:nth-child(1), .face.p2 i:nth-child(9),
-.face.p3 i:nth-child(1), .face.p3 i:nth-child(9),
-.face.p4 i:nth-child(1), .face.p4 i:nth-child(3), .face.p4 i:nth-child(7), .face.p4 i:nth-child(9),
-.face.p5 i:nth-child(1), .face.p5 i:nth-child(3), .face.p5 i:nth-child(7), .face.p5 i:nth-child(9),
-.face.p6 i:nth-child(1), .face.p6 i:nth-child(3), .face.p6 i:nth-child(4), .face.p6 i:nth-child(6), .face.p6 i:nth-child(7), .face.p6 i:nth-child(9) { visibility: visible; }
-.ill-play .t1 { left: 0;    top: 60px; }
-.ill-play .t2 { left: 40px; top: 77px; }
-.ill-play .t3 { left: 114px; top: 77px; }
-.ill-play .t4 { left: 188px; top: 77px; }
-.ill-play .t5 { left: 262px; top: 60px; }
-.ill-play .rack .tile { top: auto; bottom: 0; }
-.ill-play .rack .r1 { left: 80px; }
-.ill-play .rack .r2 { left: 120px; }
-.ill-play .rack .r3 { left: 160px; }
-.ill-play .call {
-    position: absolute; left: 150px; top: 6px; transform: translateX(-50%);
-    font-family: var(--display); font-weight: 800; letter-spacing: 0.12em; font-size: 0.9rem;
-    color: var(--brass); text-shadow: 0 0 18px rgba(242, 189, 87, 0.45);
-}
-.ill-play .tile { animation: tileIn 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
-.ill-play .t2 { animation-delay: 0.08s; } .ill-play .t3 { animation-delay: 0.16s; }
-.ill-play .t4 { animation-delay: 0.24s; } .ill-play .t5 { animation-delay: 0.32s; }
-@keyframes tileIn { from { opacity: 0; translate: 0 -14px; } }
 
 /* ===== Tags and chips ========================================================== */
 .tag {
@@ -600,8 +507,6 @@ footer {
 #backToTournament .btt-code { font-variant-numeric: tabular-nums; letter-spacing: 0.14em; color: var(--accent-deep); font-weight: 700; }
 
 /* ===== Right-to-left (Arabic, Urdu) ============================================ */
-[dir="rtl"] .ill-score { right: auto; left: clamp(1rem, 4vw, 4rem); transform: rotate(4deg); }
-[dir="rtl"] .ill-play { left: auto; right: clamp(1rem, 4vw, 4rem); }
 /* The illustrations carry Latin labels and numbers; they never mirror. */
 [dir="rtl"] .ill { direction: ltr; }
 [dir="rtl"] .brand-tm { margin-left: 0; margin-right: 0.05em; }
@@ -621,12 +526,9 @@ footer {
 }
 
 /* ===== Responsive =============================================================== */
-@media (max-width: 1000px) {
-    .ill-score { width: 220px; }
-}
 @media (max-width: 820px) {
-    :root { --nav-pad: 0.8rem; }
-    .navbar { padding: var(--nav-pad) 1.25rem; }
+    :root { --nav-h: 58px; }
+    .navbar { padding: 0 1.25rem; }
     .navbar-links {
         display: none; position: absolute; top: 100%; left: 0; right: 0;
         flex-direction: column; align-items: flex-start; gap: 1rem; padding: 1.25rem;

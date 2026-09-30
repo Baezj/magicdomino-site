@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<!-- The share image (social-card.png), composed from the same CSS as the hero so it
+<!-- The share image (social-card.png): the home page's hero at 1024×500 — the two real
+     phones under their headlines, one light half and one felt half, the brand line
+     across the foot. Composed from the SAME CSS as the hero (`.pane`, `.mock`), so it
      stays in step with the home page. Render it at exactly 1024×500:
 
        "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new \
@@ -7,7 +9,8 @@
          --screenshot=social-card.png "http://localhost:8765/social-card.html"
 
      (serve the folder with `python3 -m http.server 8765` first so fonts and CSS load).
-     Not linked from any page; it is a build tool, kept because the PNG is derived from it. -->
+     Not linked from any page; it is a build tool, kept because the PNG is derived from it.
+     Rebuilt 2026-09-30 when the hero moved from CSS drawings to the two phones. -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -16,19 +19,18 @@
     <style>
         html, body { width: 1024px; height: 500px; overflow: hidden; margin: 0; }
         .card { position: relative; width: 1024px; height: 500px; display: grid; grid-template-columns: 1fr 1fr; }
-        .card .pane { padding: 48px 44px; min-height: 0; justify-content: flex-start; }
-        .card .pane-title { font-size: 58px; }
-        .card .pane-desc { display: none; }
-        .card .eyebrow { font-size: 11px; }
-        .card .ill-score { width: 230px; right: 40px; bottom: 34px; transform: rotate(-4deg); animation: none; }
-        .card .ill-play { left: 44px; bottom: 30px; transform: scale(0.95); transform-origin: left bottom; }
-        .card .ill-play .tile { animation: none; }
-        .card .hinge { top: 50%; }
-        .card .hinge-icon { width: 96px; height: 96px; animation: none; }
-        .card .hinge-label { display: none; }
+        .card .pane { height: 500px; padding: 30px 24px 0; }
+        .card .pane-inner { gap: 8px; }
+        .card .eyebrow { font-size: 10px; letter-spacing: 0.16em; }
+        .card .pane-title { font-size: 42px; }
+        /* Frozen: no entrance, no float, no word cycle — a still picture at rest. */
+        .card .pane-title em { animation: none; }
+        .card .pane-desc, .card .pane-link { display: none; }
+        .card .mock { width: 196px; margin: 14px auto 0; animation: none; translate: 0 0; }
+        .card .mock::before { animation: none; opacity: 0.75; }
         .card .one-line {
-            position: absolute; left: 0; right: 0; bottom: 0; text-align: center; padding: 14px 0 16px;
-            background: linear-gradient(90deg, rgba(247,249,252,0.94) 0 50%, rgba(13,11,10,0.94) 50% 100%);
+            position: absolute; left: 0; right: 0; bottom: 0; z-index: 5; text-align: center; padding: 13px 0 15px;
+            background: linear-gradient(90deg, rgba(247, 249, 252, 0.94) 0 50%, rgba(13, 11, 10, 0.94) 50% 100%);
             font: 600 15px/1 'Inter', sans-serif; letter-spacing: 0.02em;
         }
         .card .one-line .l { color: var(--ink); }
@@ -43,37 +45,15 @@
                 <span class="eyebrow"><span class="dot"></span> The scorekeeper</span>
                 <h2 class="pane-title">Keep the <em>score</em>.</h2>
             </div>
-            <div class="ill ill-score" aria-hidden="true">
-                <span class="cam"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg> +35</span>
-                <div class="row"><span class="team">Los Tigres</span><span class="team b">Las Águilas</span></div>
-                <div class="row"><span class="total">165</span><span class="total b">130</span></div>
-                <div class="ledger">
-                    <div><span>R1</span><span>35 · —</span></div>
-                    <div><span>R2</span><span>— · 55</span></div>
-                    <div><span>R3</span><span>50 · 25</span></div>
-                </div>
-            </div>
+            <figure class="mock mock-score" aria-hidden="true"><img src="hero-score.png" alt="" width="736" height="1600"></figure>
         </div>
         <div class="pane pane-play world-play">
             <div class="pane-inner">
                 <span class="eyebrow"><span class="dot"></span> The game</span>
                 <h2 class="pane-title">Play the <em>game</em>.</h2>
             </div>
-            <div class="ill ill-play" aria-hidden="true">
-                <span class="call">CAPICÚA!</span>
-                <div class="tile t1"><div class="face p6"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="face p6"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
-                <div class="tile h t2"><div class="face p6"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="face p4"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
-                <div class="tile h t3"><div class="face p4"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="face p1"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
-                <div class="tile h t4"><div class="face p1"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="face p5"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
-                <div class="tile just t5"><div class="face p5"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="face p2"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
-                <div class="rack">
-                    <div class="tile r1"><div class="face p3"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="face p2"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
-                    <div class="tile r2"><div class="face p0"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="face p6"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
-                    <div class="tile r3"><div class="face p2"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="face p2"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
-                </div>
-            </div>
+            <figure class="mock mock-play" aria-hidden="true"><img src="hero-play.png" alt="" width="736" height="1600"></figure>
         </div>
-        <div class="hinge" aria-hidden="true"><img src="app-icon.png" alt="" class="hinge-icon"></div>
         <div class="one-line"><span class="l" style="font-weight:600;letter-spacing:0.18em;text-transform:uppercase">Magic Domino<sup style="font-size:0.6em">™</sup> <span style="letter-spacing:0.02em;text-transform:none;font-weight:600">· Two rooms. One app.</span></span><span class="r">magicdomino.com</span></div>
     </div>
 </body>
