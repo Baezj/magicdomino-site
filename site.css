@@ -582,20 +582,32 @@ footer {
 .duo .wrap { border-top: 1px solid rgba(247, 245, 238, 0.08); padding-top: 5rem; }
 .duo-grid { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.4fr); gap: 3rem; align-items: center; }
 .duo-copy { display: grid; gap: 1rem; justify-items: start; }
-.duo-copy .section-title { font-size: clamp(1.9rem, 3.4vw, 2.7rem); }
+/* The device's name is the headline of this block — big, ivory, the display face. */
+.duo-name {
+    font-family: var(--display); font-weight: 700; letter-spacing: -0.035em; line-height: 0.92;
+    font-size: clamp(3.2rem, 6.4vw, 5.6rem); color: var(--ivory);
+}
+.duo-title {
+    font-family: var(--display); font-weight: 600; letter-spacing: -0.02em; line-height: 1.12;
+    font-size: clamp(1.4rem, 2.2vw, 1.85rem); color: var(--fg-soft); text-wrap: balance;
+}
+.duo-title em { font-style: italic; font-weight: 500; color: var(--brass); }
 .duo-copy .lead { font-size: 1.02rem; }
 /* The opened Duo in the same graphite as every other device on the page, straight
-   (the hero's phones stand straight since 2026-09-30, so this does too). */
+   (the hero's phones stand straight since 2026-09-30, so this does too). The
+   screenshot carries the screen's own rounded corners (masked black by simctl):
+   measured ~100px on 1800 — 5.5% of its width, 7.9% of its height — so the image's
+   radius is THAT shape and the frame's is the same plus its padding, or black
+   slivers show in the corners (they did, 2026-09-30). */
 .duo-frame {
-    margin: 0; padding: 1.1%; border-radius: 26px; overflow: hidden;
+    margin: 0; padding: 1.1%; border-radius: 6.5% / 9.2%; overflow: hidden;
     background: linear-gradient(160deg, #4b4b52, #1c1c20);
     box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.06), 0 30px 70px rgba(0, 0, 0, 0.6), 0 0 120px rgba(242, 189, 87, 0.10);
 }
-.duo-frame img { width: 100%; height: auto; display: block; border-radius: 18px; }
+.duo-frame img { width: 100%; height: auto; display: block; border-radius: 5.6% / 8%; }
 @media (max-width: 820px) {
     .duo-grid { grid-template-columns: 1fr; gap: 2rem; }
-    .duo-frame { border-radius: 16px; }
-    .duo-frame img { border-radius: 11px; }
+    .duo-name { font-size: clamp(2.6rem, 13vw, 3.4rem); }
 }
 
 /* Two tags side by side (platform · coming soon). */
