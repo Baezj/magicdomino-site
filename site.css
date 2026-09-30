@@ -120,13 +120,14 @@ a { color: inherit; }
 }
 /* ✅ THE ONE LOCKUP (2026-09-30). The name is drawn the same way here as in the app's
    header and Play home: all caps, black weight, letter-spaced. Before this the bar
-   used the display serif — a third rendering of a trademark that should have one. */
+   used the display serif — a third rendering of a trademark that should have one.
+   Semibold, chosen 2026-09-30 over black ("too thick") from ten rendered samples. */
 .navbar-brand {
     display: flex; align-items: center; gap: 0.6rem;
     text-decoration: none; color: inherit;
-    font-family: var(--text); font-weight: 900; font-size: 0.86rem; letter-spacing: 0.22em; text-transform: uppercase;
+    font-family: var(--text); font-weight: 600; font-size: 0.9rem; letter-spacing: 0.2em; text-transform: uppercase;
 }
-.brand-tm { font-size: 0.6em; font-weight: 900; letter-spacing: 0; vertical-align: super; margin-left: 0.15em; opacity: 0.8; }
+.brand-tm { font-size: 0.6em; font-weight: 600; letter-spacing: 0; vertical-align: super; margin-left: 0.15em; opacity: 0.8; }
 .brand-icon {
     width: 32px; height: 32px; border-radius: 8px;
     box-shadow: 0 2px 8px rgba(15, 26, 58, 0.18);
@@ -566,7 +567,7 @@ footer {
     background: var(--felt); color: var(--ivory); text-align: center;
     padding: 4rem 1.5rem 2.5rem; display: grid; gap: 1.6rem; justify-items: center;
 }
-.footer-brand { display: inline-flex; align-items: center; gap: 0.6rem; text-decoration: none; color: inherit; font-family: var(--text); font-weight: 900; font-size: 0.92rem; letter-spacing: 0.22em; text-transform: uppercase; }
+.footer-brand { display: inline-flex; align-items: center; gap: 0.6rem; text-decoration: none; color: inherit; font-family: var(--text); font-weight: 600; font-size: 0.95rem; letter-spacing: 0.2em; text-transform: uppercase; }
 .footer-links { display: flex; gap: 1.6rem; flex-wrap: wrap; justify-content: center; }
 .footer-links a { color: var(--ivory-dim); text-decoration: none; font-size: 0.92rem; }
 .footer-links a:hover { color: var(--brass); }
