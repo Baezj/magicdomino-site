@@ -9,6 +9,16 @@ All shots are **1320 × 2868** (an iPhone 17 Pro screenshot at full resolution),
 portrait, PNG. The frame crops to that aspect, so a different size still shows but
 may be cropped at the top and bottom.
 
+## The hero phones
+
+`hero-score.png` and `hero-play.png` (736 × 1600) are the two real phones in the
+split hero: the scoreboard mid-game (Los Tigres 165 · Las Águilas 130, light
+mode) and the table mid-hand. Captured 2026-09-30 on the "MD Site Shots"
+simulator; the scoreboard by naming the teams and adding six rounds by hand, the
+table from the same capture as `play-shot-1.png`. The bezel, tilt, glow and
+entrance are CSS (`.mock` in site.css); drop a new PNG under the same name and
+bump the `?v=` to replace either.
+
 ## The scorekeeper strip (light)
 
 | File | Shows |
