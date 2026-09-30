@@ -644,3 +644,10 @@ footer {
     .duo-grid { grid-template-columns: 1fr; gap: 2rem; }
     .duo-frame { transform: none; border-radius: 18px; }
 }
+
+/* Two tags side by side (platform · coming soon). */
+.tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.9rem; }
+.tags .tag { margin-top: 0; }
+.tag-soon { background: rgba(247, 245, 238, 0.08); color: var(--fg-muted); }
+.world-score .tag-soon, .tag-soon:not(.world-play *) { background: var(--cream-warm); color: var(--muted); }
+.world-play .tag-soon { background: rgba(247, 245, 238, 0.08); color: var(--fg-muted); }
