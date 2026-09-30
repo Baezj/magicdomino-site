@@ -294,7 +294,9 @@ section { padding: 6rem 0; }
     padding: 0.32rem 0.6rem; border-radius: 999px; box-shadow: var(--shadow-md);
 }
 .ill-score .cam svg { width: 12px; height: 12px; }
-@keyframes cardIn { from { opacity: 0; transform: rotate(-4deg) translateY(18px); } }
+/* Animates `translate`, not `transform`, so it composes with the card's own
+   rotate/scale instead of overriding them (the phone scales this card down). */
+@keyframes cardIn { from { opacity: 0; translate: 0 18px; } }
 
 /* Play: a line of dominoes on the felt, one just played (brass edge), a rack below. */
 .ill-play { left: clamp(1rem, 4vw, 4rem); bottom: 2.2rem; width: 300px; height: 190px; }
@@ -336,7 +338,7 @@ section { padding: 6rem 0; }
 .ill-play .tile { animation: tileIn 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
 .ill-play .t2 { animation-delay: 0.08s; } .ill-play .t3 { animation-delay: 0.16s; }
 .ill-play .t4 { animation-delay: 0.24s; } .ill-play .t5 { animation-delay: 0.32s; }
-@keyframes tileIn { from { opacity: 0; transform: translateY(-14px); } }
+@keyframes tileIn { from { opacity: 0; translate: 0 -14px; } }
 
 /* ===== Feature cards (both worlds) ============================================= */
 .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
@@ -587,23 +589,30 @@ footer {
     .mobile-menu-toggle { display: block; }
 
     section { padding: 4.5rem 0; }
-    .hero-split { grid-template-columns: 1fr; min-height: 0; }
-    .pane { min-height: 0; padding: 3rem 1.5rem 14rem; justify-content: flex-start; }
-    .pane-score { order: 1; }
-    .pane-play { order: 3; }
-    .pane-play .pane-inner { margin-left: 0; text-align: left; justify-items: start; }
-    [dir="rtl"] .pane-play .pane-inner, [dir="rtl"] .pane-score .pane-inner { text-align: right; justify-items: end; margin-left: auto; margin-right: 0; }
-    .pane-title { font-size: clamp(2.4rem, 11vw, 3.4rem); }
-    .ill-score { right: 1.25rem; bottom: 1.6rem; width: 220px; }
-    .ill-play { left: 1.25rem; bottom: 1.4rem; transform: scale(0.9); transform-origin: left bottom; }
-    [dir="rtl"] .ill-score { left: 1.25rem; right: auto; }
-    [dir="rtl"] .ill-play { right: 1.25rem; left: auto; transform-origin: right bottom; }
-    /* The seam: a row of its own, half cream and half felt, the icon on the line. */
-    .hinge {
-        order: 2; position: static; transform: none; pointer-events: auto;
-        padding: 1.4rem 0 1.2rem; background: linear-gradient(180deg, var(--cream) 50%, #16130f 50%);
-    }
-    .hinge-icon { width: 84px; height: 84px; animation: none; }
+    /* ── The phone's first screen shows BOTH rooms at once: two columns, the icon on
+       the seam, the one sentence and the store badges right under it. The pane
+       paragraphs and links hide here; the shared line below carries the message. ── */
+    .hero-split { grid-template-columns: 1fr 1fr; min-height: 0; padding-top: 3.9rem; }
+    .pane { min-height: 0; height: clamp(300px, 46vh, 360px); padding: 1.5rem 0.9rem 0; justify-content: flex-start; overflow: hidden; }
+    .pane-inner { gap: 0.55rem; max-width: none; }
+    .pane-desc, .pane-link { display: none; }
+    .eyebrow { font-size: 0.6rem; letter-spacing: 0.12em; }
+    .pane-title { font-size: clamp(1.75rem, 8.6vw, 2.25rem); line-height: 1; }
+    .pane-play .pane-inner { margin-left: auto; text-align: right; justify-items: end; }
+    [dir="rtl"] .pane-play .pane-inner { margin-left: 0; margin-right: auto; text-align: left; justify-items: start; }
+    [dir="rtl"] .pane-score .pane-inner { text-align: right; justify-items: end; margin-left: auto; }
+    .ill-score { width: 250px; left: 1rem; right: auto; bottom: 0.9rem; transform: scale(0.5) rotate(-3deg); transform-origin: left bottom; }
+    .ill-play  { right: 0.5rem; left: auto; bottom: 0.7rem; transform: scale(0.52); transform-origin: right bottom; }
+    [dir="rtl"] .ill-score { left: auto; right: 1rem; transform: scale(0.5) rotate(3deg); transform-origin: right bottom; }
+    [dir="rtl"] .ill-play { right: auto; left: 0.4rem; transform-origin: left bottom; }
+    .hinge { top: calc(50% + 1.1rem); }
+    .hinge-icon { width: 64px; height: 64px; border-radius: 26%; box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35), 0 0 0 4px rgba(255, 255, 255, 0.9), 0 0 0 5px rgba(15, 26, 58, 0.08); }
+    .hinge-label { font-size: 0.58rem; padding: 0.28rem 0.6rem; }
+    .hero-one { padding: 1.6rem 1.25rem 2.2rem; }
+    .hero-one h1 { font-size: clamp(1.6rem, 7vw, 2rem); margin-bottom: 0.6rem; }
+    .hero-one .lead { font-size: 0.95rem; margin-bottom: 1.1rem; }
+    .hero-one .store-badge img { height: 46px; }
+    .hero-meta { margin-top: 0.9rem; font-size: 0.78rem; }
 
     .cards { grid-template-columns: 1fr; }
     .bridge { background: none; }
