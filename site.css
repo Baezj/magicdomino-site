@@ -304,6 +304,9 @@ section { padding: 6rem 0; }
        screenshot is dark to its edge, and the eye adds that margin to the frame. A
        narrower frame here is what makes the two LOOK the same width. */
     padding: 1.3%; }
+/* Concentric corners: the screen's radius is the frame's radius minus the frame's
+   width, or the frame pinches to nothing at the corners (it did, 2026-09-30). */
+.mock-play img { border-radius: 16.2% / 7.45%; }
 .mock-play::before { background: radial-gradient(closest-side, rgba(242, 189, 87, 0.6), transparent); }
 @keyframes mockUp { from { opacity: 0; translate: 0 90px; } }
 @keyframes mockFloat { 0%, 100% { translate: 0 0; } 50% { translate: 0 -10px; } }
@@ -647,6 +650,7 @@ footer {
     .mock-play { left: 0.55rem; rotate: 0deg; }
     [dir="rtl"] .mock-score { right: auto; left: 0.55rem; }
     [dir="rtl"] .mock-play { left: auto; right: 0.55rem; }
+    .mock-play img { border-radius: 16.1% / 7.4%; }
     .mock-play { padding: 1.4%; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(242, 189, 87, 0.22), 0 0 0 1px rgba(255, 255, 255, 0.12); }
     /* No icon on the seam here: the two phones nearly touch, and it covered the
        game's standings rail. The split says "two rooms"; the line below says "one app". */
