@@ -627,7 +627,7 @@ footer {
     .pane-play .pane-inner { margin-left: auto; text-align: right; justify-items: end; }
     [dir="rtl"] .pane-play .pane-inner { margin-left: 0; margin-right: auto; text-align: left; justify-items: start; }
     [dir="rtl"] .pane-score .pane-inner { text-align: right; justify-items: end; margin-left: auto; }
-    .mock { width: clamp(144px, 38vw, 164px); top: auto; bottom: -14%; padding: 3%; }
+    .mock { width: clamp(134px, 35vw, 150px); top: auto; bottom: -3%; padding: 3%; }
     .mock-score { right: 1.1rem; rotate: 0deg; }
     .mock-play { left: 1.1rem; rotate: 0deg; }
     [dir="rtl"] .mock-score { right: auto; left: 1.1rem; }
