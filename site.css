@@ -225,7 +225,7 @@ section { padding: 6rem 0; }
 }
 .pane-score .pane-title em { font-style: italic; font-weight: 500; color: var(--accent-deep); }
 .pane-play .pane-title em { font-style: italic; font-weight: 500; color: var(--brass); }
-.pane-desc { font-size: 1.02rem; line-height: 1.5; opacity: 0.85; max-width: 19rem; text-wrap: pretty; }
+.pane-desc { font-size: 1.02rem; line-height: 1.5; opacity: 0.85; max-width: 16.5rem; text-wrap: pretty; }
 .pane-play .eyebrow { color: var(--brass); }
 .pane-link {
     display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 0.4rem;
@@ -270,7 +270,7 @@ section { padding: 6rem 0; }
 /* ---- The phones. Real screenshots in a bezel, rising out of the bottom of each
    pane and leaning toward the seam, each with its world's glow behind it. ---- */
 .mock {
-    position: absolute; z-index: 1; bottom: -18%; margin: 0;
+    position: absolute; z-index: 1; bottom: -24%; margin: 0;
     width: clamp(230px, 21vw, 300px); aspect-ratio: 736 / 1600;
     padding: 2.6%; border-radius: 15% / 6.9%;
     background: linear-gradient(160deg, #2a2a2e, #050506);
@@ -282,10 +282,13 @@ section { padding: 6rem 0; }
     content: ""; position: absolute; left: -30%; right: -30%; top: -10%; bottom: 10%; z-index: -1;
     border-radius: 50%; filter: blur(46px); opacity: 0.75;
 }
-.mock-score { right: clamp(2.5rem, 7vw, 6.5rem); rotate: 5deg; transform-origin: bottom center; }
+.mock-score { right: clamp(2.5rem, 7vw, 6.5rem); rotate: 3deg; transform-origin: bottom center; }
 .mock-score::before { background: radial-gradient(closest-side, rgba(61, 149, 239, 0.55), transparent); }
-.mock-play  { left: clamp(2.5rem, 7vw, 6.5rem); rotate: -5deg; transform-origin: bottom center; animation-delay: 0.15s, 1.25s; }
-.mock-play::before { background: radial-gradient(closest-side, rgba(242, 189, 87, 0.45), transparent); }
+.mock-play  { left: clamp(2.5rem, 7vw, 6.5rem); rotate: -3deg; transform-origin: bottom center; animation-delay: 0.15s, 1.25s;
+    /* A lit rim and a lighter bezel, or a dark phone on dark felt reads as a hole. */
+    background: linear-gradient(160deg, #4a443b, #1a1714);
+    box-shadow: 0 50px 100px rgba(0, 0, 0, 0.6), 0 0 0 1.5px rgba(247, 245, 238, 0.28), 0 0 40px rgba(242, 189, 87, 0.18), inset 0 0 0 1px rgba(255, 255, 255, 0.08); }
+.mock-play::before { background: radial-gradient(closest-side, rgba(242, 189, 87, 0.6), transparent); }
 @keyframes mockUp { from { opacity: 0; translate: 0 90px; } }
 @keyframes mockFloat { 0%, 100% { translate: 0 0; } 50% { translate: 0 -10px; } }
 
@@ -623,10 +626,11 @@ footer {
     [dir="rtl"] .pane-play .pane-inner { margin-left: 0; margin-right: auto; text-align: left; justify-items: start; }
     [dir="rtl"] .pane-score .pane-inner { text-align: right; justify-items: end; margin-left: auto; }
     .mock { width: clamp(144px, 38vw, 164px); bottom: -14%; padding: 3%; }
-    .mock-score { right: 1.15rem; rotate: 4deg; }
-    .mock-play { left: 1.15rem; rotate: -4deg; }
-    [dir="rtl"] .mock-score { right: auto; left: 1.15rem; rotate: -4deg; }
-    [dir="rtl"] .mock-play { left: auto; right: 1.15rem; rotate: 4deg; }
+    .mock-score { right: 1.1rem; rotate: 0deg; }
+    .mock-play { left: 1.1rem; rotate: 0deg; }
+    [dir="rtl"] .mock-score { right: auto; left: 1.1rem; }
+    [dir="rtl"] .mock-play { left: auto; right: 1.1rem; }
+    .mock-play { box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 0 1.5px rgba(247, 245, 238, 0.3), 0 0 30px rgba(242, 189, 87, 0.22); }
     .hinge { top: 44%; }
     .hinge-icon { width: 66px; height: 66px; border-radius: 26%; box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45), 0 0 0 4px rgba(255, 255, 255, 0.92), 0 0 0 5px rgba(15, 26, 58, 0.08); }
     .hinge-label { font-size: 0.58rem; padding: 0.28rem 0.6rem; }
