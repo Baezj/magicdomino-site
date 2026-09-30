@@ -28,6 +28,16 @@
     --border: #dbe6f2;
     --muted: #6b7a99;
 
+    /* The fixed bar's exact height, derived from the same numbers that draw it:
+       vertical padding × 2 + the 32px brand icon (the menu toggle is 32px too) +
+       the 1px bottom line. The hero starts at exactly this height, so its top edge
+       sits ON the bar's line. Before (2026-09-30) the hero hard-coded 4.4rem /
+       3.9rem against a ~60px bar, and Juan saw a strip of page between the line
+       and the dark pane: "get rid of that, it bothers me". Change the bar's padding
+       here, never in .navbar, or the two drift apart again. */
+    --nav-pad: 0.85rem;
+    --nav-h: calc(var(--nav-pad) * 2 + 32px + 1px);
+
     /* The game's palette (PlayPalette): felt, brass, ivory. */
     --felt: #0d0b0a;
     --felt-mid: #1b1814;
@@ -104,7 +114,7 @@ a { color: inherit; }
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.85rem 2.25rem;
+    padding: var(--nav-pad) 2.25rem; /* --nav-pad: see :root — the hero is sized from it */
     background: rgba(247, 249, 252, 0.82);
     -webkit-backdrop-filter: blur(18px);
     backdrop-filter: blur(18px);
@@ -198,7 +208,7 @@ section { padding: 6rem 0; }
 .hero { padding: 0; position: relative; }
 .hero-split {
     display: grid; grid-template-columns: 1fr 1fr;
-    padding-top: 4.4rem; /* under the fixed bar */
+    padding-top: var(--nav-h); /* flush under the fixed bar — its exact height, see :root */
     position: relative;
 }
 /* Desktop is the PHONE'S layout scaled up (Juan, 2026-09-30: "desktop needs work, to
@@ -440,30 +450,7 @@ section { padding: 6rem 0; }
 .ill-play .t4 { animation-delay: 0.24s; } .ill-play .t5 { animation-delay: 0.32s; }
 @keyframes tileIn { from { opacity: 0; translate: 0 -14px; } }
 
-/* ===== Feature cards (both worlds) ============================================= */
-.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
-.card {
-    position: relative; overflow: hidden;
-    background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius);
-    padding: 1.6rem 1.5rem 1.5rem; box-shadow: var(--shadow-sm);
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-.card::before {
-    content: ""; position: absolute; inset: 0 0 auto 0; height: 3px;
-    background: linear-gradient(90deg, var(--hi), transparent 80%);
-    transform: scaleX(0); transform-origin: left; transition: transform 0.35s ease;
-}
-.card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
-.card:hover::before { transform: scaleX(1); }
-.card-num { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-muted); }
-.card-icon {
-    width: 44px; height: 44px; border-radius: 12px; margin: 0.9rem 0 1rem;
-    display: grid; place-items: center; background: var(--hi-soft); color: var(--hi-deep);
-}
-.world-play .card-icon { color: var(--brass); }
-.card-icon svg { width: 22px; height: 22px; }
-.card h3 { font-family: var(--display); font-weight: 600; font-size: 1.28rem; letter-spacing: -0.01em; color: var(--fg); margin-bottom: 0.45rem; }
-.card p { font-size: 0.95rem; color: var(--fg-soft); line-height: 1.6; }
+/* ===== Tags and chips ========================================================== */
 .tag {
     display: inline-block; margin-top: 0.9rem; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
     padding: 0.28rem 0.6rem; border-radius: 999px; background: var(--hi-soft); color: var(--hi-deep);
@@ -476,91 +463,55 @@ section { padding: 6rem 0; }
     font-size: 0.8rem; font-weight: 600; padding: 0.38rem 0.75rem; border-radius: 999px;
     border: 1px solid var(--card-border); color: var(--fg-soft); background: rgba(255, 255, 255, 0.02);
 }
-.chip.lead-chip { border-color: var(--brass); color: var(--brass); }
+.chip.lead-chip { border-color: var(--hi); color: var(--hi-deep); }
+.world-play .chip.lead-chip { border-color: var(--brass); color: var(--brass); }
+.chips-center { justify-content: center; max-width: 66rem; margin: -1.6rem auto 2.6rem; }
+.section-head .tags { justify-content: center; margin-top: 0; }
 
 /* ===== Screenshot strips ======================================================= */
+/* The rooms are screenshots (2026-09-30). Each strip is a row of phones in the SAME
+   graphite frame as the hero's two (`.mock` above) — same gradient, same island, same
+   corner rule — so the page is one family of devices from top to bottom. A strip that
+   fits is centred; a longer one scrolls and snaps. */
 .strip-wrap { position: relative; }
 .strip {
-    display: flex; gap: 1.25rem; overflow-x: auto; scroll-snap-type: x mandatory;
-    padding: 0.5rem 0.25rem 1.25rem; scrollbar-width: thin; scrollbar-color: var(--card-border) transparent;
+    display: flex; gap: 1.5rem; overflow-x: auto; scroll-snap-type: x mandatory;
+    justify-content: safe center;
+    padding: 0.75rem 0.5rem 1.5rem; scrollbar-width: thin; scrollbar-color: var(--card-border) transparent;
 }
 .strip::-webkit-scrollbar { height: 6px; }
 .strip::-webkit-scrollbar-thumb { background: var(--card-border); border-radius: 3px; }
 .shot { flex: 0 0 auto; scroll-snap-align: center; display: grid; gap: 0.6rem; justify-items: center; }
 .shot-frame {
-    width: 232px; aspect-ratio: 1320 / 2868; border-radius: 30px; overflow: hidden; position: relative;
-    background: var(--card); border: 1px solid var(--card-border); box-shadow: var(--shadow-lg);
+    width: clamp(200px, 17vw, 240px); aspect-ratio: 736 / 1600; position: relative;
+    padding: 2.2%; border-radius: 17.5% / 8.05%;
+    background: linear-gradient(160deg, #4b4b52, #1c1c20);
+    box-shadow: 0 30px 60px rgba(15, 26, 58, 0.22), 0 0 0 1px rgba(255, 255, 255, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.06);
 }
-.shot-frame img { width: 100%; height: 100%; object-fit: cover; position: relative; z-index: 2; }
+.world-play .shot-frame {
+    /* The hero's rule: the dark screenshot reads its own margin as frame, so a
+       thinner frame LOOKS the same width as the light one. Concentric corners. */
+    padding: 1.4%;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(242, 189, 87, 0.14), 0 0 0 1px rgba(255, 255, 255, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+.shot-frame img { width: 100%; height: 100%; object-fit: cover; object-position: top; position: relative; z-index: 2; border-radius: 15.5% / 7.1%; }
+.world-play .shot-frame img { border-radius: 16.1% / 7.4%; }
+.shot-frame::after {
+    content: ""; position: absolute; left: 50%; top: 3.6%; translate: -50% 0; z-index: 3;
+    width: 30%; height: 3.2%; border-radius: 999px; background: #000;
+}
 .shot-frame img[data-missing] { display: none; }
-.shot-caption { font-size: 0.82rem; color: var(--fg-muted); font-weight: 500; }
-/* A placeholder is a picture, not an apology: a felt (or paper) frame with the
-   shot's own subject sketched in. It shows only while the PNG is missing. */
-.ph { position: absolute; inset: 0; display: grid; place-items: center; padding: 1.2rem; text-align: center; }
-.ph .ph-title { font-family: var(--display); font-weight: 600; font-size: 1.05rem; color: var(--fg); margin-top: 0.8rem; }
-.ph .ph-mini { display: flex; gap: 6px; justify-content: center; }
-.ph .ph-mini .tile { position: static; width: 22px; height: 44px; transform: none; animation: none; }
-.ph .ph-mini .tile.h { width: 44px; height: 22px; }
-.ph .ph-mini .face i { width: 3px; height: 3px; }
-.ph .ph-board { width: 82%; border-radius: 10px; padding: 0.7rem; background: var(--paper); border: 1px solid var(--border); box-shadow: var(--shadow-sm); display: grid; gap: 0.35rem; }
-.ph .ph-board .bar { height: 7px; border-radius: 4px; background: var(--cream-warm); }
-.ph .ph-board .bar.hi { background: var(--accent); width: 60%; }
-.ph .ph-board .bar.g { background: var(--gold); width: 40%; }
+/* While a PNG is missing the frame shows the shot's name on a blank screen. */
+.ph { position: absolute; inset: 2.2%; border-radius: 15.5% / 7.1%; background: var(--card); display: grid; place-items: center; padding: 1.2rem; text-align: center; }
+.ph .ph-title { font-family: var(--display); font-weight: 600; font-size: 1.05rem; color: var(--fg); }
 .scroll-arrow {
-    position: absolute; top: 40%; transform: translateY(-50%); z-index: 3;
+    position: absolute; top: 45%; transform: translateY(-50%); z-index: 3;
     width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--card-border);
     background: var(--card); color: var(--fg); box-shadow: var(--shadow-md); cursor: pointer; font-size: 1.3rem; line-height: 1;
 }
 .scroll-arrow:hover { color: var(--hi-deep); }
 .world-play .scroll-arrow:hover { color: var(--brass); }
 .scroll-arrow-left { left: -12px; } .scroll-arrow-right { right: -12px; }
-
-/* ===== "Best of both worlds" bridge ============================================ */
-.bridge {
-    background: linear-gradient(90deg, var(--cream) 0%, var(--cream) 50%, #16130f 50%, #16130f 100%);
-    padding: 0;
-}
-.bridge .wrap { display: grid; grid-template-columns: 1fr 1fr; }
-.bridge-side { padding: 5rem clamp(1.5rem, 4vw, 4rem); }
-.bridge-side.play { color: var(--ivory); }
-.bridge h2 { font-family: var(--display); font-weight: 600; letter-spacing: -0.02em; font-size: clamp(1.7rem, 3vw, 2.4rem); line-height: 1.1; margin: 0.6rem 0 1.4rem; text-wrap: balance; }
-.bridge ul { list-style: none; display: grid; gap: 0.9rem; }
-.bridge li { display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.98rem; line-height: 1.5; }
-.bridge li .check { flex: 0 0 auto; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 0.75rem; font-weight: 800; margin-top: 2px; }
-.bridge-side.score li .check { background: var(--accent); color: #fff; }
-.bridge-side.play li .check { background: var(--brass); color: var(--felt); }
-.bridge-side.play li { color: rgba(247, 245, 238, 0.86); }
-.bridge-side.play .eyebrow { color: var(--brass); }
-.bridge-seam {
-    grid-column: 1 / -1; text-align: center; padding: 2.4rem 1.5rem 3.2rem;
-    background: linear-gradient(90deg, var(--cream) 0%, var(--cream) 50%, #16130f 50%, #16130f 100%);
-}
-.bridge-seam .seam-card {
-    display: inline-grid; gap: 0.5rem; justify-items: center;
-    background: var(--paper); border-radius: 22px; padding: 1.6rem 2.2rem; box-shadow: var(--shadow-lg); max-width: 44rem;
-}
-.bridge-seam .seam-card h3 { font-family: var(--display); font-weight: 600; font-size: 1.5rem; letter-spacing: -0.02em; color: var(--ink); }
-.bridge-seam .seam-card p { color: var(--ink-soft); font-size: 0.98rem; text-wrap: pretty; }
-
-/* ===== Watch live (the TV board) =============================================== */
-.watch { background: var(--cream); }
-.watch-card {
-    max-width: 38rem; margin: 0 auto; background: var(--paper); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 2rem; text-align: center; box-shadow: var(--shadow-md);
-}
-.watch-card p { color: var(--ink-soft); margin-bottom: 1.2rem; }
-.watch-form { display: flex; gap: 0.6rem; justify-content: center; }
-.watch-input {
-    flex: 1 1 auto; max-width: 16rem; font: 700 1.35rem/1 ui-monospace, 'SF Mono', Menlo, monospace;
-    letter-spacing: 0.22em; text-transform: uppercase; text-align: center;
-    padding: 0.85rem 0.9rem; border-radius: 12px; border: 2px solid var(--border); background: var(--cream); color: var(--ink);
-    outline: none;
-}
-.watch-input:focus { border-color: var(--accent); }
-.watch-btn { padding: 0.85rem 1.3rem; border-radius: 12px; border: 0; background: var(--accent); color: #fff; font: 700 1rem var(--text); cursor: pointer; }
-.watch-btn:hover { background: var(--accent-deep); }
-.watch-btn:disabled { opacity: 0.4; cursor: default; }
-.watch-note { font-size: 0.85rem; color: var(--muted); margin-top: 1rem; margin-bottom: 0 !important; }
 
 /* ===== Premium ================================================================= */
 .premium {
@@ -651,7 +602,6 @@ footer {
 /* ===== Right-to-left (Arabic, Urdu) ============================================ */
 [dir="rtl"] .ill-score { right: auto; left: clamp(1rem, 4vw, 4rem); transform: rotate(4deg); }
 [dir="rtl"] .ill-play { left: auto; right: clamp(1rem, 4vw, 4rem); }
-[dir="rtl"] .card::before { transform-origin: right; }
 /* The illustrations carry Latin labels and numbers; they never mirror. */
 [dir="rtl"] .ill { direction: ltr; }
 [dir="rtl"] .brand-tm { margin-left: 0; margin-right: 0.05em; }
@@ -672,11 +622,11 @@ footer {
 
 /* ===== Responsive =============================================================== */
 @media (max-width: 1000px) {
-    .cards { grid-template-columns: repeat(2, 1fr); }
     .ill-score { width: 220px; }
 }
 @media (max-width: 820px) {
-    .navbar { padding: 0.8rem 1.25rem; }
+    :root { --nav-pad: 0.8rem; }
+    .navbar { padding: var(--nav-pad) 1.25rem; }
     .navbar-links {
         display: none; position: absolute; top: 100%; left: 0; right: 0;
         flex-direction: column; align-items: flex-start; gap: 1rem; padding: 1.25rem;
@@ -690,7 +640,7 @@ footer {
     /* ── The phone's first screen shows BOTH rooms at once: two columns, the icon on
        the seam, the one sentence and the store badges right under it. The pane
        paragraphs and links hide here; the shared line below carries the message. ── */
-    .hero-split { grid-template-columns: 1fr 1fr; min-height: 0; padding-top: 3.9rem; }
+    .hero-split { grid-template-columns: 1fr 1fr; min-height: 0; padding-top: var(--nav-h); }
     .pane { min-height: 0; height: clamp(420px, 62vh, 490px); padding: 1.4rem 0.9rem 0; justify-content: flex-start; align-items: stretch; overflow: hidden; }
     .pane-inner { gap: 0.5rem; max-width: none; text-align: left; justify-items: start; }
     .pane-desc, .pane-link { display: none; }
@@ -713,18 +663,8 @@ footer {
     .hero-one .store-badge img { height: 46px; }
     .hero-meta { margin-top: 0.9rem; font-size: 0.78rem; }
 
-    .cards { grid-template-columns: 1fr; }
-    .bridge { background: none; }
-    .bridge .wrap { grid-template-columns: 1fr; width: 100%; }
-    .bridge-side { padding: 3.5rem 1.5rem; }
-    .bridge-side.score { background: var(--cream); }
-    .bridge-side.play { background: #16130f; }
-    .bridge-seam { background: #16130f; padding: 0 1.25rem 3rem; }
-    .bridge-seam .seam-card { padding: 1.4rem 1.4rem; }
     .premium-features { grid-template-columns: 1fr; }
     .scroll-arrow { display: none; }
-    .watch-form { flex-direction: column; align-items: stretch; }
-    .watch-input { max-width: none; }
 }
 
 /* ===== Legacy class names the legal pages still carry ========================= */
@@ -742,15 +682,18 @@ footer {
 .duo-copy { display: grid; gap: 1rem; justify-items: start; }
 .duo-copy .section-title { font-size: clamp(1.9rem, 3.4vw, 2.7rem); }
 .duo-copy .lead { font-size: 1.02rem; }
+/* The opened Duo in the same graphite as every other device on the page, straight
+   (the hero's phones stand straight since 2026-09-30, so this does too). */
 .duo-frame {
-    margin: 0; border-radius: 28px; overflow: hidden; background: #000;
-    box-shadow: 0 0 0 1px rgba(247, 245, 238, 0.12), 0 30px 70px rgba(0, 0, 0, 0.6), 0 0 120px rgba(242, 189, 87, 0.10);
-    transform: rotate(-1.2deg);
+    margin: 0; padding: 1.1%; border-radius: 26px; overflow: hidden;
+    background: linear-gradient(160deg, #4b4b52, #1c1c20);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.06), 0 30px 70px rgba(0, 0, 0, 0.6), 0 0 120px rgba(242, 189, 87, 0.10);
 }
-.duo-frame img { width: 100%; height: auto; display: block; }
+.duo-frame img { width: 100%; height: auto; display: block; border-radius: 18px; }
 @media (max-width: 820px) {
     .duo-grid { grid-template-columns: 1fr; gap: 2rem; }
-    .duo-frame { transform: none; border-radius: 18px; }
+    .duo-frame { border-radius: 16px; }
+    .duo-frame img { border-radius: 11px; }
 }
 
 /* Two tags side by side (platform · coming soon). */

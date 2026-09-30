@@ -27,13 +27,23 @@ Drop a new PNG under the same name and bump the `?v=` to replace either.
 
 | File | Shows |
 |---|---|
-| `shot-1.png` | AI score counting with the camera |
-| `shot-2.png` | The scoreboard |
-| `shot-3.png` | A tournament bracket |
-| `shot-4.png` | Game history |
+| `shot-2.png` | The scoreboard: Los Tigres 165 · Las Águilas 130, six rounds in the ledger |
+| `shot-3.png` | A tournament bracket: "Sunday Classic", both Round 1 matches FINAL, the Final Round card at the edge |
+| `shot-4.png` | Game history: four single games with their winners |
 
-Four, down from six (2026-09-30): the game now carries half the page, so the
-scorekeeper strip shows its four strongest and no more.
+Three RAW simulator screenshots (736 × 1600, from 1206 × 2622 captures on "MD Site
+Shots", light mode, `-debugPremium 1 -headerSize_MagicDomino Minimal`), taken
+2026-09-30 in the evening so the header is the caps lockup. They replaced the four
+App Store marketing images (a phone drawn inside the picture, English captions
+baked in, the old mixed-case header) — those sat inside the page's own phone frame
+as a phone inside a phone.
+
+⚠️ **`shot-1.png`, the AI camera counting, is MISSING on purpose.** The simulator has
+no camera, so the Counter cannot be photographed there. It wants a screenshot from a
+real phone: the Counter tab with dominoes on the table and the count showing, taken
+with the app on the Minimal header tier. Drop it in as `shot-1.png` (any iPhone
+resolution at the 736 : 1600 aspect), add its `<figure>` back as the first item of
+`#scoreStrip` in index.html (copy the scoreboard's, `alt.shot1`), bump the `?v=`.
 
 ## The game strip (felt)
 
@@ -56,12 +66,17 @@ Replace any of them by dropping a new PNG under the same name.
 `duo-split.png` (1800 wide) is the opened iPhone Duo's inner screen: the scoreboard
 on the left half, a 2 vs 2 hand on the right. Captured with
 `-debugLaunchTab playSplit -debugDuoDemo deal -debugPremium 1` on the Duo simulator
-and `simctl io <duo> screenshot --display=3 --mask=black`. It is the one picture
+and `simctl io <duo> screenshot --display=3 --mask=black`; recaptured 2026-09-30 in
+the evening for the caps lockup with the mark between the words. ⚠️ The Duo must be
+SIDEWAYS (a 2853 × 2007 capture; 2007 × 2853 means it is upright and the split does
+not show) — set it from Device Hub's Device → Orientation → Portrait, which
+`osascript` can click (see the app repo's CLAUDE.md, the Duo section). It is the one picture
 that shows the whole idea at once, which is why it has its own section.
 
 ## The social card
 
 `social-card.png` (1024 × 500) is what iMessage, WhatsApp and X show when the
 link is shared. It is now the split picture, rendered from `social-card.html` with
-the same CSS as the hero — the command is in that file's header. Re-render it
-whenever the hero's look changes.
+the same CSS as the hero — the command is in that file's header. ⚠️ It still shows
+the OLD hero (CSS drawings and the icon on the seam); the home page moved to two real
+phones on 2026-09-30 and the card has not followed yet.

@@ -14,25 +14,25 @@
     <meta property="og:title" content="Magic Domino™ — Keep the score. Play the game.">
     <meta property="og:description" content="The dominoes scorekeeper trusted at real tables, and a real domino game with the rules you grew up with. Two rooms, one app.">
     <meta property="og:url" content="https://magicdomino.com/">
-    <meta property="og:image" content="https://magicdomino.com/social-card.png?v=20260930x">
+    <meta property="og:image" content="https://magicdomino.com/social-card.png?v=20260930y">
     <meta property="og:image:width" content="1024">
     <meta property="og:image:height" content="500">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Magic Domino™ — Keep the score. Play the game.">
     <meta name="twitter:description" content="The dominoes scorekeeper trusted at real tables, and a real domino game with the rules you grew up with. Two rooms, one app.">
-    <meta name="twitter:image" content="https://magicdomino.com/social-card.png?v=20260930x">
+    <meta name="twitter:image" content="https://magicdomino.com/social-card.png?v=20260930y">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="site.css?v=20260930x">
-    <script src="/i18n.js?v=20260930x"></script>
+    <link rel="stylesheet" href="site.css?v=20260930y">
+    <script src="/i18n.js?v=20260930y"></script>
 </head>
 <body>
 
     <nav class="navbar" id="navbar">
         <a href="index.html" class="navbar-brand">
-            <img src="app-icon.png?v=20260930x" alt="" class="brand-icon"><span>Magic Domino<span class="brand-tm">™</span></span>
+            <img src="app-icon.png?v=20260930y" alt="" class="brand-icon"><span>Magic Domino<span class="brand-tm">™</span></span>
         </a>
         <button class="mobile-menu-toggle" onclick="toggleMenu()" aria-label="Menu" data-i18n-attr="aria-label:a11y.menu">☰</button>
         <div class="navbar-links" id="navbarLinks">
@@ -60,7 +60,7 @@
                     <a class="pane-link" href="#score"><span data-i18n="hero.scoreLink">See the scorekeeper</span> <span aria-hidden="true">↓</span></a>
                 </div>
                 <!-- A real phone, showing the real scoreboard, rising out of the pane. -->
-                <figure class="mock mock-score" aria-hidden="true"><img src="hero-score.png?v=20260930x" alt="" width="736" height="1600"></figure>
+                <figure class="mock mock-score" aria-hidden="true"><img src="hero-score.png?v=20260930y" alt="" width="736" height="1600"></figure>
             </div>
 
             <div class="pane pane-play world-play">
@@ -71,7 +71,7 @@
                     <a class="pane-link" href="#play"><span data-i18n="hero.playLink">See the game</span> <span aria-hidden="true">↓</span></a>
                 </div>
                 <!-- A real phone, showing the table mid-hand. -->
-                <figure class="mock mock-play" aria-hidden="true"><img src="hero-play.png?v=20260930x" alt="" width="736" height="1600"></figure>
+                <figure class="mock mock-play" aria-hidden="true"><img src="hero-play.png?v=20260930y" alt="" width="736" height="1600"></figure>
             </div>
 
         </div>
@@ -98,81 +98,41 @@
     </header>
 
     <!-- ============================================================================
-         ROOM 01 — THE SCOREKEEPER (light world)
+         ROOM 01 — THE SCOREKEEPER (light world). Since 2026-09-30 the rooms are
+         SCREENSHOTS, not explanations: a headline, one row of chips naming what is
+         in the app, and the phones. The six feature cards are gone (Juan: "clean up
+         useless things … we should only keep the screenshots sections, the Duo's
+         section, and the paywall section").
          ============================================================================ -->
-    <section class="world-score" id="score">
+    <section class="world-score room" id="score">
         <div class="wrap">
             <div class="section-head">
                 <span class="eyebrow"><span class="dot"></span> <span data-i18n="score.eyebrow">01 · The scorekeeper</span></span>
-                <h2 class="section-title" data-i18n-html="feat.title">Built for <em>real</em> game nights.</h2>
-                <p class="lead" data-i18n="score.lead">For the games you play with a real set, on a real table. Magic Domino keeps the score so nobody has to.</p>
-            </div>
-
-            <div class="cards">
-                <article class="card">
-                    <span class="card-num" data-i18n="f1.kicker">01 / Vision</span>
-                    <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
-                    <h3 data-i18n="f1.title">AI Score Counting</h3>
-                    <p data-i18n="f1.desc">Point your camera at your dominoes and AI instantly detects and counts the score in real-time. No manual counting, no disputes.</p>
-                </article>
-                <article class="card">
-                    <span class="card-num" data-i18n="f2.kicker">02 / Brackets</span>
-                    <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></div>
-                    <h3 data-i18n="f2.title">Tournament Mode</h3>
-                    <p data-i18n="f2.desc">Organize brackets for 2 to 32 teams — single elimination, a best-of series, or double elimination. Odd numbers are welcome; byes are worked out for you.</p>
-                </article>
-                <article class="card">
-                    <span class="card-num" data-i18n="f6.kicker">06 / Share</span>
-                    <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div>
-                    <h3 data-i18n="f6.title">Live Share &amp; Join</h3>
-                    <p data-i18n="f6.desc">Anyone can follow the score live on their own phone — same table or across town. Send a copy to another device, or join a friend's game with a code. iOS 26+ and Android — hosting needs Premium, joining is free.</p>
-                </article>
-                <article class="card">
-                    <span class="card-num" data-i18n="f3.kicker">03 / Style</span>
-                    <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg></div>
-                    <h3 data-i18n="f3.title">Beautiful Themes</h3>
-                    <p data-i18n="f3.desc">Stunning themes, custom backgrounds, and customizable animations. Style team names with fonts, colors, and effects — Name Styles on iOS 26+.</p>
-                </article>
-                <article class="card">
-                    <span class="card-num" data-i18n="f5.kicker">05 / History</span>
-                    <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
-                    <h3 data-i18n="f5.title">Game History</h3>
-                    <p data-i18n="f5.desc">Track every game with detailed statistics. Review past matches, see how long each one ran with the optional Game Timer (free on iOS 26+ and Android), and watch your rivalries unfold over time.</p>
-                </article>
-                <article class="card">
-                    <span class="card-num" data-i18n="f4.kicker">04 / Sync</span>
-                    <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg></div>
-                    <h3 data-i18n="f4.title">iCloud Sync</h3>
-                    <p data-i18n="f4.desc">Keep your game history synced across all your Apple devices seamlessly and securely.</p>
-                    <span class="tag" data-i18n="f4.note">iOS only · Android sync coming soon</span>
-                </article>
-            </div>
-        </div>
-
-        <!-- Score screenshots -->
-        <div class="wrap" style="margin-top: 4.5rem;">
-            <div class="section-head" style="margin-bottom: 1.5rem;">
-                <span class="eyebrow"><span class="dot"></span> <span data-i18n="shots.eyebrow">See it in action</span></span>
                 <h2 class="section-title" data-i18n-html="shots.title">Your game, <em>beautifully</em> kept.</h2>
             </div>
+            <div class="chips chips-center">
+                <span class="chip lead-chip" data-i18n="f1.title">AI Score Counting</span>
+                <span class="chip" data-i18n="f2.title">Tournament Mode</span>
+                <span class="chip" data-i18n="f6.title">Live Share &amp; Join</span>
+                <span class="chip" data-i18n="f3.title">Beautiful Themes</span>
+                <span class="chip" data-i18n="f5.title">Game History</span>
+                <span class="chip" data-i18n="f4.title">iCloud Sync</span>
+            </div>
+            <!-- Raw simulator screenshots (736 × 1600) in the hero's graphite frame. See SCREENSHOTS.md. -->
             <div class="strip-wrap">
                 <button class="scroll-arrow scroll-arrow-left" aria-label="Previous screenshots" data-i18n-attr="aria-label:a11y.prevShots" onclick="scrollStrip('scoreStrip', -1)">‹</button>
                 <div class="strip" id="scoreStrip">
                     <figure class="shot"><div class="shot-frame">
-                        <img src="shot-1.png?v=20260930x" alt="AI score counting with the camera" data-i18n-attr="alt:alt.shot1" data-missing onload="shotLoaded(this)" onerror="this.remove()">
-                        <div class="ph"><div><div class="ph-board"><span class="bar hi"></span><span class="bar"></span><span class="bar g"></span><span class="bar"></span></div><div class="ph-title" data-i18n="alt.shot1">AI score counting</div></div></div>
+                        <img src="shot-2.png?v=20260930y" alt="Scoreboard view" data-i18n-attr="alt:alt.shot2" data-missing onload="shotLoaded(this)" onerror="this.remove()" loading="lazy">
+                        <div class="ph"><div class="ph-title" data-i18n="alt.shot2">Scoreboard view</div></div>
                     </div></figure>
                     <figure class="shot"><div class="shot-frame">
-                        <img src="shot-2.png?v=20260930x" alt="Scoreboard view" data-i18n-attr="alt:alt.shot2" data-missing onload="shotLoaded(this)" onerror="this.remove()">
-                        <div class="ph"><div><div class="ph-board"><span class="bar hi"></span><span class="bar"></span><span class="bar g"></span><span class="bar"></span></div><div class="ph-title" data-i18n="alt.shot2">Scoreboard</div></div></div>
+                        <img src="shot-3.png?v=20260930y" alt="Tournament bracket" data-i18n-attr="alt:alt.shot3" data-missing onload="shotLoaded(this)" onerror="this.remove()" loading="lazy">
+                        <div class="ph"><div class="ph-title" data-i18n="alt.shot3">Tournament bracket</div></div>
                     </div></figure>
                     <figure class="shot"><div class="shot-frame">
-                        <img src="shot-3.png?v=20260930x" alt="Tournament bracket" data-i18n-attr="alt:alt.shot3" data-missing onload="shotLoaded(this)" onerror="this.remove()">
-                        <div class="ph"><div><div class="ph-board"><span class="bar hi"></span><span class="bar"></span><span class="bar g"></span><span class="bar"></span></div><div class="ph-title" data-i18n="alt.shot3">Tournament bracket</div></div></div>
-                    </div></figure>
-                    <figure class="shot"><div class="shot-frame">
-                        <img src="shot-4.png?v=20260930x" alt="Game history" data-i18n-attr="alt:alt.shot4" data-missing onload="shotLoaded(this)" onerror="this.remove()">
-                        <div class="ph"><div><div class="ph-board"><span class="bar hi"></span><span class="bar"></span><span class="bar g"></span><span class="bar"></span></div><div class="ph-title" data-i18n="alt.shot4">Game history</div></div></div>
+                        <img src="shot-4.png?v=20260930y" alt="Game history" data-i18n-attr="alt:alt.shot4" data-missing onload="shotLoaded(this)" onerror="this.remove()" loading="lazy">
+                        <div class="ph"><div class="ph-title" data-i18n="alt.shot4">Game history</div></div>
                     </div></figure>
                 </div>
                 <button class="scroll-arrow scroll-arrow-right" aria-label="More screenshots" data-i18n-attr="aria-label:a11y.nextShots" onclick="scrollStrip('scoreStrip', 1)">›</button>
@@ -181,105 +141,54 @@
     </section>
 
     <!-- ============================================================================
-         ROOM 02 — THE GAME (Play's own world: felt, brass, ivory)
+         ROOM 02 — THE GAME (Play's own world: felt, brass, ivory). Same shape: a
+         headline, the ten tables as chips, the phones.
          ============================================================================ -->
-    <section class="world-play" id="play" data-felt>
+    <section class="world-play room" id="play" data-felt>
         <div class="wrap">
             <div class="section-head">
                 <span class="eyebrow"><span class="dot"></span> <span data-i18n="play.eyebrow">02 · The game</span></span>
-                <h2 class="section-title" data-i18n-html="play.title">A real domino table, <em>in your pocket</em>.</h2>
-                <p class="lead" data-i18n="play.lead">Not another cartoon domino app. The rules you grew up with, opponents that read the table like people do, and every call made the instant it happens.</p>
+                <h2 class="section-title" data-i18n-html="pshots.title">Every tile <em>lands</em> like it should.</h2>
                 <div class="tags"><span class="tag" data-i18n="p6.tag">iPhone &amp; iPad · iOS 26+</span><span class="tag tag-soon" data-i18n="play.android">Coming soon on Android</span></div>
             </div>
-
-            <div class="cards">
-                <article class="card">
-                    <span class="card-num" data-i18n="p1.kicker">01 / Tables</span>
-                    <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
-                    <h3 data-i18n="p1.title">Ten tables from around the world</h3>
-                    <p data-i18n="p1.desc">Each with its real rules, researched and sourced, and an illustrated rulebook built from the game's own tiles. Pick your game — the words on the table follow it.</p>
-                    <div class="chips">
-                        <span class="chip lead-chip" data-i18n="tbl.dominican">Dominican</span>
-                        <span class="chip" data-i18n="tbl.puertoRican">Puerto Rican</span>
-                        <span class="chip" data-i18n="tbl.classic">Classic</span>
-                        <span class="chip" data-i18n="tbl.cuban">Cuban</span>
-                        <span class="chip" data-i18n="tbl.fives">Fives</span>
-                        <span class="chip" data-i18n="tbl.brazilian">Brazilian</span>
-                        <span class="chip" data-i18n="tbl.jamaican">Jamaican</span>
-                        <span class="chip" data-i18n="tbl.kozel">Kozel</span>
-                        <span class="chip" data-i18n="tbl.turkish">Turkish</span>
-                        <span class="chip" data-i18n="tbl.gaple">Gaple</span>
-                    </div>
-                </article>
-                <article class="card">
-                    <span class="card-num" data-i18n="p2.kicker">02 / Opponents</span>
-                    <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h.01M15 9h.01M9 15h.01M15 15h.01M12 12h.01"/></svg></div>
-                    <h3 data-i18n="p2.title">Computers that actually play</h3>
-                    <p data-i18n="p2.desc">Easy, Medium and Hard are measured over thousands of hands, not guessed. Your partner always plays to win with you — and no computer ever peeks at your hand.</p>
-                    <span class="tag" data-i18n="p2.tag">1 v 1 · 2 vs 2 · Free-for-all</span>
-                </article>
-                <article class="card">
-                    <span class="card-num" data-i18n="p3.kicker">03 / Together</span>
-                    <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-                    <h3 data-i18n="p3.title">Play with real people</h3>
-                    <p data-i18n="p3.desc">Sit down with friends on the same Wi-Fi, or send a six-letter code and play from anywhere. Or tap Quick Match and the app finds a stranger who plays your game.</p>
-                    <span class="tag" data-i18n="p3.tag">Nearby · Anywhere · Quick Match</span>
-                </article>
-                <article class="card">
-                    <span class="card-num" data-i18n="p4.kicker">04 / Brackets</span>
-                    <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></div>
-                    <h3 data-i18n="p4.title">Tournaments, played out</h3>
-                    <p data-i18n="p4.desc">Run a whole bracket against the computer or with friends, and watch the draw fill in as you win. On a big screen the bracket sits right beside the table.</p>
-                </article>
-                <article class="card">
-                    <span class="card-num" data-i18n="p5.kicker">05 / The calls</span>
-                    <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.4 5.6L20 8.4l-4.2 3.8L17 18l-5-3-5 3 1.2-5.8L4 8.4l5.6-.8z"/></svg></div>
-                    <h3 data-i18n="p5.title">The calls you grew up with</h3>
-                    <p data-i18n="p5.desc">Capicúa, the round pass, the pase de salida, the tranque — called on the table the instant the tile lands, with the fireworks they deserve. Points fly straight into the score.</p>
-                </article>
-                <article class="card">
-                    <span class="card-num" data-i18n="p6.kicker">06 / Feel</span>
-                    <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 11V6a2 2 0 0 0-4 0v5"/><path d="M14 10V4a2 2 0 0 0-4 0v6"/><path d="M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg></div>
-                    <h3 data-i18n="p6.title">Made for the phone in your hand</h3>
-                    <p data-i18n="p6.desc">Tap a tile, or drag it to either end. Every flight, slam and shake is real, and all of it honours Reduce Motion. Close the app mid-hand and pick up right where you left off.</p>
-                    <div class="tags"><span class="tag" data-i18n="p6.tag">iPhone &amp; iPad · iOS 26+</span><span class="tag tag-soon" data-i18n="play.android">Coming soon on Android</span></div>
-                </article>
-            </div>
-        </div>
-
-        <!-- Game screenshots. Placeholders draw the subject until the PNG lands:
-             play-shot-1.png … play-shot-4.png, 1320×2868 like the score shots. -->
-        <div class="wrap" style="margin-top: 4.5rem;">
-            <div class="section-head" style="margin-bottom: 1.5rem;">
-                <span class="eyebrow"><span class="dot"></span> <span data-i18n="pshots.eyebrow">On the table</span></span>
-                <h2 class="section-title" data-i18n-html="pshots.title">Every tile <em>lands</em> like it should.</h2>
+            <div class="chips chips-center">
+                <span class="chip lead-chip" data-i18n="tbl.dominican">Dominican</span>
+                <span class="chip" data-i18n="tbl.puertoRican">Puerto Rican</span>
+                <span class="chip" data-i18n="tbl.classic">Classic</span>
+                <span class="chip" data-i18n="tbl.cuban">Cuban</span>
+                <span class="chip" data-i18n="tbl.fives">Fives</span>
+                <span class="chip" data-i18n="tbl.brazilian">Brazilian</span>
+                <span class="chip" data-i18n="tbl.jamaican">Jamaican</span>
+                <span class="chip" data-i18n="tbl.kozel">Kozel</span>
+                <span class="chip" data-i18n="tbl.turkish">Turkish</span>
+                <span class="chip" data-i18n="tbl.gaple">Gaple</span>
             </div>
             <div class="strip-wrap">
                 <button class="scroll-arrow scroll-arrow-left" aria-label="Previous screenshots" data-i18n-attr="aria-label:a11y.prevShots" onclick="scrollStrip('playStrip', -1)">‹</button>
                 <div class="strip" id="playStrip">
                     <figure class="shot"><div class="shot-frame">
-                        <img src="play-shot-1.png?v=20260930x" alt="The table" data-i18n-attr="alt:pshots.s1" data-missing onload="shotLoaded(this)" onerror="this.remove()">
-                        <div class="ph"><div><div class="ph-mini"><div class="tile h"><div class="face p6"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="face p3"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div><div class="tile h just"><div class="face p3"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="face p1"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div></div><div class="ph-title" data-i18n="pshots.s1">The table</div></div></div>
+                        <img src="play-shot-1.png?v=20260930y" alt="The table" data-i18n-attr="alt:pshots.s1" data-missing onload="shotLoaded(this)" onerror="this.remove()" loading="lazy">
+                        <div class="ph"><div class="ph-title" data-i18n="pshots.s1">The table</div></div>
                     </div></figure>
                     <figure class="shot"><div class="shot-frame">
-                        <img src="play-shot-2.png?v=20260930x" alt="The front door" data-i18n-attr="alt:pshots.s5" data-missing onload="shotLoaded(this)" onerror="this.remove()">
-                        <div class="ph"><div><div class="ph-mini"><div class="tile "><div class="face p6"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="face p6"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div><div class="tile "><div class="face p5"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="face p5"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div><div class="tile "><div class="face p4"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="face p4"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div></div><div class="ph-title" data-i18n="pshots.s5">The front door</div></div></div>
+                        <img src="play-shot-2.png?v=20260930y" alt="The front door" data-i18n-attr="alt:pshots.s5" data-missing onload="shotLoaded(this)" onerror="this.remove()" loading="lazy">
+                        <div class="ph"><div class="ph-title" data-i18n="pshots.s5">The front door</div></div>
                     </div></figure>
                     <figure class="shot"><div class="shot-frame">
-                        <img src="play-shot-3.png?v=20260930x" alt="Pick your game" data-i18n-attr="alt:pshots.s2" data-missing onload="shotLoaded(this)" onerror="this.remove()">
-                        <div class="ph"><div><div class="ph-mini"><div class="tile "><div class="face p6"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="face p6"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div><div class="tile "><div class="face p5"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="face p5"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div><div class="tile "><div class="face p4"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="face p4"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div></div><div class="ph-title" data-i18n="pshots.s2">Pick your game</div></div></div>
+                        <img src="play-shot-3.png?v=20260930y" alt="Pick your game" data-i18n-attr="alt:pshots.s2" data-missing onload="shotLoaded(this)" onerror="this.remove()" loading="lazy">
+                        <div class="ph"><div class="ph-title" data-i18n="pshots.s2">Pick your game</div></div>
                     </div></figure>
                     <figure class="shot"><div class="shot-frame">
-                        <img src="play-shot-4.png?v=20260930x" alt="Play together" data-i18n-attr="alt:pshots.s3" data-missing onload="shotLoaded(this)" onerror="this.remove()">
-                        <div class="ph"><div><div class="ph-mini"><div class="tile back"></div><div class="tile back"></div><div class="tile back"></div><div class="tile back"></div></div><div class="ph-title" data-i18n="pshots.s3">Play together</div></div></div>
+                        <img src="play-shot-4.png?v=20260930y" alt="Play together" data-i18n-attr="alt:pshots.s3" data-missing onload="shotLoaded(this)" onerror="this.remove()" loading="lazy">
+                        <div class="ph"><div class="ph-title" data-i18n="pshots.s3">Play together</div></div>
                     </div></figure>
                     <figure class="shot"><div class="shot-frame">
-                        <img src="play-shot-5.png?v=20260930x" alt="The bracket" data-i18n-attr="alt:pshots.s4" data-missing onload="shotLoaded(this)" onerror="this.remove()">
-                        <div class="ph"><div><div class="ph-mini"><div class="tile h"><div class="face p1"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="face p1"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div></div><div class="ph-title" data-i18n="pshots.s4">The bracket</div></div></div>
+                        <img src="play-shot-5.png?v=20260930y" alt="The bracket" data-i18n-attr="alt:pshots.s4" data-missing onload="shotLoaded(this)" onerror="this.remove()" loading="lazy">
+                        <div class="ph"><div class="ph-title" data-i18n="pshots.s4">The bracket</div></div>
                     </div></figure>
                     <figure class="shot"><div class="shot-frame">
-                        <img src="play-shot-6.png?v=20260930x" alt="The hand is over" data-i18n-attr="alt:pshots.s6" data-missing onload="shotLoaded(this)" onerror="this.remove()">
-                        <div class="ph"><div><div class="ph-mini"><div class="tile h"><div class="face p0"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="face p0"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div></div><div class="ph-title" data-i18n="pshots.s6">The hand is over</div></div></div>
+                        <img src="play-shot-6.png?v=20260930y" alt="The hand is over" data-i18n-attr="alt:pshots.s6" data-missing onload="shotLoaded(this)" onerror="this.remove()" loading="lazy">
+                        <div class="ph"><div class="ph-title" data-i18n="pshots.s6">The hand is over</div></div>
                     </div></figure>
                 </div>
                 <button class="scroll-arrow scroll-arrow-right" aria-label="More screenshots" data-i18n-attr="aria-label:a11y.nextShots" onclick="scrollStrip('playStrip', 1)">›</button>
@@ -302,64 +211,8 @@
                     <span class="tag" data-i18n="duo.tag">iPhone Duo · opened</span>
                 </div>
                 <figure class="duo-frame">
-                    <img src="duo-split.png?v=20260930x" alt="Magic Domino on an opened iPhone Duo: the scoreboard on the left half, a domino hand in play on the right" width="1800" height="1266" loading="lazy">
+                    <img src="duo-split.png?v=20260930y" alt="Magic Domino on an opened iPhone Duo: the scoreboard on the left half, a domino hand in play on the right" width="1800" height="1266" loading="lazy">
                 </figure>
-            </div>
-        </div>
-    </section>
-
-    <!-- ============================================================================
-         THE BRIDGE — "best of both worlds", said plainly, half in each colour.
-         ============================================================================ -->
-    <section class="bridge">
-        <div class="wrap">
-            <div class="bridge-side score">
-                <span class="eyebrow"><span class="dot"></span> <span data-i18n="bridge.scoreEyebrow">At the table</span></span>
-                <h2 data-i18n="bridge.scoreTitle">Score the game in front of you.</h2>
-                <ul>
-                    <li><span class="check">✓</span><span data-i18n="bridge.s1">Count the pips with the camera — no arithmetic, no arguments.</span></li>
-                    <li><span class="check">✓</span><span data-i18n="bridge.s2">Brackets for 2 to 32 teams, byes worked out for you.</span></li>
-                    <li><span class="check">✓</span><span data-i18n="bridge.s3">Share the score live to any phone, and put the bracket on any TV.</span></li>
-                    <li><span class="check">✓</span><span data-i18n="bridge.s4">Themes, widgets, Live Activity — the scoreboard the table deserves.</span></li>
-                </ul>
-            </div>
-            <div class="bridge-side play">
-                <span class="eyebrow"><span class="dot"></span> <span data-i18n="bridge.playEyebrow">Anywhere else</span></span>
-                <h2 data-i18n="bridge.playTitle">Play when there's no table.</h2>
-                <ul>
-                    <li><span class="check">✓</span><span data-i18n="bridge.p1">Ten regional games, each with its real rules and its own rulebook.</span></li>
-                    <li><span class="check">✓</span><span data-i18n="bridge.p2">Computers with three honest levels, and a partner who plays to win.</span></li>
-                    <li><span class="check">✓</span><span data-i18n="bridge.p3">Friends on the same Wi-Fi, a code from anywhere, or a quick match with a stranger.</span></li>
-                    <li><span class="check">✓</span><span data-i18n="bridge.p4">Whole tournaments, against the computer or with people.</span></li>
-                </ul>
-            </div>
-            <div class="bridge-seam">
-                <div class="seam-card">
-                    <h3 data-i18n="bridge.oneTitle">One History. One language — seventeen of them.</h3>
-                    <p data-i18n="bridge.oneDesc">Games you scored at the table and games you played on the phone sit in the same History. And every word on both sides speaks all seventeen of Magic Domino's languages.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ============================================================================
-         WATCH LIVE — the TV board's front door (scorekeeper tournaments)
-         ============================================================================ -->
-    <section class="watch" id="watch">
-        <div class="wrap">
-            <div class="section-head">
-                <span class="eyebrow"><span class="dot"></span> <span data-i18n="watch.eyebrow">Live on any screen</span></span>
-                <h2 class="section-title" data-i18n-html="watch.title">Watching a tournament? <em>Enter</em> the code.</h2>
-            </div>
-            <div class="watch-card">
-                <p data-i18n="watch.desc">Tournament organizers share a 6-character room code. Enter it here — or on any TV's browser — and follow the bracket live, no app needed.</p>
-                <div class="watch-form">
-                    <input class="watch-input" id="watchCode" maxlength="12" autocomplete="off"
-                           autocapitalize="characters" spellcheck="false" placeholder="A632GJ"
-                           aria-label="Room code" data-i18n-attr="aria-label:a11y.roomCode">
-                    <button class="watch-btn" id="watchGo" disabled onclick="watchLive()" data-i18n="watch.btn">Watch</button>
-                </div>
-                <p class="watch-note" data-i18n="watch.hint">In the app it's the code under "Sharing live" — scan the QR there to join on a phone instead.</p>
             </div>
         </div>
     </section>
@@ -388,7 +241,7 @@
 
     <footer>
         <a href="#top" class="footer-brand">
-            <img src="app-icon.png?v=20260930x" alt="" class="brand-icon"><span>Magic Domino<span class="brand-tm">™</span></span>
+            <img src="app-icon.png?v=20260930y" alt="" class="brand-icon"><span>Magic Domino<span class="brand-tm">™</span></span>
         </a>
         <div class="store-row footer-store">
             <a href="https://apps.apple.com/us/app/magic-domino-ai-scorekeeper/id6747228055" class="store-badge" aria-label="Download on the App Store">
@@ -449,20 +302,6 @@
             }, { rootMargin: '-60px 0px -100% 0px', threshold: 0 });
             io.observe(felt);
         })();
-
-        // ── Watch live: the room code field ─────────────────────────────────────
-        var watchInput = document.getElementById('watchCode');
-        if (watchInput) {
-            watchInput.addEventListener('input', function () {
-                watchInput.value = watchInput.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
-                document.getElementById('watchGo').disabled = watchInput.value.length < 4;
-            });
-            watchInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') watchLive(); });
-        }
-        function watchLive() {
-            var c = (watchInput.value || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
-            if (c.length >= 4) window.location.href = '/tv/' + c;
-        }
 
         // ── Back to tournament ─────────────────────────────────────────────────
         // The board's logo links here as /?from=CODE. If that code is present and

@@ -14,6 +14,14 @@ folder as-is on every push to `main`; there is no build step.
 - `i18n.js` — every string in all 17 languages, one line per key. Markup ships
   English with `data-i18n` keys; read the header of that file before adding a word.
   New copy uses the app's own renderings of game terms (see the glossary note there).
+- The home page is: the split hero (two real phones), the one line with the store
+  badges, the scorekeeper's screenshots, the game's screenshots, the Duo, Premium,
+  footer. The six-card feature grids, the "best of both worlds" bridge and the
+  Watch-live code box were removed on 2026-09-30 (Juan: "clean up useless things …
+  only keep the screenshots sections, the Duo's section, and the paywall section");
+  the TV board's own page at /tv/ is the way to enter a code now (nav "Watch Live").
+  Their i18n keys are still in i18n.js, unused — harmless, and a removal there is a
+  17-language edit for nothing.
 - `SCREENSHOTS.md` — which PNGs the home page shows, how each was captured on the
   simulator, and how to replace one. `social-card.html` renders `social-card.png`.
 - ⚠️ Every asset reference carries `?v=…`. Cloudflare caches whatever it first
