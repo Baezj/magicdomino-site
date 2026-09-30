@@ -3,1109 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Magic Domino™ — The Ultimate Dominoes Score Keeper</title>
-    <meta name="description" content="Transform your domino games with AI-powered score counting, beautiful themes, and tournament mode. Available on iPhone, iPad, and Android.">
+    <title>Magic Domino™ — The dominoes scorekeeper and the dominoes game, in one app</title>
+    <meta name="description" content="Magic Domino is two rooms in one app: the scorekeeper that counts your dominoes with the camera, runs tournaments and shares scores live — and a real domino game with ten regional tables, computers that play like people, and friends nearby or anywhere.">
     <link rel="icon" type="image/png" href="app-icon.png">
     <link rel="apple-touch-icon" href="app-icon.png">
 
-    <!-- Open Graph / social sharing -->
+    <!-- Open Graph / Twitter -->
     <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Magic Domino">
-    <meta property="og:title" content="Magic Domino — The Ultimate Dominoes Score Keeper">
-    <meta property="og:description" content="Point your camera, AI counts the score, and you get back to the game. On iPhone, iPad, and Android.">
+    <meta property="og:site_name" content="Magic Domino™">
+    <meta property="og:title" content="Magic Domino™ — Keep the score. Play the game.">
+    <meta property="og:description" content="The dominoes scorekeeper trusted at real tables, and a real domino game with the rules you grew up with. Two rooms, one app.">
     <meta property="og:url" content="https://magicdomino.com/">
     <meta property="og:image" content="https://magicdomino.com/social-card.png">
     <meta property="og:image:width" content="1024">
     <meta property="og:image:height" content="500">
-    <meta property="og:image:alt" content="Magic Domino — AI-powered dominoes score keeper">
-
-    <!-- Twitter / X card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Magic Domino — The Ultimate Dominoes Score Keeper">
-    <meta name="twitter:description" content="Point your camera, AI counts the score, and you get back to the game. On iPhone, iPad, and Android.">
+    <meta name="twitter:title" content="Magic Domino™ — Keep the score. Play the game.">
+    <meta name="twitter:description" content="The dominoes scorekeeper trusted at real tables, and a real domino game with the rules you grew up with. Two rooms, one app.">
     <meta name="twitter:image" content="https://magicdomino.com/social-card.png">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <style>
-        :root {
-            --ink: #0f1a3a;
-            --ink-soft: #2d3a5f;
-            --cream: #f7f9fc;
-            --cream-warm: #eaf2fb;
-            --paper: #ffffff;
-            --accent: #3d95ef;
-            --accent-deep: #2476d4;
-            --gold: #f0b248;
-            --violet: #7c5cff;
-            --violet-deep: #5b3ee0;
-            --sky: #6fd0f1;
-            --brand-deep: #4963ec;
-            --border: #dbe6f2;
-            --muted: #6b7a99;
-            --shadow-sm: 0 1px 2px rgba(15, 26, 58, 0.06), 0 2px 8px rgba(15, 26, 58, 0.04);
-            --shadow-md: 0 4px 12px rgba(15, 26, 58, 0.08), 0 12px 32px rgba(15, 26, 58, 0.06);
-            --shadow-lg: 0 12px 24px rgba(15, 26, 58, 0.10), 0 24px 64px rgba(15, 26, 58, 0.08);
-        }
-
-        /* ===== Back to tournament (only when arriving from a live board) ===== */
-        /* Shown only when the board handed us a room code in ?from=. The board's
-           logo opens in a NEW tab, so the tournament is still running behind this
-           page — but "it's in your other tab" is not a thought a casual viewer on
-           a phone has, so this offers a labelled way straight back, and reminds
-           them of the code while it's at it. Hidden by default: if the param
-           isn't there, this element never appears at all. */
-        #backToTournament {
-            position: fixed;
-            left: 50%;
-            bottom: max(1.25rem, env(safe-area-inset-bottom));
-            transform: translateX(-50%);
-            z-index: 1100;
-            display: none;
-            align-items: center;
-            gap: 0.7rem;
-            padding: 0.7rem 1.1rem 0.7rem 0.9rem;
-            background: var(--paper);
-            border: 1px solid var(--border);
-            border-radius: 999px;
-            box-shadow: var(--shadow-lg);
-            text-decoration: none;
-            color: var(--ink);
-            font-weight: 600;
-            font-size: 0.95rem;
-            max-width: calc(100vw - 2rem);
-        }
-        #backToTournament.show { display: flex; animation: bttIn 0.28s ease-out both; }
-        @keyframes bttIn { from { opacity: 0; transform: translateX(-50%) translateY(0.6rem); } }
-        /* Respect the setting — an element that slides in under the thumb is
-           exactly the kind of motion people turn this on to avoid. */
-        @media (prefers-reduced-motion: reduce) {
-            #backToTournament.show { animation: none; }
-        }
-        #backToTournament .btt-arrow {
-            flex: 0 0 auto;
-            width: 1.6rem; height: 1.6rem;
-            display: grid; place-items: center;
-            border-radius: 50%;
-            background: var(--accent);
-            color: #fff;
-            font-size: 1rem; line-height: 1;
-        }
-        #backToTournament .btt-label { color: var(--muted); font-weight: 500; }
-        /* The code is the part that reads in any language, so it gets the weight.
-           The rest of this page is English; a viewer arriving from an Arabic board
-           can still recognise their own room code and the arrow. */
-        #backToTournament .btt-code {
-            font-variant-numeric: tabular-nums;
-            letter-spacing: 0.14em;
-            color: var(--accent-deep);
-            font-weight: 700;
-        }
-        @media (max-width: 480px) {
-            #backToTournament { font-size: 0.88rem; gap: 0.55rem; }
-        }
-
-        /* ===== Right-to-left (Arabic, Urdu) ===================================
-           i18n.js sets dir="rtl" for ar/ur. This page is overwhelmingly centred
-           flexbox, which mirrors for free — these are the few places that state a
-           physical side and would otherwise sit on the wrong one. */
-        [dir="rtl"] .premium-features { text-align: right; }
-        [dir="rtl"] .store-badge.coming-soon .badge,
-        [dir="rtl"] .store-btn.coming-soon .badge { right: auto; left: 8px; }
-        [dir="rtl"] .brand-tm { margin-left: 0; margin-right: 0.05em; }
-        [dir="rtl"] .navbar-brand .logo { margin-left: 0.5rem; margin-right: 0; }
-        /* The room code is Latin characters and reads left-to-right even inside an
-           RTL page — without this the caret and the typed code fight each other. */
-        [dir="rtl"] #watchCode { direction: ltr; text-align: center; }
-        /* The pill's arrow points back the other way when the page does. */
-        [dir="rtl"] #backToTournament .btt-arrow { transform: scaleX(-1); }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        html { scroll-behavior: smooth; }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--cream);
-            color: var(--ink);
-            line-height: 1.6;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* Domino-dot background pattern */
-        .dot-bg {
-            position: absolute;
-            inset: 0;
-            background-image: radial-gradient(circle, var(--ink) 1px, transparent 1.5px);
-            background-size: 32px 32px;
-            opacity: 0.05;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        /* ===== Navbar ===== */
-        .navbar {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            background: rgba(247, 249, 252, 0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--border);
-            padding: 1rem 2.5rem;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .navbar-brand {
-            font-family: 'Fraunces', serif;
-            font-size: 1.4rem;
-            font-weight: 600;
-            font-variation-settings: "opsz" 48;
-            color: var(--ink);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            letter-spacing: -0.01em;
-        }
-
-        .brand-name {
-            display: inline;
-            white-space: nowrap;
-        }
-        .brand-tm {
-            font-size: 0.52em;
-            font-weight: 400;
-            vertical-align: super;
-            line-height: 0;
-            letter-spacing: 0;
-            margin-left: 0.05em;
-        }
-        .brand-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            box-shadow:
-                0 1px 2px rgba(15, 26, 58, 0.10),
-                0 4px 10px rgba(61, 149, 239, 0.18);
-            display: block;
-            transition: transform 0.25s ease;
-        }
-        .navbar-brand:hover .brand-icon { transform: rotate(-6deg) scale(1.05); }
-
-        .navbar-links {
-            display: flex;
-            gap: 2.25rem;
-            align-items: center;
-        }
-
-        .navbar-links a {
-            color: var(--ink-soft);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.92rem;
-            transition: color 0.2s;
-            position: relative;
-        }
-
-        .navbar-links a::after {
-            content: '';
-            position: absolute;
-            left: 0; bottom: -4px;
-            width: 0; height: 2px;
-            background: var(--accent);
-            transition: width 0.25s ease;
-        }
-
-        .navbar-links a:hover { color: var(--ink); }
-        .navbar-links a:hover::after { width: 100%; }
-
-        .mobile-menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--ink);
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        /* ===== Hero ===== */
-        .hero {
-            position: relative;
-            min-height: 100vh;
-            min-height: 100svh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 6rem 2rem 2.5rem;
-            background:
-                radial-gradient(ellipse 70% 50% at 12% 8%, rgba(111, 208, 241, 0.32), transparent 60%),
-                radial-gradient(ellipse 60% 55% at 88% 92%, rgba(124, 92, 255, 0.22), transparent 65%),
-                radial-gradient(ellipse 65% 45% at 50% 60%, rgba(61, 149, 239, 0.10), transparent 70%),
-                var(--cream);
-            overflow: hidden;
-        }
-
-        /* Decorative floating dominos */
-        .float-domino {
-            position: absolute;
-            width: 60px;
-            height: 120px;
-            background: var(--paper);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            box-shadow: var(--shadow-md);
-            opacity: 0.45;
-            display: flex;
-            flex-direction: column;
-            z-index: 1;
-        }
-        .float-domino::before {
-            content: '';
-            position: absolute;
-            top: 50%; left: 8%; right: 8%;
-            height: 1px;
-            background: var(--border);
-        }
-        .float-domino .half {
-            flex: 1;
-            display: grid;
-            place-items: center;
-            position: relative;
-        }
-        .float-domino .pip {
-            position: absolute;
-            width: 8px; height: 8px;
-            border-radius: 50%;
-            background: var(--ink);
-        }
-
-        .fd-1 { top: 15%; left: 8%; transform: rotate(-18deg); animation: drift 12s ease-in-out infinite; }
-        .fd-2 { top: 22%; right: 10%; transform: rotate(22deg); animation: drift 14s ease-in-out infinite 1s; }
-        .fd-3 { bottom: 18%; left: 12%; transform: rotate(15deg); animation: drift 16s ease-in-out infinite 0.5s; }
-        .fd-4 { bottom: 12%; right: 8%; transform: rotate(-12deg); animation: drift 13s ease-in-out infinite 2s; }
-
-        @keyframes drift {
-            0%, 100% { transform: translate(0,0) rotate(var(--r, 0deg)); }
-            50% { transform: translate(8px, -12px) rotate(var(--r, 0deg)); }
-        }
-        .fd-1 { --r: -18deg; }
-        .fd-2 { --r: 22deg; }
-        .fd-3 { --r: 15deg; }
-        .fd-4 { --r: -12deg; }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            max-width: 780px;
-            animation: fadeUp 0.9s ease-out;
-        }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.78rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.18em;
-            color: var(--accent);
-            margin-bottom: 1.25rem;
-            padding: 0.4rem 0.9rem;
-            border: 1px solid var(--accent);
-            border-radius: 100px;
-            background: rgba(61, 149, 239, 0.05);
-        }
-        .eyebrow .dot {
-            width: 6px; height: 6px; border-radius: 50%;
-            background: var(--violet);
-            animation: pulse 2s ease-in-out infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
-        }
-
-        .logo-wrap {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1.25rem;
-            width: 130px;
-            height: 130px;
-        }
-        .logo-wrap::before {
-            content: '';
-            position: absolute;
-            inset: -24px;
-            background: radial-gradient(circle at 30% 30%, rgba(111, 208, 241, 0.45), transparent 55%),
-                        radial-gradient(circle at 70% 70%, rgba(124, 92, 255, 0.35), transparent 55%);
-            filter: blur(28px);
-            z-index: 0;
-            animation: halo 6s ease-in-out infinite;
-        }
-        @keyframes halo {
-            0%, 100% { opacity: 0.7; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.08); }
-        }
-        .logo {
-            position: relative;
-            width: 110px;
-            height: 110px;
-            border-radius: 26px;
-            box-shadow:
-                0 1px 2px rgba(15, 26, 58, 0.08),
-                0 8px 24px rgba(61, 149, 239, 0.25),
-                0 20px 50px rgba(91, 62, 224, 0.20);
-            z-index: 1;
-            animation: float 5s ease-in-out infinite;
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
-
-        h1 {
-            font-family: 'Fraunces', serif;
-            font-size: clamp(2.25rem, 5.5vw, 3.75rem);
-            font-weight: 600;
-            font-variation-settings: "opsz" 144;
-            line-height: 1.05;
-            letter-spacing: -0.025em;
-            color: var(--ink);
-            margin-bottom: 0.75rem;
-        }
-        h1 em {
-            font-style: italic;
-            font-weight: 500;
-            background: linear-gradient(135deg, var(--accent) 0%, var(--violet) 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            color: var(--accent); /* fallback */
-            /* Fix italic clipping at right edge of background-clip box */
-            padding-right: 0.12em;
-            margin-right: -0.12em;
-            display: inline-block;
-        }
-
-        .hero-desc {
-            font-size: 1rem;
-            color: var(--muted);
-            max-width: 520px;
-            margin: 0 auto 1.75rem;
-            line-height: 1.55;
-        }
-
-        /* ===== Download buttons ===== */
-        .download-buttons {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-bottom: 1rem;
-        }
-
-        .store-badge {
-            display: inline-block;
-            position: relative;
-            transition: transform 0.2s, filter 0.2s;
-        }
-        .store-badge img {
-            display: block;
-            height: 54px;
-            width: auto;
-        }
-        a.store-badge:hover {
-            transform: translateY(-2px);
-            filter: drop-shadow(0 8px 18px rgba(15, 26, 58, 0.22));
-        }
-        a.store-badge:focus-visible {
-            outline: 2px solid var(--accent);
-            outline-offset: 3px;
-            border-radius: 12px;
-        }
-
-        .store-badge.coming-soon {
-            cursor: default;
-        }
-        .store-badge.coming-soon img {
-            opacity: 0.6;
-            filter: grayscale(0.35);
-        }
-        .store-badge.coming-soon .badge {
-            position: absolute;
-            top: -10px;
-            right: 8px;
-            background: var(--gold);
-            color: var(--ink);
-            font-size: 0.62rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            padding: 3px 8px;
-            border-radius: 100px;
-            box-shadow: var(--shadow-sm);
-            z-index: 2;
-        }
-
-        /* English default, Spanish for es locales */
-        /* Badge localization moved to i18n.js: apply() swaps img[data-badge] src
-           per language, from the stores' own localized artwork, falling back to
-           English where a store publishes none (Apple has no ar/hi/bn/ur badge). */
-
-        .hero-meta {
-            font-size: 0.82rem;
-            color: var(--muted);
-            margin-top: 1.25rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 1.25rem;
-            flex-wrap: wrap;
-        }
-        .hero-meta span {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-        }
-
-        /* ===== Section divider ===== */
-        .divider {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.6rem;
-            padding: 2.5rem 0 0;
-        }
-        .divider span {
-            width: 8px; height: 8px; border-radius: 50%;
-            background: var(--ink);
-        }
-        .divider span:nth-child(2) { background: var(--accent); }
-
-        /* ===== Features ===== */
-        .features {
-            position: relative;
-            padding: 6rem 2rem 5rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .section-eyebrow {
-            font-size: 0.78rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            color: var(--accent);
-            margin-bottom: 0.75rem;
-        }
-
-        .section-title {
-            font-family: 'Fraunces', serif;
-            font-size: clamp(2rem, 4.5vw, 3rem);
-            font-weight: 600;
-            letter-spacing: -0.02em;
-            color: var(--ink);
-            line-height: 1.1;
-        }
-        .section-title em {
-            font-style: italic;
-            font-weight: 500;
-            background: linear-gradient(135deg, var(--accent) 0%, var(--violet) 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            color: var(--accent);
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.25rem;
-        }
-
-        .feature-card {
-            position: relative;
-            background: var(--paper);
-            padding: 2rem 1.75rem;
-            border-radius: 18px;
-            border: 1px solid var(--border);
-            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s;
-            overflow: hidden;
-        }
-
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--sky), var(--accent), var(--violet));
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.4s ease;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-md);
-            border-color: transparent;
-        }
-        .feature-card:hover::before { transform: scaleX(1); }
-
-        .feature-num {
-            font-family: 'Fraunces', serif;
-            font-style: italic;
-            font-size: 0.95rem;
-            color: var(--accent);
-            font-weight: 500;
-            margin-bottom: 1.25rem;
-            display: block;
-        }
-
-        .feature-icon {
-            width: 44px;
-            height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1rem;
-            background: var(--cream-warm);
-            border-radius: 12px;
-            color: var(--ink);
-        }
-        .feature-icon svg { width: 22px; height: 22px; }
-
-        .feature-title {
-            font-family: 'Fraunces', serif;
-            font-size: 1.35rem;
-            font-weight: 600;
-            margin-bottom: 0.6rem;
-            color: var(--ink);
-            letter-spacing: -0.01em;
-        }
-
-        .feature-description {
-            color: var(--muted);
-            font-size: 0.94rem;
-            line-height: 1.6;
-        }
-
-        /* Platform availability tag (e.g. "iOS only") on feature cards */
-        .platform-tag {
-            display: inline-block;
-            margin-top: 0.85rem;
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--accent-deep);
-            background: rgba(61, 149, 239, 0.08);
-            border: 1px solid rgba(61, 149, 239, 0.25);
-            padding: 3px 9px;
-            border-radius: 100px;
-        }
-
-        /* ===== Screenshots showcase ===== */
-        .showcase {
-            position: relative;
-            padding: 2rem 2rem 6rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: center;
-        }
-        .showcase-wrap {
-            position: relative;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-        .scroll-arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 5;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            border: 1px solid var(--border);
-            background: var(--paper);
-            color: var(--ink);
-            font-size: 1.6rem;
-            line-height: 1;
-            cursor: pointer;
-            box-shadow: var(--shadow-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
-            padding-bottom: 3px;
-        }
-        .scroll-arrow:hover {
-            background: var(--accent);
-            color: #fff;
-            box-shadow: var(--shadow-lg);
-        }
-        .scroll-arrow-left { left: -8px; }
-        .scroll-arrow-right { right: -8px; }
-        @media (max-width: 760px) {
-            .scroll-arrow { display: none; }
-        }
-        .showcase-scroll {
-            display: flex;
-            gap: 1.5rem;
-            overflow-x: auto;
-            padding: 1rem 0.5rem 1.5rem;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-            justify-content: flex-start;
-            scrollbar-width: thin;
-            scrollbar-color: var(--border) transparent;
-        }
-        .showcase-scroll::-webkit-scrollbar {
-            height: 8px;
-        }
-        .showcase-scroll::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .showcase-scroll::-webkit-scrollbar-thumb {
-            background: var(--border);
-            border-radius: 100px;
-        }
-        .showcase-scroll::-webkit-scrollbar-thumb:hover {
-            background: var(--muted);
-        }
-        .shot {
-            flex: 0 0 auto;
-            width: 240px;
-            scroll-snap-align: center;
-        }
-        .shot-frame {
-            width: 240px;
-            height: 500px;
-            border-radius: 30px;
-            border: 1px solid var(--border);
-            background: var(--cream-warm);
-            box-shadow: var(--shadow-md);
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-        .shot-frame img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-        .shot-frame .placeholder {
-            color: var(--muted);
-            font-size: 0.85rem;
-            padding: 1rem;
-            text-align: center;
-            line-height: 1.5;
-        }
-        .shot-caption {
-            margin-top: 0.9rem;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--ink);
-        }
-
-        /* ===== Premium ===== */
-        .premium {
-            position: relative;
-            padding: 6rem 2rem;
-            background:
-                radial-gradient(ellipse 70% 60% at 15% 10%, rgba(111, 208, 241, 0.18), transparent 60%),
-                radial-gradient(ellipse 60% 55% at 88% 90%, rgba(124, 92, 255, 0.35), transparent 65%),
-                radial-gradient(ellipse 80% 50% at 50% 50%, rgba(61, 149, 239, 0.15), transparent 70%),
-                linear-gradient(135deg, #1a4a8a 0%, #1e2960 50%, #0f1a3a 100%);
-            color: var(--cream);
-            overflow: hidden;
-        }
-        .premium .dot-bg {
-            background-image: radial-gradient(circle, var(--cream) 1px, transparent 1.5px);
-            opacity: 0.04;
-        }
-
-        .premium-content {
-            position: relative;
-            z-index: 2;
-            max-width: 900px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .premium-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--gold);
-            font-size: 0.78rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            margin-bottom: 1rem;
-        }
-        .premium-badge::before, .premium-badge::after {
-            content: '';
-            width: 24px; height: 1px;
-            background: var(--gold);
-        }
-
-        .premium-title {
-            font-family: 'Fraunces', serif;
-            font-size: clamp(2rem, 4.5vw, 3rem);
-            font-weight: 600;
-            letter-spacing: -0.02em;
-            margin-bottom: 1rem;
-            line-height: 1.1;
-        }
-        .premium-title em {
-            font-style: italic;
-            color: var(--gold);
-            font-weight: 500;
-        }
-
-        .premium-sub {
-            font-family: 'Fraunces', serif;
-            font-style: italic;
-            font-size: 1.15rem;
-            opacity: 0.7;
-            margin-bottom: 2.5rem;
-        }
-
-        .premium-features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1rem 1.5rem;
-            text-align: left;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .premium-feature {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-size: 0.98rem;
-            padding: 0.6rem 0;
-            border-bottom: 1px solid rgba(247, 249, 252, 0.1);
-        }
-        .premium-feature .check {
-            width: 22px; height: 22px;
-            flex-shrink: 0;
-            border-radius: 50%;
-            background: var(--gold);
-            color: var(--ink);
-            display: grid;
-            place-items: center;
-            font-weight: 700;
-            font-size: 0.75rem;
-        }
-        /* "iOS only" tag inside the premium list (dark background) */
-        .premium-feature .plat {
-            font-size: 0.66rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            color: var(--gold);
-            border: 1px solid rgba(240, 178, 72, 0.45);
-            padding: 2px 7px;
-            border-radius: 100px;
-            margin-left: 0.5rem;
-            white-space: nowrap;
-        }
-        .premium-note {
-            max-width: 640px;
-            margin: 2rem auto 0;
-            font-size: 0.85rem;
-            line-height: 1.5;
-            opacity: 0.65;
-            text-align: center;
-        }
-
-        /* ===== Footer ===== */
-        footer {
-            padding: 3.5rem 2rem 2.5rem;
-            text-align: center;
-            background: var(--cream-warm);
-            border-top: 1px solid var(--border);
-        }
-
-        .footer-brand {
-            font-family: 'Fraunces', serif;
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: var(--ink);
-            margin-bottom: 1.5rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-        .footer-brand:hover { color: var(--accent); }
-        .footer-brand:hover .brand-icon { transform: rotate(-6deg) scale(1.05); }
-
-        .footer-badges {
-            display: flex;
-            justify-content: center;
-            gap: 0.75rem;
-            flex-wrap: wrap;
-            margin-bottom: 2rem;
-        }
-        .footer-badges .store-badge img {
-            height: 44px;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-        }
-        .footer-links a {
-            color: var(--ink-soft);
-            text-decoration: none;
-            font-size: 0.92rem;
-            transition: color 0.2s;
-        }
-        .footer-links a:hover { color: var(--accent); }
-        .lang-switch {
-            display: block;
-            margin: 0 auto 1.5rem;
-            font: inherit;
-            font-size: 0.85rem;
-            color: var(--ink-soft);
-            background: var(--paper);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 0.35rem 0.75rem;
-            cursor: pointer;
-        }
-
-        .copyright {
-            color: var(--muted);
-            font-size: 0.85rem;
-        }
-
-        /* ===== Mobile ===== */
-        @media (max-width: 768px) {
-            .navbar { padding: 1rem 1.25rem; }
-            .navbar-links {
-                display: none;
-                position: absolute;
-                top: 100%; left: 0; right: 0;
-                background: rgba(247, 249, 252, 0.98);
-                backdrop-filter: blur(16px);
-                flex-direction: column;
-                padding: 1.25rem;
-                gap: 1rem;
-                border-bottom: 1px solid var(--border);
-            }
-            .navbar-links.active { display: flex; }
-            .mobile-menu-toggle { display: block; }
-
-            /* Mobile dominoes: fully visible, framing the content */
-            .float-domino {
-                width: 42px;
-                height: 84px;
-                opacity: 0.7;
-                border-radius: 7px;
-                background: linear-gradient(135deg, #ffffff 60%, rgba(111,208,241,0.25));
-                box-shadow: 0 4px 20px rgba(61, 149, 239, 0.2), 0 2px 8px rgba(15,26,58,0.10);
-            }
-            .float-domino .pip {
-                width: 6px;
-                height: 6px;
-                background: var(--accent);
-            }
-            .float-domino::before {
-                background: rgba(61,149,239,0.25);
-            }
-            /* Top pair: fully visible, below navbar, in open space above app icon */
-            .fd-1 { top: 18%; left: 6px; }
-            .fd-2 { top: 18%; right: 6px; }
-            /* Bottom pair: clearly below the store buttons */
-            .fd-3 { bottom: 4%; left: 6px; }
-            .fd-4 { bottom: 4%; right: 6px; }
-            .fd-1 { --r: -25deg; }
-            .fd-2 { --r: 25deg; }
-            .fd-3 { --r: 20deg; }
-            .fd-4 { --r: -20deg; }
-            @keyframes drift {
-                0%, 100% { transform: translate(0, 0) rotate(var(--r, 0deg)); }
-                50% { transform: translate(0, -10px) rotate(var(--r, 0deg)); }
-            }
-            .hero { padding: 5rem 1rem 2rem; overflow: hidden; }
-            .features { padding: 4rem 1.5rem; }
-            .premium { padding: 4rem 1.5rem; }
-
-            /* Tighter hero text on mobile */
-            .hero-desc { font-size: 0.95rem; margin-bottom: 1.25rem; }
-
-            /* Keep buttons side-by-side on mobile, just smaller */
-            .download-buttons {
-                flex-direction: row;
-                gap: 0.5rem;
-                flex-wrap: nowrap;
-                justify-content: center;
-            }
-            .store-btn {
-                min-width: 0;
-                flex: 1 1 auto;
-                max-width: 180px;
-                padding: 0.7rem 0.8rem;
-                gap: 0.5rem;
-            }
-            .store-btn svg { width: 22px; height: 22px; }
-            .store-btn-text .small { font-size: 0.6rem; }
-            .store-btn-text .large { font-size: 0.9rem; }
-            .store-btn.coming-soon .badge {
-                font-size: 0.55rem;
-                padding: 2px 6px;
-                top: -8px;
-                right: 8px;
-            }
-        }
-
-        /* ── Watch live (tournament TV) ── */
-        .watch {
-            padding: 96px 24px;
-            background: var(--cream-warm);
-        }
-        .watch-card {
-            max-width: 560px;
-            margin: 40px auto 0;
-            background: var(--paper);
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 36px 32px;
-            box-shadow: var(--shadow-md);
-            text-align: center;
-        }
-        .watch-form {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
-        .watch-input {
-            font-family: 'Inter', monospace;
-            font-size: 26px;
-            font-weight: 700;
-            letter-spacing: 0.35em;
-            text-transform: uppercase;
-            text-align: center;
-            width: 240px;
-            padding: 14px 4px 14px calc(4px + 0.35em);
-            color: var(--accent-deep);
-            background: var(--cream);
-            border: 2px solid var(--border);
-            border-radius: 14px;
-            outline: none;
-        }
-        .watch-input:focus { border-color: var(--accent); }
-        .watch-btn {
-            font-family: 'Inter', sans-serif;
-            font-size: 17px;
-            font-weight: 700;
-            color: #fff;
-            background: var(--accent);
-            border: 0;
-            border-radius: 999px;
-            padding: 14px 34px;
-            cursor: pointer;
-            transition: background .15s ease;
-        }
-        .watch-btn:hover { background: var(--accent-deep); }
-        .watch-btn:disabled { opacity: .4; cursor: default; }
-        .watch-note {
-            margin-top: 18px;
-            font-size: 14px;
-            color: var(--muted);
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="site.css">
     <script src="/i18n.js"></script>
 </head>
 <body>
-    <nav class="navbar">
+
+    <nav class="navbar" id="navbar">
         <a href="index.html" class="navbar-brand">
-            <img src="app-icon.png" alt="" class="brand-icon"><span class="brand-name">Magic Domino<span class="brand-tm">™</span></span>
+            <img src="app-icon.png" alt="" class="brand-icon"><span>Magic Domino<span class="brand-tm">™</span></span>
         </a>
         <button class="mobile-menu-toggle" onclick="toggleMenu()" aria-label="Menu" data-i18n-attr="aria-label:a11y.menu">☰</button>
         <div class="navbar-links" id="navbarLinks">
-            <a href="index.html" data-i18n="nav.home">Home</a>
-            <a href="/tv/" style="font-weight:700;" data-i18n="nav.watch">Watch Live</a>
-            <a href="privacy.html" data-i18n="nav.privacy">Privacy</a>
-            <a href="terms.html" data-i18n="nav.terms">Terms</a>
+            <a href="#score" data-i18n="nav.score">Scorekeeper</a>
+            <a href="#play" data-i18n="nav.play">The Game</a>
+            <a href="/tv/" data-i18n="nav.watch">Watch Live</a>
             <a href="support.html" data-i18n="nav.support">Support</a>
+            <a href="#download" class="nav-cta" data-i18n="nav.get">Get the app</a>
         </div>
     </nav>
 
-    <section class="hero">
-        <div class="dot-bg"></div>
-
-        <!-- Decorative floating dominoes -->
-        <div class="float-domino fd-1" aria-hidden="true">
-            <div class="half"><span class="pip" style="top:20%;left:20%"></span><span class="pip" style="bottom:20%;right:20%"></span></div>
-            <div class="half"><span class="pip" style="top:50%;left:50%;transform:translate(-50%,-50%)"></span></div>
-        </div>
-        <div class="float-domino fd-2" aria-hidden="true">
-            <div class="half"><span class="pip" style="top:50%;left:50%;transform:translate(-50%,-50%)"></span></div>
-            <div class="half"><span class="pip" style="top:20%;left:20%"></span><span class="pip" style="top:20%;right:20%"></span><span class="pip" style="bottom:20%;left:20%"></span><span class="pip" style="bottom:20%;right:20%"></span></div>
-        </div>
-        <div class="float-domino fd-3" aria-hidden="true">
-            <div class="half"><span class="pip" style="top:20%;left:20%"></span><span class="pip" style="top:20%;right:20%"></span><span class="pip" style="bottom:20%;left:20%"></span></div>
-            <div class="half"><span class="pip" style="top:20%;left:20%"></span><span class="pip" style="top:20%;right:20%"></span><span class="pip" style="bottom:20%;left:20%"></span><span class="pip" style="bottom:20%;right:20%"></span><span class="pip" style="top:50%;left:50%;transform:translate(-50%,-50%)"></span></div>
-        </div>
-        <div class="float-domino fd-4" aria-hidden="true">
-            <div class="half"><span class="pip" style="top:20%;left:20%"></span><span class="pip" style="bottom:20%;right:20%"></span></div>
-            <div class="half"><span class="pip" style="top:20%;left:20%"></span><span class="pip" style="top:20%;right:20%"></span><span class="pip" style="bottom:20%;left:20%"></span></div>
-        </div>
-
-        <div class="hero-content">
-            <div class="logo-wrap">
-                <img src="app-icon.png" alt="Magic Domino Icon" class="logo">
+    <!-- ============================================================================
+         HERO — two rooms, one app. The page is literally split: the scorekeeper in
+         its light world on the left, the game in Play's felt-and-brass on the right,
+         the one app icon on the seam. Each pane carries a CSS-only illustration so
+         the hero needs no screenshot to make its point in any language.
+         ============================================================================ -->
+    <header class="hero">
+        <div class="hero-split">
+            <div class="pane pane-score" id="top">
+                <div class="pane-inner">
+                    <span class="eyebrow"><span class="dot"></span> <span data-i18n="hero.scoreEyebrow">The scorekeeper</span></span>
+                    <h2 class="pane-title" data-i18n-html="hero.scoreTitle">Keep the <em>score</em>.</h2>
+                    <p class="pane-desc" data-i18n="hero.scoreDesc">Point your camera, the AI counts the pips, and the table gets back to the game. Brackets, live sharing, a board on any TV.</p>
+                    <a class="pane-link" href="#score"><span data-i18n="hero.scoreLink">See the scorekeeper</span> <span aria-hidden="true">↓</span></a>
+                </div>
+                <!-- Illustration: a scoreboard card -->
+                <div class="ill ill-score" aria-hidden="true">
+                    <span class="cam"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg> +35</span>
+                    <div class="row">
+                        <span class="team" data-i18n="ill.teamA">Los Tigres</span>
+                        <span class="team b" data-i18n="ill.teamB">Las Águilas</span>
+                    </div>
+                    <div class="row">
+                        <span class="total">165</span>
+                        <span class="total b">130</span>
+                    </div>
+                    <div class="ledger">
+                        <div><span>R1</span><span>35 · —</span></div>
+                        <div><span>R2</span><span>— · 55</span></div>
+                        <div><span>R3</span><span>50 · 25</span></div>
+                        <div><span>R4</span><span>80 · 50</span></div>
+                    </div>
+                </div>
             </div>
-            <span class="eyebrow"><span class="dot"></span> <span data-i18n="hero.badge">Count points with your camera</span></span>
-            <h1 data-i18n="hero.sub1">The ultimate dominoes score keeper.</h1>
-            <p class="hero-desc" data-i18n="hero.sub2">
-                Point your camera, AI counts the score, and you get back to the game.
-            </p>
 
-            <div class="download-buttons">
+            <div class="pane pane-play world-play">
+                <div class="pane-inner">
+                    <span class="eyebrow"><span class="dot"></span> <span data-i18n="hero.playEyebrow">The game</span></span>
+                    <h2 class="pane-title" data-i18n-html="hero.playTitle">Play the <em>game</em>.</h2>
+                    <p class="pane-desc" data-i18n="hero.playDesc">A real domino table with the rules you grew up with: ten regional games, computers that play like people, and friends nearby or anywhere.</p>
+                    <a class="pane-link" href="#play"><span data-i18n="hero.playLink">See the game</span> <span aria-hidden="true">↓</span></a>
+                </div>
+                <!-- Illustration: a line of dominoes on the felt, one just played, your rack -->
+                <div class="ill ill-play" aria-hidden="true">
+                    <span class="call">CAPICÚA!</span>
+                    <div class="tile t1"><div class="face p6"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="face p6"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+                    <div class="tile h t2"><div class="face p6"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="face p4"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+                    <div class="tile h t3"><div class="face p4"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="face p1"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+                    <div class="tile h t4"><div class="face p1"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="face p5"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+                    <div class="tile just t5"><div class="face p5"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="face p2"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+                    <div class="rack">
+                        <div class="tile r1"><div class="face p3"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="face p2"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+                        <div class="tile r2"><div class="face p0"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="face p6"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+                        <div class="tile r3"><div class="face p2"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="face p2"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hinge" aria-hidden="true">
+                <img src="app-icon.png" alt="" class="hinge-icon">
+                <span class="hinge-label" data-i18n="hero.oneApp">One app</span>
+            </div>
+        </div>
+
+        <div class="hero-one" id="download">
+            <h1 data-i18n-html="one.title">Two rooms. One app. <em>The best of both worlds.</em></h1>
+            <p class="lead" data-i18n="one.lead">The scorekeeper trusted at real tables, and a domino game built by people who play. Side by side in the one app, so a game night never ends when the table does.</p>
+            <div class="store-row">
                 <a href="https://apps.apple.com/us/app/magic-domino-ai-scorekeeper/id6747228055" class="store-badge" aria-label="Download on the App Store">
                     <img data-badge="apple" src="badge_app_store_en.svg" alt="Download on the App Store">
                 </a>
-
                 <a href="https://play.google.com/store/apps/details?id=com.magicdomino.android" class="store-badge" aria-label="Get it on Google Play">
                     <img data-badge="google" src="badge_google_play_en.svg" alt="Get it on Google Play">
                 </a>
             </div>
-
             <div class="hero-meta">
                 <span data-i18n="hero.meta1">★ Family-friendly</span>
                 <span>·</span>
@@ -1114,143 +127,272 @@
                 <span data-i18n="hero.meta3">iPhone, iPad &amp; Android</span>
             </div>
         </div>
-    </section>
+    </header>
 
-    <section class="features">
-        <div class="section-header">
-            <p class="section-eyebrow" data-i18n="feat.eyebrow">What's inside</p>
-            <h2 class="section-title" data-i18n-html="feat.title">Built for <em>real</em> game nights.</h2>
-        </div>
-        <div class="features-grid">
-            <div class="feature-card">
-                <span class="feature-num" data-i18n="f1.kicker">01 / Vision</span>
-                <div class="feature-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-                </div>
-                <h3 class="feature-title" data-i18n="f1.title">AI Score Counting</h3>
-                <p class="feature-description" data-i18n="f1.desc">Point your camera at your dominoes and AI instantly detects and counts the score in real-time. No manual counting, no disputes.</p>
+    <!-- ============================================================================
+         ROOM 01 — THE SCOREKEEPER (light world)
+         ============================================================================ -->
+    <section class="world-score" id="score">
+        <div class="wrap">
+            <div class="section-head">
+                <span class="eyebrow"><span class="dot"></span> <span data-i18n="score.eyebrow">01 · The scorekeeper</span></span>
+                <h2 class="section-title" data-i18n-html="feat.title">Built for <em>real</em> game nights.</h2>
+                <p class="lead" data-i18n="score.lead">For the games you play with a real set, on a real table. Magic Domino keeps the score so nobody has to.</p>
             </div>
 
-            <div class="feature-card">
-                <span class="feature-num" data-i18n="f2.kicker">02 / Brackets</span>
-                <div class="feature-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
-                </div>
-                <h3 class="feature-title" data-i18n="f2.title">Tournament Mode</h3>
-                <p class="feature-description" data-i18n="f2.desc">Organize brackets for 2 to 32 teams — single elimination, a best-of series, or double elimination. Odd numbers are welcome; byes are worked out for you.</p>
-            </div>
-
-            <div class="feature-card">
-                <span class="feature-num" data-i18n="f3.kicker">03 / Style</span>
-                <div class="feature-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
-                </div>
-                <h3 class="feature-title" data-i18n="f3.title">Beautiful Themes</h3>
-                <p class="feature-description" data-i18n="f3.desc">Stunning themes, custom backgrounds, and customizable animations. Style team names with fonts, colors, and effects — Name Styles on iOS 26+.</p>
-            </div>
-
-            <div class="feature-card">
-                <span class="feature-num" data-i18n="f4.kicker">04 / Sync</span>
-                <div class="feature-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
-                </div>
-                <h3 class="feature-title" data-i18n="f4.title">iCloud Sync</h3>
-                <p class="feature-description" data-i18n="f4.desc">Keep your game history synced across all your Apple devices seamlessly and securely.</p>
-                <span class="platform-tag" data-i18n="f4.note">iOS only · Android sync coming soon</span>
-            </div>
-
-            <div class="feature-card">
-                <span class="feature-num" data-i18n="f5.kicker">05 / History</span>
-                <div class="feature-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-                </div>
-                <h3 class="feature-title" data-i18n="f5.title">Game History</h3>
-                <p class="feature-description" data-i18n="f5.desc">Track every game with detailed statistics. Review past matches, see how long each one ran with the optional Game Timer (free on iOS 26+ and Android), and watch your rivalries unfold over time.</p>
-            </div>
-
-            <div class="feature-card">
-                <span class="feature-num" data-i18n="f6.kicker">06 / Share</span>
-                <div class="feature-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-                </div>
-                <h3 class="feature-title" data-i18n="f6.title">Live Share &amp; Join</h3>
-                <p class="feature-description" data-i18n="f6.desc">Anyone can follow the score live on their own phone — same table or across town. Send a copy to another device, or join a friend's game with a code. iOS 26+ and Android — hosting needs Premium, joining is free.</p>
+            <div class="cards">
+                <article class="card">
+                    <span class="card-num" data-i18n="f1.kicker">01 / Vision</span>
+                    <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+                    <h3 data-i18n="f1.title">AI Score Counting</h3>
+                    <p data-i18n="f1.desc">Point your camera at your dominoes and AI instantly detects and counts the score in real-time. No manual counting, no disputes.</p>
+                </article>
+                <article class="card">
+                    <span class="card-num" data-i18n="f2.kicker">02 / Brackets</span>
+                    <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></div>
+                    <h3 data-i18n="f2.title">Tournament Mode</h3>
+                    <p data-i18n="f2.desc">Organize brackets for 2 to 32 teams — single elimination, a best-of series, or double elimination. Odd numbers are welcome; byes are worked out for you.</p>
+                </article>
+                <article class="card">
+                    <span class="card-num" data-i18n="f6.kicker">06 / Share</span>
+                    <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div>
+                    <h3 data-i18n="f6.title">Live Share &amp; Join</h3>
+                    <p data-i18n="f6.desc">Anyone can follow the score live on their own phone — same table or across town. Send a copy to another device, or join a friend's game with a code. iOS 26+ and Android — hosting needs Premium, joining is free.</p>
+                </article>
+                <article class="card">
+                    <span class="card-num" data-i18n="f3.kicker">03 / Style</span>
+                    <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg></div>
+                    <h3 data-i18n="f3.title">Beautiful Themes</h3>
+                    <p data-i18n="f3.desc">Stunning themes, custom backgrounds, and customizable animations. Style team names with fonts, colors, and effects — Name Styles on iOS 26+.</p>
+                </article>
+                <article class="card">
+                    <span class="card-num" data-i18n="f5.kicker">05 / History</span>
+                    <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+                    <h3 data-i18n="f5.title">Game History</h3>
+                    <p data-i18n="f5.desc">Track every game with detailed statistics. Review past matches, see how long each one ran with the optional Game Timer (free on iOS 26+ and Android), and watch your rivalries unfold over time.</p>
+                </article>
+                <article class="card">
+                    <span class="card-num" data-i18n="f4.kicker">04 / Sync</span>
+                    <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg></div>
+                    <h3 data-i18n="f4.title">iCloud Sync</h3>
+                    <p data-i18n="f4.desc">Keep your game history synced across all your Apple devices seamlessly and securely.</p>
+                    <span class="tag" data-i18n="f4.note">iOS only · Android sync coming soon</span>
+                </article>
             </div>
         </div>
-    </section>
 
-    <section class="showcase">
-        <div class="section-header">
-            <p class="section-eyebrow" data-i18n="shots.eyebrow">See it in action</p>
-            <h2 class="section-title" data-i18n-html="shots.title">Your game, <em>beautifully</em> kept.</h2>
-        </div>
-        <div class="showcase-wrap">
-            <button class="scroll-arrow scroll-arrow-left" aria-label="Previous screenshots" data-i18n-attr="aria-label:a11y.prevShots" onclick="scrollShots(-1)">‹</button>
-            <div class="showcase-scroll" id="showcaseScroll">
-            <div class="shot">
-                <div class="shot-frame">
-                    <!-- Replace src with your real screenshot, e.g. shot-counter.png -->
-                    <img src="shot-1.png" alt="AI score counting with the camera" data-i18n-attr="alt:alt.shot1" onerror="this.style.display='none';this.parentNode.querySelector('.placeholder').style.display='block';">
-                    <span class="placeholder" style="display:none;" data-i18n="alt.shot1">Screenshot 1</span>
+        <!-- Score screenshots -->
+        <div class="wrap" style="margin-top: 4.5rem;">
+            <div class="section-head" style="margin-bottom: 1.5rem;">
+                <span class="eyebrow"><span class="dot"></span> <span data-i18n="shots.eyebrow">See it in action</span></span>
+                <h2 class="section-title" data-i18n-html="shots.title">Your game, <em>beautifully</em> kept.</h2>
+            </div>
+            <div class="strip-wrap">
+                <button class="scroll-arrow scroll-arrow-left" aria-label="Previous screenshots" data-i18n-attr="aria-label:a11y.prevShots" onclick="scrollStrip('scoreStrip', -1)">‹</button>
+                <div class="strip" id="scoreStrip">
+                    <figure class="shot"><div class="shot-frame">
+                        <img src="shot-1.png" alt="AI score counting with the camera" data-i18n-attr="alt:alt.shot1" data-missing onload="shotLoaded(this)" onerror="this.remove()">
+                        <div class="ph"><div><div class="ph-board"><span class="bar hi"></span><span class="bar"></span><span class="bar g"></span><span class="bar"></span></div><div class="ph-title" data-i18n="alt.shot1">AI score counting</div></div></div>
+                    </div></figure>
+                    <figure class="shot"><div class="shot-frame">
+                        <img src="shot-2.png" alt="Scoreboard view" data-i18n-attr="alt:alt.shot2" data-missing onload="shotLoaded(this)" onerror="this.remove()">
+                        <div class="ph"><div><div class="ph-board"><span class="bar hi"></span><span class="bar"></span><span class="bar g"></span><span class="bar"></span></div><div class="ph-title" data-i18n="alt.shot2">Scoreboard</div></div></div>
+                    </div></figure>
+                    <figure class="shot"><div class="shot-frame">
+                        <img src="shot-3.png" alt="Tournament bracket" data-i18n-attr="alt:alt.shot3" data-missing onload="shotLoaded(this)" onerror="this.remove()">
+                        <div class="ph"><div><div class="ph-board"><span class="bar hi"></span><span class="bar"></span><span class="bar g"></span><span class="bar"></span></div><div class="ph-title" data-i18n="alt.shot3">Tournament bracket</div></div></div>
+                    </div></figure>
+                    <figure class="shot"><div class="shot-frame">
+                        <img src="shot-4.png" alt="Game history" data-i18n-attr="alt:alt.shot4" data-missing onload="shotLoaded(this)" onerror="this.remove()">
+                        <div class="ph"><div><div class="ph-board"><span class="bar hi"></span><span class="bar"></span><span class="bar g"></span><span class="bar"></span></div><div class="ph-title" data-i18n="alt.shot4">Game history</div></div></div>
+                    </div></figure>
+                    <figure class="shot"><div class="shot-frame">
+                        <img src="shot-5.png" alt="Magic Domino screenshot" data-i18n-attr="alt:alt.shot" data-missing onload="shotLoaded(this)" onerror="this.remove()">
+                        <div class="ph"><div><div class="ph-board"><span class="bar hi"></span><span class="bar"></span><span class="bar g"></span><span class="bar"></span></div><div class="ph-title" data-i18n="alt.shot">Screenshot</div></div></div>
+                    </div></figure>
+                    <figure class="shot"><div class="shot-frame">
+                        <img src="shot-6.png" alt="Magic Domino screenshot" data-i18n-attr="alt:alt.shot" data-missing onload="shotLoaded(this)" onerror="this.remove()">
+                        <div class="ph"><div><div class="ph-board"><span class="bar hi"></span><span class="bar"></span><span class="bar g"></span><span class="bar"></span></div><div class="ph-title" data-i18n="alt.shot">Screenshot</div></div></div>
+                    </div></figure>
                 </div>
+                <button class="scroll-arrow scroll-arrow-right" aria-label="More screenshots" data-i18n-attr="aria-label:a11y.nextShots" onclick="scrollStrip('scoreStrip', 1)">›</button>
             </div>
-            <div class="shot">
-                <div class="shot-frame">
-                    <img src="shot-2.png" alt="Scoreboard view" data-i18n-attr="alt:alt.shot2" onerror="this.style.display='none';this.parentNode.querySelector('.placeholder').style.display='block';">
-                    <span class="placeholder" style="display:none;" data-i18n="alt.shot2">Screenshot 2</span>
-                </div>
-            </div>
-            <div class="shot">
-                <div class="shot-frame">
-                    <img src="shot-3.png" alt="Tournament bracket" data-i18n-attr="alt:alt.shot3" onerror="this.style.display='none';this.parentNode.querySelector('.placeholder').style.display='block';">
-                    <span class="placeholder" style="display:none;" data-i18n="alt.shot3">Screenshot 3</span>
-                </div>
-            </div>
-            <div class="shot">
-                <div class="shot-frame">
-                    <img src="shot-4.png" alt="Game history" data-i18n-attr="alt:alt.shot4" onerror="this.style.display='none';this.parentNode.querySelector('.placeholder').style.display='block';">
-                    <span class="placeholder" style="display:none;" data-i18n="alt.shot4">Screenshot 4</span>
-                </div>
-            </div>
-            <div class="shot">
-                <div class="shot-frame">
-                    <img src="shot-5.png" alt="Magic Domino screenshot" data-i18n-attr="alt:alt.shot" onerror="this.style.display='none';this.parentNode.querySelector('.placeholder').style.display='block';">
-                    <span class="placeholder" style="display:none;" data-i18n="alt.shot">Screenshot 5</span>
-                </div>
-            </div>
-            <div class="shot">
-                <div class="shot-frame">
-                    <img src="shot-6.png" alt="Magic Domino screenshot" data-i18n-attr="alt:alt.shot" onerror="this.style.display='none';this.parentNode.querySelector('.placeholder').style.display='block';">
-                    <span class="placeholder" style="display:none;" data-i18n="alt.shot">Screenshot 6</span>
-                </div>
-            </div>
-            </div>
-            <button class="scroll-arrow scroll-arrow-right" aria-label="More screenshots" data-i18n-attr="aria-label:a11y.nextShots" onclick="scrollShots(1)">›</button>
         </div>
     </section>
 
+    <!-- ============================================================================
+         ROOM 02 — THE GAME (Play's own world: felt, brass, ivory)
+         ============================================================================ -->
+    <section class="world-play" id="play" data-felt>
+        <div class="wrap">
+            <div class="section-head">
+                <span class="eyebrow"><span class="dot"></span> <span data-i18n="play.eyebrow">02 · The game</span></span>
+                <h2 class="section-title" data-i18n-html="play.title">A real domino table, <em>in your pocket</em>.</h2>
+                <p class="lead" data-i18n="play.lead">Not another cartoon domino app. The rules you grew up with, opponents that read the table like people do, and every call made the instant it happens.</p>
+            </div>
+
+            <div class="cards">
+                <article class="card">
+                    <span class="card-num" data-i18n="p1.kicker">01 / Tables</span>
+                    <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+                    <h3 data-i18n="p1.title">Ten tables from around the world</h3>
+                    <p data-i18n="p1.desc">Each with its real rules, researched and sourced, and an illustrated rulebook built from the game's own tiles. Pick your game — the words on the table follow it.</p>
+                    <div class="chips">
+                        <span class="chip lead-chip" data-i18n="tbl.dominican">Dominican</span>
+                        <span class="chip" data-i18n="tbl.puertoRican">Puerto Rican</span>
+                        <span class="chip" data-i18n="tbl.classic">Classic</span>
+                        <span class="chip" data-i18n="tbl.cuban">Cuban</span>
+                        <span class="chip" data-i18n="tbl.fives">Fives</span>
+                        <span class="chip" data-i18n="tbl.brazilian">Brazilian</span>
+                        <span class="chip" data-i18n="tbl.jamaican">Jamaican</span>
+                        <span class="chip" data-i18n="tbl.kozel">Kozel</span>
+                        <span class="chip" data-i18n="tbl.turkish">Turkish</span>
+                        <span class="chip" data-i18n="tbl.gaple">Gaple</span>
+                    </div>
+                </article>
+                <article class="card">
+                    <span class="card-num" data-i18n="p2.kicker">02 / Opponents</span>
+                    <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h.01M15 9h.01M9 15h.01M15 15h.01M12 12h.01"/></svg></div>
+                    <h3 data-i18n="p2.title">Computers that actually play</h3>
+                    <p data-i18n="p2.desc">Easy, Medium and Hard are measured over thousands of hands, not guessed. Your partner always plays to win with you — and no computer ever peeks at your hand.</p>
+                    <span class="tag" data-i18n="p2.tag">1 v 1 · 2 vs 2 · Free-for-all</span>
+                </article>
+                <article class="card">
+                    <span class="card-num" data-i18n="p3.kicker">03 / Together</span>
+                    <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+                    <h3 data-i18n="p3.title">Play with real people</h3>
+                    <p data-i18n="p3.desc">Sit down with friends on the same Wi-Fi, or send a six-letter code and play from anywhere. Or tap Quick Match and the app finds a stranger who plays your game.</p>
+                    <span class="tag" data-i18n="p3.tag">Nearby · Anywhere · Quick Match</span>
+                </article>
+                <article class="card">
+                    <span class="card-num" data-i18n="p4.kicker">04 / Brackets</span>
+                    <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg></div>
+                    <h3 data-i18n="p4.title">Tournaments, played out</h3>
+                    <p data-i18n="p4.desc">Run a whole bracket against the computer or with friends, and watch the draw fill in as you win. On a big screen the bracket sits right beside the table.</p>
+                </article>
+                <article class="card">
+                    <span class="card-num" data-i18n="p5.kicker">05 / The calls</span>
+                    <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.4 5.6L20 8.4l-4.2 3.8L17 18l-5-3-5 3 1.2-5.8L4 8.4l5.6-.8z"/></svg></div>
+                    <h3 data-i18n="p5.title">The calls you grew up with</h3>
+                    <p data-i18n="p5.desc">Capicúa, the round pass, the pase de salida, the tranque — called on the table the instant the tile lands, with the fireworks they deserve. Points fly straight into the score.</p>
+                </article>
+                <article class="card">
+                    <span class="card-num" data-i18n="p6.kicker">06 / Feel</span>
+                    <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 11V6a2 2 0 0 0-4 0v5"/><path d="M14 10V4a2 2 0 0 0-4 0v6"/><path d="M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg></div>
+                    <h3 data-i18n="p6.title">Made for the phone in your hand</h3>
+                    <p data-i18n="p6.desc">Tap a tile, or drag it to either end. Every flight, slam and shake is real, and all of it honours Reduce Motion. Close the app mid-hand and pick up right where you left off.</p>
+                    <span class="tag" data-i18n="p6.tag">iPhone &amp; iPad · iOS 26+</span>
+                </article>
+            </div>
+        </div>
+
+        <!-- Game screenshots. Placeholders draw the subject until the PNG lands:
+             play-shot-1.png … play-shot-4.png, 1320×2868 like the score shots. -->
+        <div class="wrap" style="margin-top: 4.5rem;">
+            <div class="section-head" style="margin-bottom: 1.5rem;">
+                <span class="eyebrow"><span class="dot"></span> <span data-i18n="pshots.eyebrow">On the table</span></span>
+                <h2 class="section-title" data-i18n-html="pshots.title">Every tile <em>lands</em> like it should.</h2>
+            </div>
+            <div class="strip-wrap">
+                <button class="scroll-arrow scroll-arrow-left" aria-label="Previous screenshots" data-i18n-attr="aria-label:a11y.prevShots" onclick="scrollStrip('playStrip', -1)">‹</button>
+                <div class="strip" id="playStrip">
+                    <figure class="shot"><div class="shot-frame">
+                        <img src="play-shot-1.png" alt="The domino table mid-hand" data-i18n-attr="alt:pshots.s1" data-missing onload="shotLoaded(this)" onerror="this.remove()">
+                        <div class="ph"><div>
+                            <div class="ph-mini"><div class="tile h"><div class="face p6"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="face p3"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div><div class="tile h just"><div class="face p3"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="face p1"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div></div>
+                            <div class="ph-title" data-i18n="pshots.s1">The table</div>
+                        </div></div>
+                    </div></figure>
+                    <figure class="shot"><div class="shot-frame">
+                        <img src="play-shot-2.png" alt="Picking a table to play" data-i18n-attr="alt:pshots.s2" data-missing onload="shotLoaded(this)" onerror="this.remove()">
+                        <div class="ph"><div>
+                            <div class="ph-mini"><div class="tile"><div class="face p6"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="face p6"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div><div class="tile"><div class="face p5"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="face p5"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div><div class="tile"><div class="face p4"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="face p4"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div></div>
+                            <div class="ph-title" data-i18n="pshots.s2">Pick your game</div>
+                        </div></div>
+                    </div></figure>
+                    <figure class="shot"><div class="shot-frame">
+                        <img src="play-shot-3.png" alt="An online room with friends" data-i18n-attr="alt:pshots.s3" data-missing onload="shotLoaded(this)" onerror="this.remove()">
+                        <div class="ph"><div>
+                            <div class="ph-mini"><div class="tile back"></div><div class="tile back"></div><div class="tile back"></div><div class="tile back"></div></div>
+                            <div class="ph-title" data-i18n="pshots.s3">Play together</div>
+                        </div></div>
+                    </div></figure>
+                    <figure class="shot"><div class="shot-frame">
+                        <img src="play-shot-4.png" alt="A tournament bracket in the game" data-i18n-attr="alt:pshots.s4" data-missing onload="shotLoaded(this)" onerror="this.remove()">
+                        <div class="ph"><div>
+                            <div class="ph-mini"><div class="tile h"><div class="face p1"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="face p1"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div></div>
+                            <div class="ph-title" data-i18n="pshots.s4">The bracket</div>
+                        </div></div>
+                    </div></figure>
+                </div>
+                <button class="scroll-arrow scroll-arrow-right" aria-label="More screenshots" data-i18n-attr="aria-label:a11y.nextShots" onclick="scrollStrip('playStrip', 1)">›</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================================
+         THE BRIDGE — "best of both worlds", said plainly, half in each colour.
+         ============================================================================ -->
+    <section class="bridge">
+        <div class="wrap">
+            <div class="bridge-side score">
+                <span class="eyebrow"><span class="dot"></span> <span data-i18n="bridge.scoreEyebrow">At the table</span></span>
+                <h2 data-i18n="bridge.scoreTitle">Score the game in front of you.</h2>
+                <ul>
+                    <li><span class="check">✓</span><span data-i18n="bridge.s1">Count the pips with the camera — no arithmetic, no arguments.</span></li>
+                    <li><span class="check">✓</span><span data-i18n="bridge.s2">Brackets for 2 to 32 teams, byes worked out for you.</span></li>
+                    <li><span class="check">✓</span><span data-i18n="bridge.s3">Share the score live to any phone, and put the bracket on any TV.</span></li>
+                    <li><span class="check">✓</span><span data-i18n="bridge.s4">Themes, widgets, Live Activity — the scoreboard the table deserves.</span></li>
+                </ul>
+            </div>
+            <div class="bridge-side play">
+                <span class="eyebrow"><span class="dot"></span> <span data-i18n="bridge.playEyebrow">Anywhere else</span></span>
+                <h2 data-i18n="bridge.playTitle">Play when there's no table.</h2>
+                <ul>
+                    <li><span class="check">✓</span><span data-i18n="bridge.p1">Ten regional games, each with its real rules and its own rulebook.</span></li>
+                    <li><span class="check">✓</span><span data-i18n="bridge.p2">Computers with three honest levels, and a partner who plays to win.</span></li>
+                    <li><span class="check">✓</span><span data-i18n="bridge.p3">Friends on the same Wi-Fi, a code from anywhere, or a quick match with a stranger.</span></li>
+                    <li><span class="check">✓</span><span data-i18n="bridge.p4">Whole tournaments, against the computer or with people.</span></li>
+                </ul>
+            </div>
+            <div class="bridge-seam">
+                <div class="seam-card">
+                    <h3 data-i18n="bridge.oneTitle">One History. One language — seventeen of them.</h3>
+                    <p data-i18n="bridge.oneDesc">Games you scored at the table and games you played on the phone sit in the same History. And every word on both sides speaks all seventeen of Magic Domino's languages.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================================
+         WATCH LIVE — the TV board's front door (scorekeeper tournaments)
+         ============================================================================ -->
     <section class="watch" id="watch">
-        <div class="section-header">
-            <p class="section-eyebrow" data-i18n="watch.eyebrow">Live on any screen</p>
-            <h2 class="section-title" data-i18n-html="watch.title">Watching a tournament? <em>Enter</em> the code.</h2>
-        </div>
-        <div class="watch-card">
-            <p>Tournament organizers share a 6-character room code. Enter it here — or on any TV's browser — and follow the bracket live, no app needed.</p>
-            <div class="watch-form">
-                <input class="watch-input" id="watchCode" maxlength="12" autocomplete="off"
-                       autocapitalize="characters" spellcheck="false" placeholder="A632GJ"
-                       aria-label="Room code" data-i18n-attr="aria-label:a11y.roomCode">
-                <button class="watch-btn" id="watchGo" disabled onclick="watchLive()" data-i18n="watch.btn">Watch</button>
+        <div class="wrap">
+            <div class="section-head">
+                <span class="eyebrow"><span class="dot"></span> <span data-i18n="watch.eyebrow">Live on any screen</span></span>
+                <h2 class="section-title" data-i18n-html="watch.title">Watching a tournament? <em>Enter</em> the code.</h2>
             </div>
-            <p class="watch-note" data-i18n="watch.hint">In the app it's the code under "Sharing live" — scan the QR there to join on a phone instead.</p>
+            <div class="watch-card">
+                <p data-i18n="watch.desc">Tournament organizers share a 6-character room code. Enter it here — or on any TV's browser — and follow the bracket live, no app needed.</p>
+                <div class="watch-form">
+                    <input class="watch-input" id="watchCode" maxlength="12" autocomplete="off"
+                           autocapitalize="characters" spellcheck="false" placeholder="A632GJ"
+                           aria-label="Room code" data-i18n-attr="aria-label:a11y.roomCode">
+                    <button class="watch-btn" id="watchGo" disabled onclick="watchLive()" data-i18n="watch.btn">Watch</button>
+                </div>
+                <p class="watch-note" data-i18n="watch.hint">In the app it's the code under "Sharing live" — scan the QR there to join on a phone instead.</p>
+            </div>
         </div>
     </section>
 
+    <!-- ============================================================================
+         PREMIUM
+         ============================================================================ -->
     <section class="premium">
-        <div class="dot-bg"></div>
-        <div class="premium-content">
+        <div class="wrap">
             <p class="premium-badge" data-i18n="prem.eyebrow">Premium</p>
-            <h2 class="premium-title" data-i18n-html="prem.title">Unlock the <em>full</em> experience.</h2>
+            <h2 class="section-title" data-i18n-html="prem.title">Unlock the <em>full</em> experience.</h2>
             <p class="premium-sub" data-i18n="prem.sub">Try Premium free for 14 days.</p>
             <div class="premium-features">
                 <div class="premium-feature"><span class="check">✓</span> <span data-i18n="prem.f1">Unlimited AI Counting</span></div>
@@ -1267,10 +409,10 @@
     </section>
 
     <footer>
-        <a href="#" class="footer-brand" onclick="event.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' });">
-            <img src="app-icon.png" alt="" class="brand-icon"><span class="brand-name">Magic Domino<span class="brand-tm">™</span></span>
+        <a href="#top" class="footer-brand">
+            <img src="app-icon.png" alt="" class="brand-icon"><span>Magic Domino<span class="brand-tm">™</span></span>
         </a>
-        <div class="footer-badges">
+        <div class="store-row footer-store">
             <a href="https://apps.apple.com/us/app/magic-domino-ai-scorekeeper/id6747228055" class="store-badge" aria-label="Download on the App Store">
                 <img data-badge="apple" src="badge_app_store_en.svg" alt="Download on the App Store">
             </a>
@@ -1279,7 +421,8 @@
             </a>
         </div>
         <div class="footer-links">
-            <a href="index.html" data-i18n="nav.home">Home</a>
+            <a href="#score" data-i18n="nav.score">Scorekeeper</a>
+            <a href="#play" data-i18n="nav.play">The Game</a>
             <a href="/tv/" data-i18n="nav.watch">Watch Live</a>
             <a href="privacy.html" data-i18n="footer.privacy">Privacy Policy</a>
             <a href="terms.html" data-i18n="footer.terms">Terms of Use</a>
@@ -1289,20 +432,54 @@
         <p class="copyright" data-i18n="footer.rights">© 2026 Magic Domino™. All rights reserved.</p>
     </footer>
 
-    <script>
-        // NOTE: documentElement.lang is set by i18n.js for EVERY language now, which
-        // is what activates the existing :lang(es) store-badge rules. The old
-        // Spanish-only sniffer that used to live here was a subset of that.
+    <a id="backToTournament" href="#" rel="noopener">
+        <span class="btt-arrow" aria-hidden="true">&#8592;</span>
+        <span class="btt-label" data-i18n="btt.label">Back to tournament</span>
+        <span class="btt-code" id="bttCode"></span>
+    </a>
 
+    <script>
+        // A screenshot that loads hides its drawn placeholder; one that is missing
+        // removes itself (onerror) and the placeholder stays. No broken-image icons,
+        // no empty frames, whichever PNGs have landed.
+        function shotLoaded(img) {
+            img.removeAttribute('data-missing');
+            var ph = img.parentNode.querySelector('.ph');
+            if (ph) ph.hidden = true;
+        }
+
+        function toggleMenu() {
+            document.getElementById('navbarLinks').classList.toggle('active');
+        }
+        // Close the phone menu when a link in it is tapped.
+        document.getElementById('navbarLinks').addEventListener('click', function (e) {
+            if (e.target.tagName === 'A') this.classList.remove('active');
+        });
+
+        function scrollStrip(id, dir) {
+            var row = document.getElementById(id);
+            if (row) row.scrollBy({ left: dir * 500, behavior: 'smooth' });
+        }
+
+        // The bar turns dark while the felt section is under it.
+        (function () {
+            var bar = document.getElementById('navbar');
+            var felt = document.querySelector('[data-felt]');
+            if (!bar || !felt || !('IntersectionObserver' in window)) return;
+            var io = new IntersectionObserver(function (entries) {
+                bar.classList.toggle('on-felt', entries[0].isIntersecting);
+            }, { rootMargin: '-60px 0px -100% 0px', threshold: 0 });
+            io.observe(felt);
+        })();
+
+        // ── Watch live: the room code field ─────────────────────────────────────
         var watchInput = document.getElementById('watchCode');
         if (watchInput) {
             watchInput.addEventListener('input', function () {
                 watchInput.value = watchInput.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
                 document.getElementById('watchGo').disabled = watchInput.value.length < 4;
             });
-            watchInput.addEventListener('keydown', function (e) {
-                if (e.key === 'Enter') watchLive();
-            });
+            watchInput.addEventListener('keydown', function (e) { if (e.key === 'Enter') watchLive(); });
         }
         function watchLive() {
             var c = (watchInput.value || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
@@ -1313,18 +490,14 @@
         // The board's logo links here as /?from=CODE. If that code is present and
         // well-formed, offer a one-tap way back to that exact board.
         //
-        // ⚠️ VALIDATED BEFORE IT IS USED ANYWHERE. This value comes from a URL,
-        //    so it is treated as hostile: uppercased, stripped to A-Z0-9, and
-        //    length-checked against the same 4-12 the code entry above accepts.
-        //    Anything else is ignored and the pill stays hidden. It is written with
-        //    textContent and only ever interpolated into a path we build ourselves,
-        //    never into markup.
+        // ⚠️ VALIDATED BEFORE IT IS USED ANYWHERE. This value comes from a URL, so it
+        //    is treated as hostile: uppercased, stripped to A-Z0-9, length-checked to
+        //    the same 4–12 the code field accepts. Written with textContent and only
+        //    ever interpolated into a path we build ourselves, never into markup.
         //
-        // ⚠️ THE PARAM IS STRIPPED ONCE READ. Without this, the homepage URL
-        //    keeps a stale room code in it forever — into bookmarks, into anything
-        //    the visitor shares, and into a "back to tournament" offer for a
-        //    tournament that finished days ago. replaceState leaves no history entry,
-        //    so the browser's own Back button still goes back to the board.
+        // ⚠️ THE PARAM IS STRIPPED ONCE READ, so the homepage URL never carries a
+        //    stale room code into bookmarks or shares. replaceState leaves no history
+        //    entry, so the browser's Back button still returns to the board.
         (function () {
             var pill = document.getElementById('backToTournament');
             if (!pill) return;
@@ -1333,36 +506,16 @@
             if (!raw) return;
             var code = String(raw).toUpperCase().replace(/[^A-Z0-9]/g, '');
             if (code.length < 4 || code.length > 12) return;
-
             document.getElementById('bttCode').textContent = code;
             pill.href = '/tv/' + code;
             pill.setAttribute('aria-label', 'Back to tournament ' + code);
             pill.classList.add('show');
-
             try {
                 var url = new URL(window.location.href);
                 url.searchParams.delete('from');
                 window.history.replaceState({}, '', url.pathname + url.search + url.hash);
             } catch (e) {}
         })();
-
-        function toggleMenu() {
-            document.getElementById('navbarLinks').classList.toggle('active');
-        }
-
-        function scrollShots(dir) {
-            var row = document.getElementById('showcaseScroll');
-            if (row) {
-                // scroll by roughly two cards each click
-                row.scrollBy({ left: dir * 520, behavior: 'smooth' });
-            }
-        }
     </script>
-    <a id="backToTournament" href="#" rel="noopener">
-        <span class="btt-arrow" aria-hidden="true">&#8592;</span>
-        <span class="btt-label" data-i18n="btt.label">Back to tournament</span>
-        <span class="btt-code" id="bttCode"></span>
-    </a>
-
 </body>
 </html>

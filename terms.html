@@ -5,317 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-i18n="terms.pageTitle">Terms of Use — Magic Domino™</title>
     <link rel="icon" type="image/png" href="app-icon.png">
-
+    <link rel="apple-touch-icon" href="app-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <style>
-        :root {
-            --ink: #0f1a3a;
-            --ink-soft: #2d3a5f;
-            --cream: #f7f9fc;
-            --cream-warm: #eaf2fb;
-            --paper: #ffffff;
-            --accent: #3d95ef;
-            --gold: #f0b248;
-            --violet: #7c5cff;
-            --violet-deep: #5b3ee0;
-            --sky: #6fd0f1;
-            --brand-deep: #4963ec;
-            --border: #dbe6f2;
-            --muted: #6b7a99;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--cream);
-            color: var(--ink);
-            line-height: 1.7;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* ===== Navbar ===== */
-        .navbar {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            background: rgba(247, 249, 252, 0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--border);
-            padding: 1rem 2.5rem;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .navbar-brand {
-            font-family: 'Fraunces', serif;
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: var(--ink);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            letter-spacing: -0.01em;
-        }
-        .brand-name {
-            display: inline;
-            white-space: nowrap;
-        }
-        .brand-tm {
-            font-size: 0.52em;
-            font-weight: 400;
-            vertical-align: super;
-            line-height: 0;
-            letter-spacing: 0;
-            margin-left: 0.05em;
-        }
-        .brand-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            box-shadow:
-                0 1px 2px rgba(15, 26, 58, 0.10),
-                0 4px 10px rgba(61, 149, 239, 0.18);
-            display: block;
-            transition: transform 0.25s ease;
-        }
-        .navbar-brand:hover .brand-icon { transform: rotate(-6deg) scale(1.05); }
-        .navbar-links { display: flex; gap: 2.25rem; align-items: center; }
-        .navbar-links a {
-            color: var(--ink-soft);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.92rem;
-            transition: color 0.2s;
-            position: relative;
-        }
-        .navbar-links a::after {
-            content: '';
-            position: absolute;
-            left: 0; bottom: -4px;
-            width: 0; height: 2px;
-            background: var(--accent);
-            transition: width 0.25s ease;
-        }
-        .navbar-links a:hover { color: var(--ink); }
-        .navbar-links a:hover::after { width: 100%; }
-        .mobile-menu-toggle {
-            display: none;
-            background: none; border: none;
-            color: var(--ink);
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        /* ===== Page hero ===== */
-        .page-hero {
-            padding: 8rem 2rem 2rem;
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        .page-eyebrow {
-            display: inline-block;
-            font-size: 0.78rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            color: var(--accent);
-            margin-bottom: 1rem;
-        }
-        .page-hero h1 {
-            font-family: 'Fraunces', serif;
-            font-size: clamp(2.25rem, 5vw, 3.5rem);
-            font-weight: 600;
-            letter-spacing: -0.025em;
-            line-height: 1.05;
-            margin-bottom: 1rem;
-        }
-        .page-hero h1 em {
-            font-style: italic;
-            font-weight: 500;
-            background: linear-gradient(135deg, var(--accent) 0%, var(--violet) 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            color: var(--accent);
-        }
-        .last-updated {
-            color: var(--muted);
-            font-style: italic;
-            font-family: 'Fraunces', serif;
-            font-size: 1.05rem;
-        }
-
-        /* ===== Content ===== */
-        .content {
-            max-width: 760px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem 5rem;
-        }
-
-        h2 {
-            font-family: 'Fraunces', serif;
-            color: var(--ink);
-            font-size: 1.6rem;
-            font-weight: 600;
-            margin-top: 2.75rem;
-            margin-bottom: 1rem;
-            letter-spacing: -0.015em;
-            position: relative;
-            padding-left: 1.25rem;
-        }
-        h2::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0.65rem;
-            width: 6px; height: 6px;
-            border-radius: 50%;
-            background: var(--accent);
-        }
-
-        h3 {
-            font-family: 'Fraunces', serif;
-            color: var(--ink-soft);
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-top: 1.75rem;
-            margin-bottom: 0.6rem;
-            letter-spacing: -0.01em;
-        }
-
-        p { margin-bottom: 1rem; color: var(--ink-soft); }
-        p strong { color: var(--ink); }
-
-        ul {
-            margin-bottom: 1rem;
-            padding-left: 1.25rem;
-            color: var(--ink-soft);
-        }
-        ul li { margin-bottom: 0.5rem; }
-        ul li::marker { color: var(--accent); }
-        ul li strong { color: var(--ink); }
-
-        a { color: var(--accent); text-decoration: none; font-weight: 500; }
-        a:hover { text-decoration: underline; }
-
-        /* Special legal-emphasis blocks */
-        .legal-emphasis {
-            background: var(--cream-warm);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.25rem 1.5rem;
-            margin: 1rem 0;
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--ink);
-            line-height: 1.6;
-        }
-
-        /* ===== Footer ===== */
-        footer {
-            padding: 3.5rem 2rem 2.5rem;
-            text-align: center;
-            background: var(--cream-warm);
-            border-top: 1px solid var(--border);
-        }
-        .footer-brand {
-            font-family: 'Fraunces', serif;
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: var(--ink);
-            margin-bottom: 1.5rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-        .footer-brand:hover { color: var(--accent); }
-        .footer-brand:hover .brand-icon { transform: rotate(-6deg) scale(1.05); }
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-        }
-        .footer-links a {
-            color: var(--ink-soft);
-            text-decoration: none;
-            font-size: 0.92rem;
-            transition: color 0.2s;
-            font-weight: 400;
-        }
-        .footer-links a:hover { color: var(--accent); }
-        .lang-switch {
-            display: block;
-            margin: 0 auto 1.5rem;
-            font: inherit;
-            font-size: 0.85rem;
-            color: var(--ink-soft);
-            background: var(--paper);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 0.35rem 0.75rem;
-            cursor: pointer;
-        }
-        .copyright { color: var(--muted); font-size: 0.85rem; }
-
-        @media (max-width: 768px) {
-            .navbar { padding: 1rem 1.25rem; }
-            .navbar-links {
-                display: none;
-                position: absolute;
-                top: 100%; left: 0; right: 0;
-                background: rgba(247, 249, 252, 0.98);
-                backdrop-filter: blur(16px);
-                flex-direction: column;
-                padding: 1.25rem;
-                gap: 1rem;
-                border-bottom: 1px solid var(--border);
-            }
-            .navbar-links.active { display: flex; }
-            .mobile-menu-toggle { display: block; }
-            .page-hero { padding: 6.5rem 1.25rem 1rem; }
-            .content { padding: 1rem 1.25rem 3rem; }
-            footer { padding: 2.5rem 1.25rem; }
-        }
-        /* ===== Right-to-left (Arabic, Urdu) =====
-           i18n.js sets dir="rtl" for ar/ur. One centred column, so only the
-           rules that state a physical side need flipping. */
-        [dir="rtl"] .brand-tm { margin-left: 0; margin-right: 0.05em; }
-        [dir="rtl"] h2 { padding-left: 0; padding-right: 1.25rem; }
-        [dir="rtl"] h2::before { left: auto; right: 0; }
-        [dir="rtl"] ul { padding-left: 0; padding-right: 1.25rem; }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="site.css">
     <script src="/i18n.js"></script>
 </head>
 <body>
     <nav class="navbar">
         <a href="index.html" class="navbar-brand">
-            <img src="app-icon.png" alt="" class="brand-icon"><span class="brand-name">Magic Domino<span class="brand-tm">™</span></span>
+            <img src="app-icon.png" alt="" class="brand-icon"><span>Magic Domino<span class="brand-tm">™</span></span>
         </a>
         <button class="mobile-menu-toggle" onclick="toggleMenu()" aria-label="Menu" data-i18n-attr="aria-label:a11y.menu">☰</button>
         <div class="navbar-links" id="navbarLinks">
-            <a href="index.html" data-i18n="nav.home">Home</a>
-            <a href="privacy.html" data-i18n="nav.privacy">Privacy</a>
-            <a href="terms.html" data-i18n="nav.terms">Terms</a>
+            <a href="index.html#score" data-i18n="nav.score">Scorekeeper</a>
+            <a href="index.html#play" data-i18n="nav.play">The Game</a>
+            <a href="/tv/" data-i18n="nav.watch">Watch Live</a>
             <a href="support.html" data-i18n="nav.support">Support</a>
+            <a href="index.html#download" class="nav-cta" data-i18n="nav.get">Get the app</a>
         </div>
     </nav>
 
     <div class="page-hero">
         <p class="page-eyebrow" data-i18n="priv.eyebrow">Legal</p>
         <h1 data-i18n-html="terms.title">Terms of <em>Use</em></h1>
-        <p class="last-updated" data-i18n="terms.updated">Last updated: September 13, 2026</p>
+        <p class="last-updated" data-i18n="terms.updated">Last updated: September 30, 2026</p>
     </div>
 
     <div class="content">
@@ -376,7 +91,13 @@
             <li data-i18n="terms.s6.li2">Not attempt to reverse engineer, decompile, or disassemble the App</li>
             <li data-i18n="terms.s6.li3">Not use the App in any way that could damage, disable, or impair the App</li>
             <li data-i18n="terms.s6.li4">Comply with all applicable laws and regulations</li>
+            <li data-i18n="terms.s6.li5">Not cheat in, tamper with or disrupt a game played with other people, and not use automated tools to play</li>
         </ul>
+
+        <h3 data-i18n="terms.s6_1.h">6.1 Names and Conduct When Playing With Others</h3>
+        <p data-i18n="terms.s6_1.p1">The game lets you sit at a table with other people. A display name you choose is shown to them, which makes it content you publish. We have no tolerance for objectionable content or abusive behaviour: no hate speech, slurs, harassment or impersonation, in a name or at the table. Names are filtered before they are shown, any player can report a name or behaviour from the table, reports are reviewed within 24 hours, and offending names are removed. We may refuse, remove or change a name, and we may decline to relay games for anyone who breaks these rules.</p>
+        <p data-i18n="terms.s6_1.p2">A name is optional. If you choose one, you confirm that you have the right to use it and that it does not impersonate another person. You can block any player from your table; Quick Match will never seat you with a player you have blocked, and blocking works in both directions.</p>
+        <p data-i18n="terms.s6_1.p3">The game is for entertainment. It offers no wagering, no prizes and no real-money play, and must not be used for gambling of any kind.</p>
 
         <h2 data-i18n="terms.s7.h">7. Device Permissions</h2>
         <p data-i18n-html="terms.s7.p1"><strong>Available at no cost to all users on iOS 26 or later and on Android:</strong> the Game Timer (an optional running clock for games, tournament matches, and tournament totals, which also appears on share cards), joining a Live Share session with a code, and receiving a transferred game.</p>
@@ -387,6 +108,7 @@
         <h3 data-i18n="terms.s7_2.h">7.2 Local Network &amp; Nearby Devices Access (iOS 26+ &amp; Android)</h3>
         <p data-i18n="terms.s7_2.p1">Live Share uses your local network to find and connect to nearby devices, which is why iOS asks for Local Network permission the first time you use it, and Android asks for the equivalent nearby-devices permission. This access is used solely to discover and connect to devices you are actively sharing a game with. If you decline, Live Share still works by relaying through our server instead.</p>
         <p data-i18n-html="terms.s7_2.p2">By starting a Live Share or Transfer session, you acknowledge that the contents of that game — including team names you have entered — will be transmitted to the devices you share with, and that anyone holding your share code can view the game. You are responsible for who you give a share code to. If you do not want real names transmitted, use nicknames. See our <a href="privacy.html">Privacy Policy</a> for full details on what is sent and how long it is held.</p>
+        <p data-i18n-html="terms.s7_2.p3">The game's <strong>Nearby</strong> tables use the same local network permission to find friends on your Wi-Fi; <strong>Anywhere</strong> tables and <strong>Quick Match</strong> go through our relay instead. By sitting at a table with other people you acknowledge that your moves and the name you chose are sent to the people at that table. See <a href="privacy.html#play-online">Playing the Game Online</a> in our Privacy Policy.</p>
 
         <h3 data-i18n="terms.s7_3.h">7.3 Photo Library Access (Premium, iOS 26+ &amp; Android)</h3>
         <p data-i18n="terms.s7_3.p1">On iPhone and iPad running iOS 26 or later, and on Android, Premium subscribers can customize their scoreboard background with photos from their device. When you select a photo:</p>
@@ -454,10 +176,12 @@
 
     <footer>
         <a href="index.html" class="footer-brand">
-            <img src="app-icon.png" alt="" class="brand-icon"><span class="brand-name">Magic Domino<span class="brand-tm">™</span></span>
+            <img src="app-icon.png" alt="" class="brand-icon"><span>Magic Domino<span class="brand-tm">™</span></span>
         </a>
         <div class="footer-links">
-            <a href="index.html" data-i18n="nav.home">Home</a>
+            <a href="index.html#score" data-i18n="nav.score">Scorekeeper</a>
+            <a href="index.html#play" data-i18n="nav.play">The Game</a>
+            <a href="/tv/" data-i18n="nav.watch">Watch Live</a>
             <a href="privacy.html" data-i18n="footer.privacy">Privacy Policy</a>
             <a href="terms.html" data-i18n="footer.terms">Terms of Use</a>
             <a href="support.html" data-i18n="nav.support">Support</a>

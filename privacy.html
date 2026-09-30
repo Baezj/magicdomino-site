@@ -5,323 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-i18n="priv.pageTitle">Privacy Policy — Magic Domino™</title>
     <link rel="icon" type="image/png" href="app-icon.png">
-
+    <link rel="apple-touch-icon" href="app-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <style>
-        :root {
-            --ink: #0f1a3a;
-            --ink-soft: #2d3a5f;
-            --cream: #f7f9fc;
-            --cream-warm: #eaf2fb;
-            --paper: #ffffff;
-            --accent: #3d95ef;
-            --gold: #f0b248;
-            --violet: #7c5cff;
-            --violet-deep: #5b3ee0;
-            --sky: #6fd0f1;
-            --brand-deep: #4963ec;
-            --border: #dbe6f2;
-            --muted: #6b7a99;
-        }
-
-        /* ===== Right-to-left (Arabic, Urdu) =====
-           i18n.js sets dir="rtl" for ar/ur. The page is one centred column, so
-           only the rules that state a physical side need flipping. */
-        [dir="rtl"] .brand-tm { margin-left: 0; margin-right: 0.05em; }
-        [dir="rtl"] h2 { padding-left: 0; padding-right: 1.25rem; }
-        [dir="rtl"] h2::before { left: auto; right: 0; }
-        [dir="rtl"] ul { padding-left: 0; padding-right: 1.25rem; }
-        [dir="rtl"] .nested-list { margin: 0.5rem 0.5rem 0 0; }
-        /* The lead callout's accent bar sits on the reading side. */
-        [dir="rtl"] .lead { border-left: 0; border-right: 3px solid var(--accent); border-radius: 14px 0 0 14px; }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--cream);
-            color: var(--ink);
-            line-height: 1.7;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* ===== Navbar (matches index) ===== */
-        .navbar {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            background: rgba(247, 249, 252, 0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--border);
-            padding: 1rem 2.5rem;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .navbar-brand {
-            font-family: 'Fraunces', serif;
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: var(--ink);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            letter-spacing: -0.01em;
-        }
-        .brand-name {
-            display: inline;
-            white-space: nowrap;
-        }
-        .brand-tm {
-            font-size: 0.52em;
-            font-weight: 400;
-            vertical-align: super;
-            line-height: 0;
-            letter-spacing: 0;
-            margin-left: 0.05em;
-        }
-        .brand-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            box-shadow:
-                0 1px 2px rgba(15, 26, 58, 0.10),
-                0 4px 10px rgba(61, 149, 239, 0.18);
-            display: block;
-            transition: transform 0.25s ease;
-        }
-        .navbar-brand:hover .brand-icon { transform: rotate(-6deg) scale(1.05); }
-        .navbar-links { display: flex; gap: 2.25rem; align-items: center; }
-        .navbar-links a {
-            color: var(--ink-soft);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.92rem;
-            transition: color 0.2s;
-            position: relative;
-        }
-        .navbar-links a::after {
-            content: '';
-            position: absolute;
-            left: 0; bottom: -4px;
-            width: 0; height: 2px;
-            background: var(--accent);
-            transition: width 0.25s ease;
-        }
-        .navbar-links a:hover { color: var(--ink); }
-        .navbar-links a:hover::after { width: 100%; }
-        .mobile-menu-toggle {
-            display: none;
-            background: none; border: none;
-            color: var(--ink);
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        /* ===== Page hero ===== */
-        .page-hero {
-            padding: 8rem 2rem 2rem;
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        .page-eyebrow {
-            display: inline-block;
-            font-size: 0.78rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            color: var(--accent);
-            margin-bottom: 1rem;
-        }
-        .page-hero h1 {
-            font-family: 'Fraunces', serif;
-            font-size: clamp(2.25rem, 5vw, 3.5rem);
-            font-weight: 600;
-            letter-spacing: -0.025em;
-            line-height: 1.05;
-            margin-bottom: 1rem;
-        }
-        .page-hero h1 em {
-            font-style: italic;
-            font-weight: 500;
-            background: linear-gradient(135deg, var(--accent) 0%, var(--violet) 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            color: var(--accent);
-        }
-        .last-updated {
-            color: var(--muted);
-            font-style: italic;
-            font-family: 'Fraunces', serif;
-            font-size: 1.05rem;
-        }
-
-        /* ===== Content ===== */
-        .content {
-            max-width: 760px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem 5rem;
-        }
-
-        .lead {
-            font-family: 'Fraunces', serif;
-            font-size: 1.25rem;
-            line-height: 1.55;
-            color: var(--ink);
-            background: var(--paper);
-            border-left: 3px solid var(--accent);
-            padding: 1.5rem 1.75rem;
-            border-radius: 0 14px 14px 0;
-            margin-bottom: 3rem;
-            box-shadow: 0 2px 12px rgba(15, 26, 58, 0.04);
-        }
-        .lead strong { color: var(--accent); font-weight: 600; }
-
-        h2 {
-            font-family: 'Fraunces', serif;
-            color: var(--ink);
-            font-size: 1.6rem;
-            font-weight: 600;
-            margin-top: 2.75rem;
-            margin-bottom: 1rem;
-            letter-spacing: -0.015em;
-            position: relative;
-            padding-left: 1.25rem;
-        }
-        h2::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0.65rem;
-            width: 6px; height: 6px;
-            border-radius: 50%;
-            background: var(--accent);
-        }
-
-        p { margin-bottom: 1rem; color: var(--ink-soft); }
-        p strong { color: var(--ink); }
-
-        ul {
-            margin-bottom: 1rem;
-            padding-left: 1.25rem;
-            color: var(--ink-soft);
-        }
-        ul li {
-            margin-bottom: 0.6rem;
-            position: relative;
-        }
-        ul li::marker { color: var(--accent); }
-        ul li strong { color: var(--ink); }
-
-        .nested-list { margin: 0.5rem 0 0 0.5rem; }
-
-        a { color: var(--accent); text-decoration: none; font-weight: 500; }
-        a:hover { text-decoration: underline; }
-
-        /* ===== Footer ===== */
-        footer {
-            padding: 3.5rem 2rem 2.5rem;
-            text-align: center;
-            background: var(--cream-warm);
-            border-top: 1px solid var(--border);
-        }
-        .footer-brand {
-            font-family: 'Fraunces', serif;
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: var(--ink);
-            margin-bottom: 1.5rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-        .footer-brand:hover { color: var(--accent); }
-        .footer-brand:hover .brand-icon { transform: rotate(-6deg) scale(1.05); }
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-        }
-        .footer-links a {
-            color: var(--ink-soft);
-            text-decoration: none;
-            font-size: 0.92rem;
-            transition: color 0.2s;
-            font-weight: 400;
-        }
-        .footer-links a:hover { color: var(--accent); }
-        .lang-switch {
-            display: block;
-            margin: 0 auto 1.5rem;
-            font: inherit;
-            font-size: 0.85rem;
-            color: var(--ink-soft);
-            background: var(--paper);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 0.35rem 0.75rem;
-            cursor: pointer;
-        }
-        .copyright { color: var(--muted); font-size: 0.85rem; }
-
-        @media (max-width: 768px) {
-            .navbar { padding: 1rem 1.25rem; }
-            .navbar-links {
-                display: none;
-                position: absolute;
-                top: 100%; left: 0; right: 0;
-                background: rgba(247, 249, 252, 0.98);
-                backdrop-filter: blur(16px);
-                flex-direction: column;
-                padding: 1.25rem;
-                gap: 1rem;
-                border-bottom: 1px solid var(--border);
-            }
-            .navbar-links.active { display: flex; }
-            .mobile-menu-toggle { display: block; }
-            .page-hero { padding: 6.5rem 1.25rem 1rem; }
-            .content { padding: 1rem 1.25rem 3rem; }
-            .lead { padding: 1.25rem; font-size: 1.1rem; }
-            footer { padding: 2.5rem 1.25rem; }
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="site.css">
     <script src="/i18n.js"></script>
 </head>
 <body>
     <nav class="navbar">
         <a href="index.html" class="navbar-brand">
-            <img src="app-icon.png" alt="" class="brand-icon"><span class="brand-name">Magic Domino<span class="brand-tm">™</span></span>
+            <img src="app-icon.png" alt="" class="brand-icon"><span>Magic Domino<span class="brand-tm">™</span></span>
         </a>
         <button class="mobile-menu-toggle" onclick="toggleMenu()" aria-label="Menu" data-i18n-attr="aria-label:a11y.menu">☰</button>
         <div class="navbar-links" id="navbarLinks">
-            <a href="index.html" data-i18n="nav.home">Home</a>
-            <a href="privacy.html" data-i18n="nav.privacy">Privacy</a>
-            <a href="terms.html" data-i18n="nav.terms">Terms</a>
+            <a href="index.html#score" data-i18n="nav.score">Scorekeeper</a>
+            <a href="index.html#play" data-i18n="nav.play">The Game</a>
+            <a href="/tv/" data-i18n="nav.watch">Watch Live</a>
             <a href="support.html" data-i18n="nav.support">Support</a>
+            <a href="index.html#download" class="nav-cta" data-i18n="nav.get">Get the app</a>
         </div>
     </nav>
 
     <div class="page-hero">
         <p class="page-eyebrow" data-i18n="priv.eyebrow">Legal</p>
         <h1 data-i18n-html="priv.title">Privacy <em>Policy</em></h1>
-        <p class="last-updated" data-i18n="priv.updated">Last updated: September 13, 2026</p>
+        <p class="last-updated" data-i18n="priv.updated">Last updated: September 30, 2026</p>
     </div>
 
     <div class="content">
         <p class="lead" data-i18n-html="priv.lead">
-            Privacy is important to us, and we've designed Magic Domino with your data security in mind. <strong>Magic Domino™ has no accounts, and we never ask for your name, email, or contact details.</strong> Your games are stored on your device. The one exception is Live Share &amp; Transfer: if <em>you</em> choose to share a game, its contents are sent to the devices you share it with — see <a href="#live-share">Live Share &amp; Transfer</a> below.
+            Privacy is important to us, and we've designed Magic Domino with your data security in mind. <strong>Magic Domino™ has no accounts, and we never ask for your name, email, or contact details.</strong> Your games are stored on your device. The exceptions are the features that connect devices, and each does nothing until <em>you</em> start it: if you share a scoreboard live, its contents are sent to the devices you share with — see <a href="#live-share">Live Share &amp; Transfer</a> — and if you play the game with other people, your moves and the name you chose reach the people at your table — see <a href="#play-online">Playing the Game Online</a>.
         </p>
 
         <h2 data-i18n="priv.s1.h">Information We Collect</h2>
@@ -335,6 +49,8 @@
             <li id="live-share" data-i18n-html="priv.s1.li6"><strong>Live Share &amp; Transfer (iOS 26+ and Android — hosting requires Premium, joining is free):</strong> These features are entirely optional and do nothing until you start them. When you share a game live, or send a copy to another device, the game's contents — team names, scores, round history, tournament titles and brackets, elapsed time, and the display name shown to viewers — are transmitted so the other devices can show them. Whenever both devices are on the same Wi-Fi network, this happens directly between them over your local network and never reaches us. When a direct connection isn't possible, the data is relayed through our server at <code>live.magicdomino.com</code> so it can reach a device somewhere else. Anyone holding the share code can view the game, so only give the code to people you want watching. A live room exists only while you keep it open, and a transfer code is single-use and expires. We don't use game content for anything other than delivering it to the devices you're sharing with, and we don't combine it with anything else. Team names are free text you type yourself — if you'd rather not send real names, use nicknames. Like any internet service, our relay receives the IP address of connecting devices as an unavoidable part of how network connections work. Live Share works the same way on iPhone, iPad, and Android, and shares between them.</li>
             <li data-i18n-html="priv.s1.li7"><strong>Local Network Access:</strong> Live Share looks for other devices on the same Wi-Fi network so they can connect directly instead of going through our relay. iOS asks for Local Network permission the first time you use it; Android asks for the equivalent nearby-devices permission. This access is used only to find and connect to devices you are actively sharing with — never to scan your network for anything else, and never to determine your location. You can decline it, and Live Share will use the relay instead.</li>
             <li id="web-board" data-i18n-html="priv.s1.li8"><strong>Watching in a Browser (magicdomino.com — free, no app and no account):</strong> A tournament can also be followed in an ordinary web browser — on a phone, a laptop, or a smart TV — by opening magicdomino.com and entering the room code. Nothing needs to be installed. That page holds its own connection to our relay, so like any website it receives the IP address of the connecting device as an unavoidable part of how network connections work. We set no cookies on it, and we run no analytics, tracking pixels, or advertising anywhere on magicdomino.com. The page stores three things in your browser's own local storage, on your device, which we cannot read: your light-or-dark preference, your language choice if you have picked one with the language selector, and a copy of the bracket you are watching, saved under that room code. The bracket copy is what lets the page show you the standings again immediately if you reload or briefly lose signal instead of flashing an empty screen. It stays in your browser until you clear your browsing data for this site, and it contains the same game contents the host chose to share — team names, scores, and the bracket. Nothing you do as a viewer is sent anywhere except the room code needed to join.</li>
+            <li id="play-online" data-i18n-html="priv.s1.li13"><strong>Playing the Game Online (iOS 26+ — optional):</strong> Games against the computer never leave your device. When you sit at a table with other people, what reaches them is what a table needs: the display name you chose (or none — a name is optional), the moves of the game, the table's rules and the room code, plus a random identifier your app generated once and keeps, which has no account behind it and tells us nothing about you. On a <strong>Nearby</strong> table on the same Wi-Fi this travels directly between the phones and never reaches us. On an <strong>Anywhere</strong> table, and in <strong>Quick Match</strong>, it is relayed through our server at <code>live.magicdomino.com</code>, which holds the table only while the host keeps it open and keeps nothing afterwards; the host's phone, not our server, runs the game. While you wait in Quick Match, a waiting list holds a per-search random id, your identifier and the identifiers of players you have blocked for at most sixty seconds at a time, so the two of you are never seated together. Like any internet service, the relay receives the IP address of connecting devices as an unavoidable part of how connections work. Names are free text you type yourself and are filtered on your device before they are shown to anyone.</li>
+            <li data-i18n-html="priv.s1.li14"><strong>Reports and Blocking:</strong> Blocking a player is a list kept on your device; we never see it except as the identifiers sent with a Quick Match search. Reporting a player is the one thing we keep after a table closes: the reported player's identifier and their name as it appeared, the reason you chose, your own identifier, the room code and the time. We keep it so we can review it within 24 hours and remove an offending name; a bounded number of recent reports is held and older ones fall away. None of it is tied to an account, because there are none.</li>
             <li data-i18n-html="priv.s1.li9"><strong>Name Styles (iOS 26+ — saving custom styles requires Premium):</strong> Fonts, colors, and effects you apply to team names are stored locally on your device as part of your app settings. They are never uploaded to our servers. Name Styles are not yet available on Android and are planned for a future update.</li>
             <li data-i18n-html="priv.s1.li10"><strong>Game Timer (iOS 26+ and Android, free for everyone):</strong> Off by default. When enabled, elapsed time is calculated on your device from timestamps already saved with your games. Nothing extra is collected, and nothing is transmitted — though elapsed time does appear on share cards and in shared games, as part of that game's contents.</li>
             <li data-i18n-html="priv.s1.li11"><strong>Purchase Information:</strong> All subscriptions and purchases are managed securely by Apple through the App Store (on iOS) or by Google through Google Play (on Android). We do not store or have access to your payment details.</li>
@@ -351,6 +67,7 @@
             <li data-i18n="priv.s2.li5">Game contents are transmitted only when you start Live Share or Transfer, and only to the devices you share with</li>
             <li data-i18n="priv.s2.li6">Name Styles and Game Timer settings stay on your device</li>
             <li data-i18n="priv.s2.li7">iCloud sync (if enabled by you on iOS) uses Apple's secure infrastructure</li>
+            <li data-i18n="priv.s2.li8">When you play the game with other people, your name and moves go only to the people at your table; a Quick Match search is held only while you wait, and a report only until it has been reviewed</li>
         </ul>
 
         <h2 data-i18n="priv.s3.h">Data Storage and Security</h2>
@@ -358,6 +75,8 @@
         <p data-i18n="priv.s3.p2">Live Share and Transfer are the exception, and only while you are using them. Traffic to and from our relay is encrypted in transit (HTTPS and secure WebSockets). A live room holds the game only for as long as the session is open; a transfer payload is held only until it is claimed or expires. Neither is tied to an account, because there are no accounts. If you never use Live Share or Transfer, none of your game data reaches our servers at any point.</p>
 
         <p data-i18n="priv.s3.p3">If you watch a tournament in a browser, your browser also keeps its own copy of the bracket you were watching, on your device, so the page can repaint instantly on reload — see Watching in a Browser above. Clearing your browsing data for magicdomino.com removes it.</p>
+        <p data-i18n="priv.s3.p4">The game's online tables follow the same rules as Live Share: encrypted in transit, held only while the table is open, tied to no account. A report you file is the one thing we keep after a table closes, so we can act on it.</p>
+
         <h2 data-i18n="priv.s4.h">Third-Party Services</h2>
         <p data-i18n="priv.s4.p1">Magic Domino integrates with the following services:</p>
         <ul>
@@ -366,6 +85,7 @@
             <li data-i18n-html="priv.s4.li3"><strong>RevenueCat:</strong> We use RevenueCat to manage and validate subscriptions and purchases and to deliver Premium access consistently across iOS and Android. When you make a purchase, RevenueCat receives purchase and subscription details (such as the product purchased, transaction receipt, and platform) along with an anonymous app-generated identifier. RevenueCat does <strong>not</strong> receive your name, email, or payment card details — those remain with Apple or Google. For more information, see <a href="https://www.revenuecat.com/privacy" target="_blank" rel="noopener">RevenueCat's Privacy Policy</a>.</li>
             <li data-i18n-html="priv.s4.li4"><strong>Apple iCloud (iOS):</strong> Optional sync feature for Premium users — data stays in your personal iCloud account</li>
             <li data-i18n-html="priv.s4.li5"><strong>Magic Domino Live Relay (<code>live.magicdomino.com</code>):</strong> Our own relay, operated by us and not a third party. It passes shared game contents between devices that cannot reach each other directly. It is used only during Live Share and Transfer sessions you start yourself.</li>
+            <li data-i18n-html="priv.s4.li6"><strong>The same relay carries the game's online tables</strong> (Anywhere and Quick Match) and receives the reports described above. Nearby tables never touch it.</li>
             <li>
                 <span data-i18n-html="priv.s4.admob"><strong>Google AdMob (Free Users Only):</strong> We use Google AdMob as our primary advertising network to serve ads to free users. AdMob may collect and use the following information:</span>
                 <ul class="nested-list">
@@ -401,6 +121,8 @@
             <li data-i18n="priv.s6.li8">Decline local network / nearby-devices permission and still use Live Share via the relay</li>
             <li data-i18n="priv.s6.li9">Opt out of personalized ads by limiting ad tracking in your device settings (on iOS: Settings → Privacy &amp; Security → Tracking; on Android: Settings → Google → Ads → Delete advertising ID)</li>
             <li data-i18n="priv.s6.li10">Clear your browsing data for magicdomino.com to remove anything the web board stored in your browser</li>
+            <li data-i18n="priv.s6.li12">Play the game without a name, or set, change or remove your name at any time from your seat</li>
+            <li data-i18n="priv.s6.li13">Block a player so Quick Match never seats you together, and report a name or behaviour from the table</li>
             <li data-i18n="priv.s6.li11">Uninstall the app to completely remove all locally stored data from your device</li>
         </ul>
 
@@ -414,10 +136,12 @@
 
     <footer>
         <a href="index.html" class="footer-brand">
-            <img src="app-icon.png" alt="" class="brand-icon"><span class="brand-name">Magic Domino<span class="brand-tm">™</span></span>
+            <img src="app-icon.png" alt="" class="brand-icon"><span>Magic Domino<span class="brand-tm">™</span></span>
         </a>
         <div class="footer-links">
-            <a href="index.html" data-i18n="nav.home">Home</a>
+            <a href="index.html#score" data-i18n="nav.score">Scorekeeper</a>
+            <a href="index.html#play" data-i18n="nav.play">The Game</a>
+            <a href="/tv/" data-i18n="nav.watch">Watch Live</a>
             <a href="privacy.html" data-i18n="footer.privacy">Privacy Policy</a>
             <a href="terms.html" data-i18n="footer.terms">Terms of Use</a>
             <a href="support.html" data-i18n="nav.support">Support</a>
