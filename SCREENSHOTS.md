@@ -62,14 +62,17 @@ resolution at the 736 : 1600 aspect), add its `<figure>` back as the first item 
 | `play-shot-5.png` | A tournament bracket: Singles · 4, semi-final You vs Vega |
 | `play-shot-8.png` | The CAPICÚA! card over a full board: BOTH ENDS +25, the YOU pill (a staged hand, see below) |
 | `play-shot-6.png` | The hand card: RICO TAKES THE HAND · +5 · Race to 200 |
+| `play-shot-9.png` | The rulebook, How to play, Dominican selected: the Dominican card, The object, Who's on your side |
 
-The table above is in STRIP order. `play-shot-4` (the lobby with its code) was dropped
+The table above is in STRIP order; the strip ENDS on the rulebook by decision (2026-10-01).
+Neither strip has a row of feature or table chips above it any more (removed
+2026-10-01: the table picker shot and the premium section already say it). `play-shot-4` (the lobby with its code) was dropped
 2026-10-01 by decision — a code on a marketing page is noise. `play-shot-8` was taken
 from a deal staged by a TEMPORARY DEBUG switch (deal until the computer, playing every
 seat, ends a hand with your capicúa; hand it back one tile short), then removed: a
 capicúa is too rare to wait for. The card is up ~1.5 s, so start a background
 `simctl io … screenshot` loop BEFORE the tap and pick the settled frame.
-All seven are 736 × 1600, resized from 1206 × 2622 `simctl io … screenshot` captures,
+All eight are 736 × 1600, resized from 1206 × 2622 `simctl io … screenshot` captures,
 recaptured 2026-10-01 on "MD Site Shots" with the status bar overridden to 9:41
 (the table and the hand card show none — Play hides it in a game). Launched with
 `-debugLaunchTab play -debugPremium 1` so no ad banner shows;
