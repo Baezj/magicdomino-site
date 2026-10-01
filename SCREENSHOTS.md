@@ -56,7 +56,7 @@ resolution at the 736 : 1600 aspect), add its `<figure>` back as the first item 
 | File | Shows |
 |---|---|
 | `play-shot-1.png` | The table mid-hand: 1 v 1 against Rico, nine tiles down, two playable tiles lit, pile 14 |
-| `play-shot-2.png` | The Play home: MAGIC · mark · DOMINO™ top bar, the three cards, Computer in front, Table setup row, Deal |
+| `play-shot-2.png` | The Play home: MAGIC · mark · DOMINO™ centred in the top bar, the three cards, Computer in front, Table setup row, Deal |
 | `play-shot-3.png` | Pick your game: the ten tables, Dominican selected |
 | `play-shot-7.png` | The Online sheet's Quick Match card: Game (Dominican, to 200), Players (1 vs 1), Find a match |
 | `play-shot-4.png` | An Anywhere lobby: its six-letter code, one open seat, the "Open empty seats to strangers" switch (off) |
