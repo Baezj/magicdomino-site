@@ -1,13 +1,15 @@
 # Screenshots the home page expects
 
 The home page has two screenshot strips. Each frame shows a real PNG when the
-file exists and draws its own placeholder (a felt or paper frame with the shot's
-subject sketched in) when it does not. Drop the file in with the exact name below,
-commit, push — nothing else to change. No markup edit, no resize step.
+file exists, and a placeholder (a blank screen in the frame with the shot's name on
+it) when it does not. Replacing a PNG under the same name needs only a `?v=` bump;
+a NEW shot needs its `<figure>` in the strip and a caption key in i18n.js (all 17
+languages). A screen reader hears one label per frame: the image's alt, or the
+placeholder's title only if the image failed (`shotFailed` in index.html).
 
-All shots are **1320 × 2868** (an iPhone 17 Pro screenshot at full resolution),
-portrait, PNG. The frame crops to that aspect, so a different size still shows but
-may be cropped at the top and bottom.
+Strip shots are **736 × 1600** PNG, portrait (resized from 1206 × 2622 `simctl io …
+screenshot` captures of an iPhone 17 Pro simulator). The frame crops to that aspect,
+so another size still shows but may be cropped at the top and bottom.
 
 ## The hero phones
 
@@ -37,7 +39,7 @@ In strip order. `shot-5` and `shot-6` were added 2026-10-01 (same simulator and
 launch switches, settings restored afterwards: theme System, no flag, tournament
 mode back on).
 
-Three RAW simulator screenshots (736 × 1600, from 1206 × 2622 captures on "MD Site
+The first three (shot-2/3/4) are RAW simulator screenshots (736 × 1600, from 1206 × 2622 captures on "MD Site
 Shots", light mode, `-debugPremium 1 -headerSize_MagicDomino Minimal`), taken
 2026-09-30 in the evening so the header is the caps lockup. They replaced the four
 App Store marketing images (a phone drawn inside the picture, English captions
@@ -76,9 +78,10 @@ All eight are 736 × 1600, resized from 1206 × 2622 `simctl io … screenshot` 
 recaptured 2026-10-01 on "MD Site Shots" with the status bar overridden to 9:41
 (the table and the hand card show none — Play hides it in a game). Launched with
 `-debugLaunchTab play -debugPremium 1` so no ad banner shows;
-`hasSeenOnboarding` set with `simctl spawn … defaults write`. ⚠️ On 2026-10-01 that
-launch opened on the scorekeeper's Tournament page instead of Play (a scorekeeper
-tournament was live on the device); tapping Play in the tab bar works.
+`hasSeenOnboarding` set with `simctl spawn … defaults write`. (Until 2026-10-01 that
+launch landed on the scorekeeper's Tournament tab whenever tournament mode was on; the
+app now keeps the tab a `-debugLaunchTab` asks for. `-debugPlayHost internet` opens a
+lobby once the splash lifts — the quickest way to an online table.)
 Replace any of them by dropping a new PNG under the same name.
 
 ## The Duo
@@ -96,7 +99,9 @@ that shows the whole idea at once, which is why it has its own section.
 ## The social card
 
 `social-card.png` (1024 × 500) is what iMessage, WhatsApp and X show when the
-link is shared. It is now the split picture, rendered from `social-card.html` with
-the same CSS as the hero — the command is in that file's header. ⚠️ It still shows
-the OLD hero (CSS drawings and the icon on the seam); the home page moved to two real
-phones on 2026-09-30 and the card has not followed yet.
+link is shared: the split hero — the two real phones (`hero-score.png`,
+`hero-play.png`) under their headlines, the caps wordmark and magicdomino.com across
+the foot. Rendered from `social-card.html` with the same CSS as the hero (the
+command is in that file's header; if Chrome's one-shot `--screenshot` hangs on the
+web fonts, render it through DevTools instead). Re-render it whenever either hero
+phone changes. Checked current 2026-10-01 (a fresh render matched the PNG).

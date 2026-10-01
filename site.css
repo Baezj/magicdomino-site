@@ -415,6 +415,9 @@ section { padding: 6rem 0; }
 .shot-frame img[data-missing] { opacity: 0; }
 /* While a PNG is missing the frame shows the shot's name on a blank screen. */
 .ph { position: absolute; inset: 2.2%; border-radius: 15.5% / 7.1%; background: var(--card); display: grid; place-items: center; padding: 1.2rem; text-align: center; }
+/* Our own `display: grid` above outranks the browser's [hidden] rule, so a loaded
+   screenshot's placeholder never really went away. */
+.ph[hidden] { display: none; }
 .ph .ph-title { font-family: var(--display); font-weight: 600; font-size: 1.05rem; color: var(--fg); }
 .scroll-arrow {
     position: absolute; top: 45%; transform: translateY(-50%); z-index: 3;

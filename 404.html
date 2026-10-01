@@ -217,7 +217,7 @@
         .store-badge img { height: 44px; }
     }
 </style>
-    <script src="/i18n.js?v=20261001g"></script>
+    <script src="/i18n.js?v=20261001h"></script>
 </head>
 <body>
 <div class="dot-bg"></div>
@@ -303,7 +303,7 @@
                     // on screen either way, so this fails quietly rather than
                     // claiming something happened that didn't.
                     btn.textContent = T("inv.copyFail", "Copy failed");
-                    setTimeout(function () { btn.textContent = "Copy code"; }, 1800);
+                    setTimeout(function () { btn.textContent = T("inv.copy", "Copy code"); }, 1800);
                 });
             });
         } else {
