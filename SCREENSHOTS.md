@@ -59,12 +59,16 @@ resolution at the 736 : 1600 aspect), add its `<figure>` back as the first item 
 | `play-shot-2.png` | The Play home: MAGIC · mark · DOMINO™ centred in the top bar, the three cards, Computer in front, Table setup row, Deal |
 | `play-shot-3.png` | Pick your game: the ten tables, Dominican selected |
 | `play-shot-7.png` | The Online sheet's Quick Match card: Game (Dominican, to 200), Players (1 vs 1), Find a match |
-| `play-shot-4.png` | An Anywhere lobby: its six-letter code, one open seat, the "Open empty seats to strangers" switch (off) |
 | `play-shot-5.png` | A tournament bracket: Singles · 4, semi-final You vs Vega |
+| `play-shot-8.png` | The CAPICÚA! card over a full board: BOTH ENDS +25, the YOU pill (a staged hand, see below) |
 | `play-shot-6.png` | The hand card: RICO TAKES THE HAND · +5 · Race to 200 |
 
-The table above is in STRIP order; `play-shot-7.png` sits between the picker and the
-lobby because that is the order a player meets them online (caption key `pshots.s7`).
+The table above is in STRIP order. `play-shot-4` (the lobby with its code) was dropped
+2026-10-01 by decision — a code on a marketing page is noise. `play-shot-8` was taken
+from a deal staged by a TEMPORARY DEBUG switch (deal until the computer, playing every
+seat, ends a hand with your capicúa; hand it back one tile short), then removed: a
+capicúa is too rare to wait for. The card is up ~1.5 s, so start a background
+`simctl io … screenshot` loop BEFORE the tap and pick the settled frame.
 All seven are 736 × 1600, resized from 1206 × 2622 `simctl io … screenshot` captures,
 recaptured 2026-10-01 on "MD Site Shots" with the status bar overridden to 9:41
 (the table and the hand card show none — Play hides it in a game). Launched with
