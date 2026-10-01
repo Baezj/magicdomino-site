@@ -29,6 +29,7 @@ Drop a new PNG under the same name and bump the `?v=` to replace either.
 
 | File | Shows |
 |---|---|
+| `shot-1.png` | (to come) The Counter: the camera counting dominoes on a real table — FIRST in the strip |
 | `shot-2.png` | The scoreboard: Los Tigres 165 · Las Águilas 130, six rounds in the ledger |
 | `shot-6.png` | Four players in OLED mode: Juan 65 · Rosa 75 · Miguel 15 · Carmen 20, five rounds showing |
 | `shot-3.png` | A tournament bracket: "Sunday Classic", both Round 1 matches FINAL, the Final Round card at the edge |
@@ -46,12 +47,15 @@ App Store marketing images (a phone drawn inside the picture, English captions
 baked in, the old mixed-case header) — those sat inside the page's own phone frame
 as a phone inside a phone.
 
-⚠️ **`shot-1.png`, the AI camera counting, is MISSING on purpose.** The simulator has
-no camera, so the Counter cannot be photographed there. It wants a screenshot from a
-real phone: the Counter tab with dominoes on the table and the count showing, taken
-with the app on the Minimal header tier. Drop it in as `shot-1.png` (any iPhone
-resolution at the 736 : 1600 aspect), add its `<figure>` back as the first item of
-`#scoreStrip` in index.html (copy the scoreboard's, `alt.shot1`), bump the `?v=`.
+⚠️ **`shot-1.png`, the AI camera counting, is the one shot still to come — and its slot
+is READY, first in the strip** (Juan, 2026-10-01: the Counter leads "so the counter can
+get more spotlight"). The simulator has no camera, so it comes from a real phone: the
+Counter tab with dominoes on the table and the count showing, on the Minimal header
+tier. **To add it: drop it in as `shot-1.png` (736 × 1600 — resize with `sips -z 1600
+736`), bump the `?v=` in every html page, commit, push.** No markup edit: the figure is
+already in `#scoreStrip` and removes itself while the file is absent (`shotAbsent` in
+index.html), so the live site never shows an empty phone. Its caption (`alt.shot1`)
+already exists in all 17 languages.
 
 ## The game strip (felt)
 
