@@ -28,8 +28,14 @@ Drop a new PNG under the same name and bump the `?v=` to replace either.
 | File | Shows |
 |---|---|
 | `shot-2.png` | The scoreboard: Los Tigres 165 · Las Águilas 130, six rounds in the ledger |
+| `shot-6.png` | Four players in OLED mode: Juan 65 · Rosa 75 · Miguel 15 · Carmen 20, five rounds showing |
 | `shot-3.png` | A tournament bracket: "Sunday Classic", both Round 1 matches FINAL, the Final Round card at the edge |
 | `shot-4.png` | Game history: four single games with their winners |
+| `shot-5.png` | Settings → Appearance with the 🇩🇴 flag header on: Theme, Header Size, App Color (off while a flag is on), Flag Animation |
+
+In strip order. `shot-5` and `shot-6` were added 2026-10-01 (same simulator and
+launch switches, settings restored afterwards: theme System, no flag, tournament
+mode back on).
 
 Three RAW simulator screenshots (736 × 1600, from 1206 × 2622 captures on "MD Site
 Shots", light mode, `-debugPremium 1 -headerSize_MagicDomino Minimal`), taken
