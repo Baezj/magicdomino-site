@@ -49,16 +49,23 @@ resolution at the 736 : 1600 aspect), add its `<figure>` back as the first item 
 
 | File | Shows |
 |---|---|
-| `play-shot-1.png` | The table mid-hand: 1 v 1 against Rico, ten tiles down, three playable tiles lit |
+| `play-shot-1.png` | The table mid-hand: 1 v 1 against Rico, nine tiles down, two playable tiles lit, pile 14 |
 | `play-shot-2.png` | The Play home: the three cards, Computer in front, Table setup row, Deal |
 | `play-shot-3.png` | Pick your game: the ten tables, Dominican selected |
-| `play-shot-4.png` | An Anywhere lobby with its six-letter code, one open seat |
+| `play-shot-7.png` | The Online sheet's Quick Match card: Game (Dominican, to 200), Players (1 vs 1), Find a match |
+| `play-shot-4.png` | An Anywhere lobby: its six-letter code, one open seat, the "Open empty seats to strangers" switch (off) |
 | `play-shot-5.png` | A tournament bracket: Singles · 4, semi-final You vs Vega |
-| `play-shot-6.png` | The hand card: RICO TAKES THE HAND · NO SCORE · Race to 200 |
+| `play-shot-6.png` | The hand card: RICO TAKES THE HAND · +5 · Race to 200 |
 
-Captured 2026-09-30 on an iPhone 17 Pro simulator (a fresh device named
-"MD Site Shots", launched with `-debugLaunchTab play -debugPremium 1` so no ad
-banner shows; `hasSeenOnboarding` set with `simctl spawn … defaults write`).
+The table above is in STRIP order; `play-shot-7.png` sits between the picker and the
+lobby because that is the order a player meets them online (caption key `pshots.s7`).
+All seven are 736 × 1600, resized from 1206 × 2622 `simctl io … screenshot` captures,
+recaptured 2026-10-01 on "MD Site Shots" with the status bar overridden to 9:41
+(the table and the hand card show none — Play hides it in a game). Launched with
+`-debugLaunchTab play -debugPremium 1` so no ad banner shows;
+`hasSeenOnboarding` set with `simctl spawn … defaults write`. ⚠️ On 2026-10-01 that
+launch opened on the scorekeeper's Tournament page instead of Play (a scorekeeper
+tournament was live on the device); tapping Play in the tab bar works.
 Replace any of them by dropping a new PNG under the same name.
 
 ## The Duo
