@@ -2,7 +2,7 @@
 // Anonymous page counts for magicdomino.com (see the privacy policy, priv.s1.li8).
 //
 // One note per page view — which page, the browser's language — and one per store
-// button tap. NO cookie, NO identifier, nothing written to the browser. It goes to the
+// button tap or Watch Live link tap (the board itself is counted by the relay's stats.js). NO cookie, NO identifier, nothing written to the browser. It goes to the
 // same Worker the app uses (stats.magicdomino.com), whose schema.json allows only
 // these two events with these fields. Do Not Track / Global Privacy Control → nothing.
 //
@@ -86,7 +86,8 @@
   document.addEventListener("click", function (e) {
     var a = e.target.closest && e.target.closest("a[href]");
     if (!a) return;
-    var target = /apps\.apple\.com/.test(a.href) ? "appstore" : /play\.google\.com/.test(a.href) ? "googleplay" : null;
+    var target = /apps\.apple\.com/.test(a.href) ? "appstore" : /play\.google\.com/.test(a.href) ? "googleplay"
+      : /^\/tv(\/|$)/.test(a.pathname) && a.host === location.host ? "watch" : null;
     if (target) send([{ n: "web_click", d: day(), p: { target: target, page: page() } }]);
   }, true);
 })();
