@@ -63,13 +63,14 @@ already exists in all 17 languages.
 |---|---|
 | `play-shot-1.png` | The table mid-hand: 2 vs 2 (Juan & Rico against Luna & Max), a long snake, four playable tiles lit |
 | `play-shot-2.png` | The Play home: the Computer card's seating picture (Rico across, Max and Luna on their nameplates, your pill), Table setup row, Deal, the Computer · Online tabs, the Daily Deal row |
-| `play-shot-3.png` | Pick your game: the ten tables, Dominican selected |
-| `play-shot-7.png` | The Quick Match sheet: Game mode (Dominican, to 200, Edit), Players (1 vs 1), Find a match |
 | `play-shot-8.png` | The CAPICÚA! card over a full board: BOTH ENDS +25, the YOU pill (a staged hand, see below) |
+| `play-shot-10.png` | The LOCKED! card the moment a table locks, sparks still flying (2 vs 2, Dominican) |
 | `play-shot-6.png` | The hand card after a lock: JUAN & RICO TAKE THE HAND · +14 · The count (Rico locked it, 1 against Max's 5) |
+| `play-shot-3.png` | Pick your game: the ten tables, Dominican selected |
+| `play-shot-7.png` | The Play home with the Online card in front: the signal over your pill, Find a match, Play with friends, "Have a code? Join" |
 | `play-shot-9.png` | The rulebook, How to play, Dominican selected: the Dominican card, The object, Who's on your side |
 
-The table above is in STRIP order; the strip ENDS on the rulebook by decision (2026-10-01).
+The table above is in STRIP order (Juan, 2026-10-12: Capicúa third, then Locked, then the hand card); the strip ENDS on the rulebook by decision (2026-10-01). ⚠️ `play-shot-8` (Capicúa) still shows the OLD score header ("You 0 · Rico 0") — recapture it.
 Neither strip has a row of feature or table chips above it any more (removed
 2026-10-01: the table picker shot and the premium section already say it). `play-shot-4` (the lobby with its code) was dropped
 2026-10-01 by decision — a code on a marketing page is noise. `play-shot-8` was taken
@@ -77,7 +78,7 @@ from a deal staged by a TEMPORARY DEBUG switch (deal until the computer, playing
 seat, ends a hand with your capicúa; hand it back one tile short), then removed: a
 capicúa is too rare to wait for. The card is up ~1.5 s, so start a background
 `simctl io … screenshot` loop BEFORE the tap and pick the settled frame.
-All seven are 736 × 1600, resized from 1206 × 2622 `simctl io … screenshot` captures,
+All eight are 736 × 1600, resized from 1206 × 2622 `simctl io … screenshot` captures,
 recaptured 2026-10-01 on "MD Site Shots" with the status bar overridden to 9:41
 (the table and the hand card show none — Play hides it in a game). Launched with
 `-debugLaunchTab play -debugPremium 1` so no ad banner shows;

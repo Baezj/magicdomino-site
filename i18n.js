@@ -450,6 +450,7 @@
     "pshots.s6": { en:"The hand is over", es:"Fin de la mano", fr:"Fin de la main", pt:"Fim da mão", ar:"انتهت الجولة", zh:"一局结束", nl:"De hand is gespeeld", de:"Die Hand ist gespielt", hi:"हाथ ख़त्म", bn:"হাত শেষ", id:"Ronde selesai", ur:"ہاتھ ختم", tr:"El bitti", it:"Fine della mano", ja:"一局の終わり", ko:"한 판 종료", ru:"Партия сыграна" },
     "pshots.s7": { en:"Find a match", es:"Encuentra con quién jugar", fr:"Trouvez une partie", pt:"Encontre uma partida", ar:"ابحث عن مباراة", zh:"找人来一局", nl:"Zoek een potje", de:"Mitspieler finden", hi:"मैच ढूँढें", bn:"ম্যাচ খুঁজুন", id:"Cari lawan", ur:"میچ تلاش کریں", tr:"Rakip bul", it:"Trova una partita", ja:"対戦相手を探す", ko:"상대 찾기", ru:"Найти соперника" },
     "pshots.s8": { en:"Capicúa!", es:"Capicúa!", fr:"Capicúa!", pt:"Capicúa!", ar:"Capicúa!", zh:"Capicúa!", nl:"Capicúa!", de:"Capicúa!", hi:"Capicúa!", bn:"Capicúa!", id:"Capicúa!", ur:"Capicúa!", tr:"Capicúa!", it:"Capicúa!", ja:"Capicúa!", ko:"Capicúa!", ru:"Capicúa!" },
+    "pshots.s10":      { en:"Locked!", es:"Tranque!", fr:"Bloqué !", pt:"Fechou!", ar:"انسداد!", zh:"封盘！", nl:"Geblokkeerd!", de:"Gesperrt!", hi:"जाम!", bn:"জ্যাম!", id:"Mati!", ur:"جام!", tr:"Kapandı!", it:"Chiuso!", ja:"詰み！", ko:"막혔다!", ru:"Рыба!" },
     "pshots.s9": { en:"How to play", es:"Cómo se juega", fr:"Comment jouer", pt:"Como jogar", ar:"طريقة اللعب", zh:"怎么玩", nl:"Zo speel je", de:"So wird gespielt", hi:"कैसे खेलें", bn:"কীভাবে খেলবেন", id:"Cara bermain", ur:"کیسے کھیلیں", tr:"Nasıl oynanır", it:"Come si gioca", ja:"遊び方", ko:"게임 방법", ru:"Как играть" },
     "duo.eyebrow": { en:"iPhone Duo", es:"iPhone Duo", fr:"iPhone Duo", pt:"iPhone Duo", ar:"iPhone Duo", zh:"iPhone Duo", nl:"iPhone Duo", de:"iPhone Duo", hi:"iPhone Duo", bn:"iPhone Duo", id:"iPhone Duo", ur:"iPhone Duo", tr:"iPhone Duo", it:"iPhone Duo", ja:"iPhone Duo", ko:"iPhone Duo", ru:"iPhone Duo" },
     "duo.title": { en:"Keeping score? Tap Play, and <em>the table</em> opens on the other half.", es:"¿Anotando? Toca Jugar y <em>la mesa</em> se abre en la otra mitad.", fr:"Vous tenez le score ? Touchez Jouer, et <em>la table</em> s’ouvre sur l’autre moitié.", pt:"Marcando pontos? Toque em Jogar e <em>a mesa</em> abre na outra metade.", ar:"تسجّل النقاط؟ اضغط «العب» وتنفتح <em>الطاولة</em> في النصف الآخر.", zh:"正在记分？点一下「打牌」，<em>牌桌</em>就在另一半打开。", nl:"Stand aan het bijhouden? Tik op Spelen en <em>de tafel</em> opent op de andere helft.", de:"Du führst den Stand? Tipp auf Spielen, und <em>der Tisch</em> öffnet sich auf der anderen Hälfte.", hi:"स्कोर रख रहे हैं? Play पर टैप करें और <em>मेज़</em> दूसरे आधे में खुल जाती है।", bn:"স্কোর রাখছেন? Play-এ ট্যাপ করুন, <em>টেবিল</em> অন্য অর্ধে খুলে যায়।", id:"Sedang mencatat skor? Ketuk Main, dan <em>mejanya</em> terbuka di separuh yang lain.", ur:"اسکور رکھ رہے ہیں؟ Play پر ٹیپ کریں اور <em>میز</em> دوسرے آدھے میں کھل جاتی ہے۔", tr:"Puan mı tutuyorsun? Oyna’ya dokun, <em>masa</em> öbür yarıda açılsın.", it:"Stai segnando i punti? Tocca Gioca e <em>il tavolo</em> si apre sull’altra metà.", ja:"スコアをつけている途中で「プレイ」をタップすると、もう半分に<em>卓</em>が開きます。", ko:"점수를 기록하는 중에 플레이를 누르면 <em>판</em>이 다른 반쪽에 열립니다.", ru:"Ведёте счёт? Нажмите «Играть» — и <em>стол</em> откроется на второй половине." },
@@ -580,10 +581,18 @@
       fitSwitch(sel);
       // The web font can arrive after this first fit, and it is wider than the
       // fallback the probe measured with — "English" closed as "Englisl"
-      // (2026-10-12). Fit again once every font is in.
-      if (document.fonts && document.fonts.ready) {
-        document.fonts.ready.then((function (s) { return function () { fitSwitch(s); }; })(sel));
-      }
+      // (2026-10-12). `fonts.ready` alone was NOT enough on Chrome for Mac: it can
+      // resolve before the web font has even been requested. So fit again whenever
+      // any font finishes loading, when the page has loaded, and once more after.
+      (function (s) {
+        var refit = function () { fitSwitch(s); };
+        if (document.fonts) {
+          if (document.fonts.ready) document.fonts.ready.then(refit);
+          if (document.fonts.addEventListener) document.fonts.addEventListener("loadingdone", refit);
+        }
+        window.addEventListener("load", refit);
+        setTimeout(refit, 1500);
+      })(sel);
     }
 
     // Store badges: the stores' own localized artwork, English fallback.
@@ -609,7 +618,7 @@
 
   // Size the closed switcher to the chosen language's name: the text, plus the
   // control's OWN padding and border as computed (the arrow sits in the right
-  // padding), plus 4px so a rounding error can never clip the last letter.
+  // padding), plus 10px: Chrome for Mac insets a select's text a few pixels on its own.
   function fitSwitch(sel) {
     try {
       var cs = getComputedStyle(sel);
@@ -626,7 +635,7 @@
       var chrome = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight) +
                    parseFloat(cs.borderLeftWidth) + parseFloat(cs.borderRightWidth);
       sel.style.boxSizing = "border-box";
-      sel.style.width = Math.ceil(probe.getBoundingClientRect().width + chrome + 4) + "px";
+      sel.style.width = Math.ceil(probe.getBoundingClientRect().width + chrome + 10) + "px";
       document.body.removeChild(probe);
     } catch (e) {}
   }
