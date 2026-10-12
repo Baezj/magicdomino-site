@@ -61,13 +61,12 @@ already exists in all 17 languages.
 
 | File | Shows |
 |---|---|
-| `play-shot-1.png` | The table mid-hand: 1 v 1 against Rico, nine tiles down, two playable tiles lit, pile 14 |
-| `play-shot-2.png` | The Play home: MAGIC · mark · DOMINO™ centred in the top bar, the three cards, Computer in front, Table setup row, Deal |
+| `play-shot-1.png` | The table mid-hand: 2 vs 2 (Juan & Rico against Luna & Max), a long snake, four playable tiles lit |
+| `play-shot-2.png` | The Play home: the Computer card's seating picture (Rico across, Max and Luna on their nameplates, your pill), Table setup row, Deal, the Computer · Online tabs, the Daily Deal row |
 | `play-shot-3.png` | Pick your game: the ten tables, Dominican selected |
-| `play-shot-7.png` | The Online sheet's Quick Match card: Game (Dominican, to 200), Players (1 vs 1), Find a match |
-| `play-shot-5.png` | A tournament bracket: Singles · 4, semi-final You vs Vega |
+| `play-shot-7.png` | The Quick Match sheet: Game mode (Dominican, to 200, Edit), Players (1 vs 1), Find a match |
 | `play-shot-8.png` | The CAPICÚA! card over a full board: BOTH ENDS +25, the YOU pill (a staged hand, see below) |
-| `play-shot-6.png` | The hand card: RICO TAKES THE HAND · +5 · Race to 200 |
+| `play-shot-6.png` | The hand card after a lock: JUAN & RICO TAKE THE HAND · +14 · The count (Rico locked it, 1 against Max's 5) |
 | `play-shot-9.png` | The rulebook, How to play, Dominican selected: the Dominican card, The object, Who's on your side |
 
 The table above is in STRIP order; the strip ENDS on the rulebook by decision (2026-10-01).
@@ -78,7 +77,7 @@ from a deal staged by a TEMPORARY DEBUG switch (deal until the computer, playing
 seat, ends a hand with your capicúa; hand it back one tile short), then removed: a
 capicúa is too rare to wait for. The card is up ~1.5 s, so start a background
 `simctl io … screenshot` loop BEFORE the tap and pick the settled frame.
-All eight are 736 × 1600, resized from 1206 × 2622 `simctl io … screenshot` captures,
+All seven are 736 × 1600, resized from 1206 × 2622 `simctl io … screenshot` captures,
 recaptured 2026-10-01 on "MD Site Shots" with the status bar overridden to 9:41
 (the table and the hand card show none — Play hides it in a game). Launched with
 `-debugLaunchTab play -debugPremium 1` so no ad banner shows;
@@ -87,6 +86,14 @@ launch landed on the scorekeeper's Tournament tab whenever tournament mode was o
 app now keeps the tab a `-debugLaunchTab` asks for. `-debugPlayHost internet` opens a
 lobby once the splash lifts — the quickest way to an online table.)
 Replace any of them by dropping a new PNG under the same name.
+
+**2026-10-12:** play-shot-1, -2, -6, -7, `hero-play.png` and `duo-split.png` recaptured for 5.0's Play
+(two-card home, the seating picture, Rico as your partner, the Quick Match sheet). The bracket
+(`play-shot-5`) left the strip — Play's tournaments are hidden in 5.0. The table frames and the
+hand card come from a `recordVideo` of `-debugPlayAutopilot 1` (full-resolution frames picked from
+the movie: the hand card's total blurs in, so take a frame ~1 s after it lands). The Duo shot has a
+seven-round game written to the container's `roundScores.json` and the team names passed as
+`-team1Name_MagicDomino` / `-team2Name_MagicDomino`; fold/unfold with `PlayDebugTools/duo-hub.js`.
 
 ## The Duo
 
