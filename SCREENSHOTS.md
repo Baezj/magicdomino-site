@@ -62,15 +62,15 @@ already exists in all 17 languages.
 | File | Shows |
 |---|---|
 | `play-shot-1.png` | The table mid-hand: 2 vs 2 (Juan & Rico against Luna & Max), a long snake, four playable tiles lit |
+| `play-shot-3.png` | Pick your game: the ten tables, Dominican selected |
+| `play-shot-7.png` | The Play home with the Online card in front: the signal over your pill, Find a match, Play with friends, "Have a code? Join" |
+| `play-shot-9.png` | The rulebook, How to play, Dominican selected: the Dominican card, The object, Who's on your side |
 | `play-shot-2.png` | The Play home: the Computer card's seating picture (Rico across, Max and Luna on their nameplates, your pill), Table setup row, Deal, the Computer · Online tabs, the Daily Deal row |
 | `play-shot-8.png` | The CAPICÚA! card over a full board: BOTH ENDS +25, the YOU pill (a staged hand, see below) |
 | `play-shot-10.png` | The LOCKED! card the moment a table locks, sparks still flying (2 vs 2, Dominican) |
 | `play-shot-6.png` | The hand card after a lock: JUAN & RICO TAKE THE HAND · +14 · The count (Rico locked it, 1 against Max's 5) |
-| `play-shot-3.png` | Pick your game: the ten tables, Dominican selected |
-| `play-shot-7.png` | The Play home with the Online card in front: the signal over your pill, Find a match, Play with friends, "Have a code? Join" |
-| `play-shot-9.png` | The rulebook, How to play, Dominican selected: the Dominican card, The object, Who's on your side |
 
-The table above is in STRIP order (Juan, 2026-10-12: Capicúa third, then Locked, then the hand card); the strip ENDS on the rulebook by decision (2026-10-01). ⚠️ `play-shot-8` (Capicúa) still shows the OLD score header ("You 0 · Rico 0") — recapture it.
+The table above is in STRIP order (Juan, 2026-10-12: table, pick your game, Online, how to play, Play the computer, then Capicúa → Locked → hand card together); it now ends on the hand card (the 2026-10-01 "ends on the rulebook" rule is superseded). ⚠️ `play-shot-8` (Capicúa) still shows the OLD score header ("You 0 · Rico 0") — recapture it.
 Neither strip has a row of feature or table chips above it any more (removed
 2026-10-01: the table picker shot and the premium section already say it). `play-shot-4` (the lobby with its code) was dropped
 2026-10-01 by decision — a code on a marketing page is noise. `play-shot-8` was taken
