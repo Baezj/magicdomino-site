@@ -96,6 +96,17 @@ the movie: the hand card's total blurs in, so take a frame ~1 s after it lands).
 seven-round game written to the container's `roundScores.json` and the team names passed as
 `-team1Name_MagicDomino` / `-team2Name_MagicDomino`; fold/unfold with `PlayDebugTools/duo-hub.js`.
 
+## The scoreboard redesign (2026-10-13)
+
+The iOS 26 Score page was redesigned (the app's CLAUDE.md, "THE iOS 26 SCORE PAGE"): the totals
+under the names with a race bar and "N to win", the rounds as one card, the TOTAL pill gone. Every
+site picture that shows the board was recaptured in all 17 languages, same seeds and launch
+settings as `tools/sitecap/cap.py`: `hero-score.png` + `shot-2.png` (Los Tigres 165 · Las Águilas
+130), `shot-6.png` (four players, OLED) and `duo-split.png` (the Score half beside a dealt hand).
+`social-card.png` re-rendered from the new hero. `SHOT_V` and every `i18n.js?v=` bumped to
+20261013a. Shot on a clone of "MD Site Shots" (so 9:41 and the answered prompts carry over) and the
+session's own Duo simulator; the other site pictures were not touched.
+
 ## The Duo
 
 `duo-split.png` (1800 wide) is the opened iPhone Duo's inner screen: the scoreboard
