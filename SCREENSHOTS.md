@@ -157,3 +157,6 @@ corners at 15% of the width with the screen's corner `15% − bezel` (concentric
 Island at a real island's proportions on the status bar's line. ⛔️ Never a `%` padding: a padding
 percentage resolves against the PARENT's width — the hero's whole pane — which drew a bezel ~5% of
 the phone. The social card reuses `.mock`; re-render it after any change here.
+The opened Duo (`.duo-frame`) gets the same ~6pt bezel: 0.65% of its 951pt inner screen, corners
+6.1% / 8.7% (the screenshot's own 5.5% / 7.9% plus the bezel). Its padding % is safe only because
+the figure fills its grid cell — keep it that way.
