@@ -104,7 +104,7 @@ site picture that shows the board was recaptured in all 17 languages, same seeds
 settings as `tools/sitecap/cap.py`: `hero-score.png` + `shot-2.png` (Los Tigres 165 · Las Águilas
 130), `shot-6.png` (four players, OLED) and `duo-split.png` (the Score half beside a dealt hand).
 `social-card.png` re-rendered from the new hero. `SHOT_V` and every `i18n.js?v=` bumped to
-20261013a. Shot on a clone of "MD Site Shots" (so 9:41 and the answered prompts carry over) and the
+20261013a (shot-6 again as 20261013b: four-player totals went 34 → 38pt). Shot on a clone of "MD Site Shots" (so 9:41 and the answered prompts carry over) and the
 session's own Duo simulator; the other site pictures were not touched.
 
 ## The Duo
