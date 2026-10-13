@@ -92,7 +92,7 @@
     "alt.shot2":       { en:"Scoreboard view", es:"Vista del marcador", fr:"Vue du tableau de score", pt:"Vista do placar", ar:"عرض لوحة النتائج", zh:"计分板界面", nl:"Scorebordweergave", de:"Ansicht der Anzeigetafel", hi:"स्कोरबोर्ड व्यू", bn:"স্কোরবোর্ড ভিউ", id:"Tampilan papan skor", ur:"اسکور بورڈ ویو", tr:"Puan tablosu görünümü", it:"Vista del tabellone", ja:"スコアボード画面", ko:"점수판 화면", ru:"Экран табло" },
     "alt.shot3":       { en:"Tournament bracket", es:"Cuadro del torneo", fr:"Tableau du tournoi", pt:"Chave do torneio", ar:"جدول البطولة", zh:"锦标赛对阵表", nl:"Toernooischema", de:"Turnierbaum", hi:"टूर्नामेंट ब्रैकेट", bn:"টুর্নামেন্ট ব্র্যাকেট", id:"Bagan turnamen", ur:"ٹورنامنٹ بریکٹ", tr:"Turnuva fikstürü", it:"Tabellone del torneo", ja:"トーナメント表", ko:"토너먼트 대진표", ru:"Турнирная сетка" },
     "alt.shot4":       { en:"Game history", es:"Historial de partidas", fr:"Historique des parties", pt:"Histórico de partidas", ar:"سجل المباريات", zh:"比赛记录", nl:"Speelgeschiedenis", de:"Spielverlauf", hi:"गेम हिस्ट्री", bn:"খেলার ইতিহাস", id:"Riwayat permainan", ur:"گیم ہسٹری", tr:"Oyun geçmişi", it:"Cronologia partite", ja:"対戦履歴", ko:"게임 기록", ru:"История игр" },
-    "alt.shot5":       { en:"Appearance settings", es:"Personaliza la apariencia", fr:"Réglages d’apparence", pt:"Ajustes de aparência", ar:"إعدادات المظهر", zh:"外观设置", nl:"Weergave-instellingen", de:"Darstellung anpassen", hi:"रूप-रंग सेटिंग्स", bn:"চেহারার সেটিংস", id:"Pengaturan tampilan", ur:"ظاہری شکل کی ترتیبات", tr:"Görünüm ayarları", it:"Personalizza l’aspetto", ja:"外観の設定", ko:"화면 스타일 설정", ru:"Настройки оформления" },
+    "alt.shot5":       { en:"Settings", es:"Ajustes", fr:"Réglages", pt:"Ajustes", ar:"الإعدادات", zh:"设置", nl:"Instellingen", de:"Einstellungen", hi:"सेटिंग्स", bn:"সেটিংস", id:"Pengaturan", ur:"ترتیبات", tr:"Ayarlar", it:"Impostazioni", ja:"設定", ko:"설정", ru:"Настройки" },
     "alt.shot6":       { en:"Four players in OLED mode", es:"Cuatro jugadores en modo OLED", fr:"Quatre joueurs en mode OLED", pt:"Quatro jogadores no modo OLED", ar:"أربعة لاعبين في وضع OLED", zh:"OLED 模式下的四人局", nl:"Vier spelers in OLED-modus", de:"Vier Spieler im OLED-Modus", hi:"OLED मोड में चार खिलाड़ी", bn:"OLED মোডে চারজন খেলোয়াড়", id:"Empat pemain dalam mode OLED", ur:"OLED موڈ میں چار کھلاڑی", tr:"OLED modunda dört oyuncu", it:"Quattro giocatori in modalità OLED", ja:"OLEDモードで4人対戦", ko:"OLED 모드의 4인 게임", ru:"Четыре игрока в режиме OLED" },
     "a11y.prevShots":  { en:"Previous screenshots", es:"Capturas anteriores", fr:"Captures précédentes", pt:"Capturas anteriores", ar:"اللقطات السابقة", zh:"上一组截图", nl:"Vorige schermafbeeldingen", de:"Vorherige Screenshots", hi:"पिछले स्क्रीनशॉट", bn:"আগের স্ক্রিনশট", id:"Tangkapan layar sebelumnya", ur:"پچھلے اسکرین شاٹس", tr:"Önceki ekran görüntüleri", it:"Screenshot precedenti", ja:"前のスクリーンショット", ko:"이전 스크린샷", ru:"Предыдущие снимки" },
     "a11y.nextShots":  { en:"More screenshots", es:"Más capturas", fr:"Plus de captures", pt:"Mais capturas", ar:"المزيد من اللقطات", zh:"更多截图", nl:"Meer schermafbeeldingen", de:"Weitere Screenshots", hi:"और स्क्रीनशॉट", bn:"আরও স্ক্রিনশট", id:"Tangkapan layar lainnya", ur:"مزید اسکرین شاٹس", tr:"Daha fazla ekran görüntüsü", it:"Altri screenshot", ja:"ほかのスクリーンショット", ko:"스크린샷 더 보기", ru:"Ещё снимки" },
@@ -596,6 +596,18 @@
       })(sel);
     }
 
+    // Screenshots: every phone on the page shows the app IN THE READER'S LANGUAGE (Juan,
+    // 2026-10-12: "the screenshots should change with the language"). English lives at the
+    // root; each other language's set is shots/<lang>/ under the same names. A language
+    // missing from SHOT_LANGS keeps the English pictures, so a gap can never show an empty
+    // phone. Re-shoot: the website repo's SCREENSHOTS.md, "Every language".
+    els = document.querySelectorAll("img[data-shot]");
+    for (i = 0; i < els.length; i++) {
+      var file = els[i].getAttribute("data-shot");
+      var want = (SHOT_LANGS.indexOf(lang) >= 0 && lang !== "en" ? "shots/" + lang + "/" : "") + file + "?v=" + SHOT_V;
+      if (els[i].getAttribute("src") !== want) els[i].setAttribute("src", want);
+    }
+
     // Store badges: the stores' own localized artwork, English fallback.
     els = document.querySelectorAll("img[data-badge]");
     for (i = 0; i < els.length; i++) {
@@ -620,6 +632,10 @@
   // Size the closed switcher to the chosen language's name: the text, plus the
   // control's OWN padding and border as computed (the arrow sits in the right
   // padding), plus 10px: Chrome for Mac insets a select's text a few pixels on its own.
+  // The languages with a full set of screenshots in shots/<lang>/, and their cache version.
+  var SHOT_LANGS = ["es", "fr", "pt", "ar", "zh", "nl", "de", "hi", "bn", "id", "ur", "tr", "it", "ja", "ko", "ru"];
+  var SHOT_V = "20261012e";
+
   function fitSwitch(sel) {
     try {
       var cs = getComputedStyle(sel);

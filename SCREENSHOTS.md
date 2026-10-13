@@ -117,3 +117,22 @@ the foot. Rendered from `social-card.html` with the same CSS as the hero (the
 command is in that file's header; if Chrome's one-shot `--screenshot` hangs on the
 web fonts, render it through DevTools instead). Re-render it whenever either hero
 phone changes. Checked current 2026-10-01 (a fresh render matched the PNG).
+
+## Every language (2026-10-12)
+
+Juan: "the screenshots should change with the language". Every phone on the home page — both heroes,
+the scorekeeper strip, the Play strip and the Duo — is shot in all 17 languages: English at the root,
+the others in `shots/<lang>/` under the same file names. `i18n.js` swaps each `img[data-shot]` to its
+language's copy for every language in `SHOT_LANGS` (a language left out keeps English; nothing can show
+an empty phone). Bump `SHOT_V` in i18n.js when the pictures change.
+
+How they were made (scripts kept in `tools/sitecap/`): `cap.py UDID all LANG…` on two clones of
+"MD Site Shots" (iPhone 17 Pro) — each static screen is one launch with DEBUG switches
+(`-AppleLanguages`, `-debugLaunchTab`, `-play.deckPage 1|2`, `-debugPlaySheet picker|rules`, seeded
+`roundScores.json`/`pastGames.json`/`activeTournament.json`), then two autopilot games recorded as
+movies: 2 vs 2 (table, hero, Dominó!) and 1 v 1 with no drawing (most hands lock: Locked! + its hand
+card). `pick.py LANG` finds the moments (red plate, gold banner, the last gold card before a hand card,
+a still board with no red marks); `overrides.json` holds the two picked by eye (fr, bn Dominó!).
+`duo.py LANG…` shoots the opened Duo (`-debugLaunchTab playSplit -debugDuoDemo deal`). `assemble.py`
+resizes into the site. The computers wear each language's own names, so the boards differ by language
+— that is the point. ~1 h 40 min for all 17 on two simulators.
