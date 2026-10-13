@@ -147,3 +147,13 @@ a still board with no red marks); `overrides.json` holds the two picked by eye (
 `duo.py LANG…` shoots the opened Duo (`-debugLaunchTab playSplit -debugDuoDemo deal`). `assemble.py`
 resizes into the site. The computers wear each language's own names, so the boards differ by language
 — that is the point. ~1 h 40 min for all 17 on two simulators.
+
+## The phone frames (2026-10-13)
+
+Juan: "see how thick the bezels of these screenshots are? make them thin like actual device bezel
+iphone 18 pro max". Every frame (`.mock`, `.shot-frame`) is sized from its OWN width, `--w`: the
+bezel is `--bz` = 1.4% of it (1.1% on the felt, where the dark screen reads as frame), circular
+corners at 15% of the width with the screen's corner `15% − bezel` (concentric), and the Dynamic
+Island at a real island's proportions on the status bar's line. ⛔️ Never a `%` padding: a padding
+percentage resolves against the PARENT's width — the hero's whole pane — which drew a bezel ~5% of
+the phone. The social card reuses `.mock`; re-render it after any change here.

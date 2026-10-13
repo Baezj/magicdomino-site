@@ -283,8 +283,14 @@ section { padding: 6rem 0; }
        and the pane's fixed height crops the phone at the bottom. Desktop only —
        the phone block below positions it absolutely against the pane's bottom. */
     position: relative; z-index: 1; flex: none; margin: 2.4rem auto 0;
-    width: clamp(250px, 24vw, 340px); aspect-ratio: 736 / 1600;
-    padding: 2%; border-radius: 17.5% / 8.05%;
+    /* ⛔️ THE BEZEL IS MEASURED OFF THE PHONE'S OWN WIDTH (--w), never a % padding: a
+       padding percentage resolves against the PARENT's width — the whole hero pane — so
+       "2%" drew a bezel ~5% of the phone, four times a real one (Juan, 2026-10-13: "make
+       them thin like actual device bezel iphone 18 pro max"). A Pro Max's bezel is ~1.5%
+       of its width; its corners are circular and concentric with the screen's. */
+    --w: clamp(250px, 24vw, 340px); --bz: calc(var(--w) * 0.014);
+    width: var(--w); aspect-ratio: 736 / 1600;
+    padding: var(--bz); border-radius: calc(var(--w) * 0.15);
     /* Graphite, not black: a frame that is visibly a different material from the
        screen, so a dark screen (the felt) cannot merge with it and look like a
        fatter bezel. */
@@ -292,11 +298,12 @@ section { padding: 6rem 0; }
     box-shadow: 0 50px 100px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.06);
     animation: mockUp 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) both, mockFloat 7s ease-in-out 1.1s infinite;
 }
-.mock img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 15.5% / 7.1%; }
+.mock img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: calc(var(--w) * 0.15 - var(--bz)); }
 /* The Dynamic Island, so the frame reads as the current iPhone Pro Max. */
 .mock::after {
-    content: ""; position: absolute; left: 50%; top: 3.6%; translate: -50% 0;
-    width: 30%; height: 3.2%; border-radius: 999px; background: #000;
+    /* A real island's proportions: ~29% of the width, centred on the status bar's line. */
+    content: ""; position: absolute; left: 50%; top: calc(var(--bz) + var(--w) * 0.026); translate: -50% 0;
+    width: calc(var(--w) * 0.29); height: calc(var(--w) * 0.083); border-radius: 999px; background: #000;
 }
 .mock::before {
     content: ""; position: absolute; left: -30%; right: -30%; top: -10%; bottom: 10%; z-index: -1;
@@ -312,10 +319,9 @@ section { padding: 6rem 0; }
     /* Thinner than the scoreboard's frame ON PURPOSE (Juan, 2026-09-30): the game
        screenshot is dark to its edge, and the eye adds that margin to the frame. A
        narrower frame here is what makes the two LOOK the same width. */
-    padding: 1.3%; }
+    --bz: calc(var(--w) * 0.011); }
 /* Concentric corners: the screen's radius is the frame's radius minus the frame's
    width, or the frame pinches to nothing at the corners (it did, 2026-09-30). */
-.mock-play img { border-radius: 16.2% / 7.45%; }
 .mock-play::before { background: radial-gradient(closest-side, rgba(242, 189, 87, 0.6), transparent); }
 @keyframes mockUp { from { opacity: 0; translate: 0 90px; } }
 /* A pendulum, not a stepper: each quarter is eased like a sine wave — fast through
@@ -390,22 +396,23 @@ section { padding: 6rem 0; }
 .strip::-webkit-scrollbar-thumb { background: var(--card-border); border-radius: 3px; }
 .shot { flex: 0 0 auto; scroll-snap-align: center; display: grid; gap: 0.6rem; justify-items: center; }
 .shot-frame {
-    width: clamp(200px, 17vw, 240px); aspect-ratio: 736 / 1600; position: relative;
-    padding: 2.2%; border-radius: 17.5% / 8.05%;
+    /* The hero's rule: the bezel is ~1.5% of the phone's OWN width (see .mock). */
+    --w: clamp(200px, 17vw, 240px); --bz: calc(var(--w) * 0.014);
+    width: var(--w); aspect-ratio: 736 / 1600; position: relative;
+    padding: var(--bz); border-radius: calc(var(--w) * 0.15);
     background: linear-gradient(160deg, #4b4b52, #1c1c20);
     box-shadow: 0 30px 60px rgba(15, 26, 58, 0.22), 0 0 0 1px rgba(255, 255, 255, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.06);
 }
 .world-play .shot-frame {
     /* The hero's rule: the dark screenshot reads its own margin as frame, so a
        thinner frame LOOKS the same width as the light one. Concentric corners. */
-    padding: 1.4%;
+    --bz: calc(var(--w) * 0.011);
     box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(242, 189, 87, 0.14), 0 0 0 1px rgba(255, 255, 255, 0.12), inset 0 0 0 1px rgba(255, 255, 255, 0.06);
 }
-.shot-frame img { width: 100%; height: 100%; object-fit: cover; object-position: top; position: relative; z-index: 2; border-radius: 15.5% / 7.1%; }
-.world-play .shot-frame img { border-radius: 16.1% / 7.4%; }
+.shot-frame img { width: 100%; height: 100%; object-fit: cover; object-position: top; position: relative; z-index: 2; border-radius: calc(var(--w) * 0.15 - var(--bz)); }
 .shot-frame::after {
-    content: ""; position: absolute; left: 50%; top: 3.6%; translate: -50% 0; z-index: 3;
-    width: 30%; height: 3.2%; border-radius: 999px; background: #000;
+    content: ""; position: absolute; left: 50%; top: calc(var(--bz) + var(--w) * 0.026); translate: -50% 0; z-index: 3;
+    width: calc(var(--w) * 0.29); height: calc(var(--w) * 0.083); border-radius: 999px; background: #000;
 }
 /* Hidden by OPACITY, never display:none: the strip's images are loading="lazy", and a
    browser never lazy-loads an image with no box — so a display:none image never loaded,
@@ -563,10 +570,9 @@ footer {
     /* Pinned to the pane's bottom edge here (the halves are too short for the phone
        to follow the words in flow), each centred in its own half: left/right 0 + auto
        margins, so the float's `translate` is free for the up-and-down. */
-    .mock { position: absolute; width: clamp(162px, 44vw, 186px); top: auto; bottom: -17%; margin: 0; padding: 2.2%; }
+    .mock { position: absolute; --w: clamp(162px, 44vw, 186px); top: auto; bottom: -17%; margin: 0; }
     .mock-score, .mock-play { left: 0; right: 0; margin-inline: auto; }
-    .mock-play img { border-radius: 16.1% / 7.4%; }
-    .mock-play { padding: 1.4%; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(242, 189, 87, 0.22), 0 0 0 1px rgba(255, 255, 255, 0.12); }
+    .mock-play { box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(242, 189, 87, 0.22), 0 0 0 1px rgba(255, 255, 255, 0.12); }
     .hero-one .lead { display: none; }
     .hero-one { padding: 1.5rem 1.25rem 2rem; }
     .hero-one h1 { font-size: clamp(1.6rem, 7vw, 2rem); margin-bottom: 0.6rem; }
