@@ -160,3 +160,14 @@ the phone. The social card reuses `.mock`; re-render it after any change here.
 The opened Duo (`.duo-frame`) gets the same ~6pt bezel: 0.65% of its 951pt inner screen, corners
 6.1% / 8.7% (the screenshot's own 5.5% / 7.9% plus the bezel). Its padding % is safe only because
 the figure fills its grid cell — keep it that way.
+
+## The new Play tab icon (2026-10-15)
+
+The Play tab's icon changed from a die to the app's own `play.domino` (a fanned hand of dominoes).
+Every phone with a tab bar (hero-score, shot-2…6, play-shot-2, play-shot-7 × 17 languages, 136
+files) had the old die swapped IN PLACE, not re-shot: `/tmp/iconpatch/swap.py` finds the die by an
+edge-map template match (all hits 0.90–0.94; real dominoes on the felt top out at 0.68), fills it
+from its surroundings and draws the new glyph's mask in the die's own ink, at the size the app
+draws it (measured on a fresh capture: 69/62 of the die's height, same centre). `play-shot-2` was
+then RE-SHOT in all 17 languages anyway: the Computer card changed (Deal above Table setup, the
+chosen game's opening on the table). `SHOT_V` 20261015a. social-card and duo-split show no tab bar.

@@ -656,7 +656,7 @@
   // padding), plus 10px: Chrome for Mac insets a select's text a few pixels on its own.
   // The languages with a full set of screenshots in shots/<lang>/, and their cache version.
   var SHOT_LANGS = ["es", "fr", "pt", "ar", "zh", "nl", "de", "hi", "bn", "id", "ur", "tr", "it", "ja", "ko", "ru"];
-  var SHOT_V = "20261013b";
+  var SHOT_V = "20261015a";
 
   function fitSwitch(sel) {
     try {
