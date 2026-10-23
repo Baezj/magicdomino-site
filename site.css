@@ -637,3 +637,15 @@ footer {
 .tag-soon { background: rgba(247, 245, 238, 0.08); color: var(--fg-muted); }
 .world-score .tag-soon, .tag-soon:not(.world-play *) { background: var(--cream-warm); color: var(--muted); }
 .world-play .tag-soon { background: rgba(247, 245, 238, 0.08); color: var(--fg-muted); }
+
+/* ===== "Share Magic Domino" (index.html, hero + footer) ========================= */
+.share-app {
+    display: inline-flex; align-items: center; gap: 0.45rem; margin: 0.9rem auto 0;
+    background: none; border: 1px solid currentColor; border-radius: 999px; cursor: pointer;
+    padding: 0.5rem 1.05rem; font: 600 0.9rem/1 var(--text); color: var(--accent); opacity: 0.9;
+    transition: opacity 0.18s, transform 0.18s;
+}
+.share-app:hover { opacity: 1; transform: translateY(-1px); }
+.share-app:focus-visible { outline: 2px solid var(--hi); outline-offset: 3px; }
+.share-app svg { width: 16px; height: 16px; }
+footer .share-app { color: var(--brass); margin-top: 0; }

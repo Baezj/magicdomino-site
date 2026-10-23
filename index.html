@@ -26,8 +26,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="site.css?v=20261013c">
-    <script src="/i18n.js?v=20261023c"></script>
+    <link rel="stylesheet" href="site.css?v=20261023s">
+    <script src="/i18n.js?v=20261023s"></script>
     <script src="/site-stats.js?v=20261004a" defer></script>
 </head>
 <body>
@@ -89,6 +89,7 @@
                     <img data-badge="google" src="badge_google_play_en.svg" alt="Get it on Google Play">
                 </a>
             </div>
+            <button type="button" class="share-app" data-share-app><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="share.btn">Share Magic Domino</span></button>
             <div class="hero-meta">
                 <span data-i18n="hero.meta1">★ Family-friendly</span>
                 <span class="sep" aria-hidden="true">·</span>
@@ -261,6 +262,7 @@
                 <img data-badge="google" src="badge_google_play_en.svg" alt="Get it on Google Play">
             </a>
         </div>
+        <button type="button" class="share-app" data-share-app><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-i18n="share.btn">Share Magic Domino</span></button>
         <div class="footer-links">
             <a href="#score" data-i18n="nav.score">Scorekeeper</a>
             <a href="#play" data-i18n="nav.play">The Game</a>
@@ -357,6 +359,32 @@
                 url.searchParams.delete('from');
                 window.history.replaceState({}, '', url.pathname + url.search + url.hash);
             } catch (e) {}
+        })();
+    </script>
+    <script>
+        // 🔗 "Share Magic Domino" — shares magicdomino.com/get (get.html: our own preview card,
+        // then the right store). The phone's share sheet where there is one, else the link
+        // is copied and the button says so for two seconds.
+        (function () {
+            var URL_ = 'https://magicdomino.com/get';
+            function t(k, fb) { try { var m = window.MDI18N; return (m && m.t(k, m.pick())) || fb; } catch (e) { return fb; } }
+            document.querySelectorAll('[data-share-app]').forEach(function (b) {
+                b.addEventListener('click', function () {
+                    var text = t('share.text', 'Play dominoes and keep score with Magic Domino');
+                    if (navigator.share) {
+                        navigator.share({ title: 'Magic Domino™', text: text, url: URL_ }).catch(function () {});
+                        return;
+                    }
+                    var label = b.querySelector('span');
+                    var done = function () {
+                        var was = label.textContent;
+                        label.textContent = t('share.copied', 'Link copied');
+                        setTimeout(function () { label.textContent = was; }, 2000);
+                    };
+                    if (navigator.clipboard) navigator.clipboard.writeText(URL_).then(done, function () { prompt('', URL_); });
+                    else prompt('', URL_);
+                });
+            });
         })();
     </script>
 </body>

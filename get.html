@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Magic Domino™: Score &amp; Play</title>
+<!--
+  ============================================================================
+  /get — THE LINK TO SHARE WHEN YOU WANT SOMEBODY TO DOWNLOAD THE APP
+  ============================================================================
+  Juan, 2026-10-23: an App Store link shared in Messages drew the iPAD
+  screenshots ("the ipad view is not my app's peak"). Messages builds that card
+  from Apple's own data, and nothing in the app or App Store Connect chooses it.
+  This page's tags are ours, so a shared magicdomino.com/get shows the iPhone
+  card (get-card.jpg, built from the iPhone 6.9" 01 panel's two halves side by
+  side) — then sends the reader straight on:
+    iPhone / iPad → the App Store page   Android → Google Play
+    anything else → the homepage (both store badges)
+  ⚠️ The redirect is SCRIPT ONLY, never a meta refresh: a link-preview fetcher
+     that follows a refresh would read the store's tags instead of these.
+  ⚠️ The tags are English on purpose: the preview is fetched by a server that
+     runs no script, so it cannot read the reader's language.
+  ⚠️ Change the picture → bump ?v= on both image tags (Messages caches by URL).
+  Shared from: the portal's Share card, the site's "Share Magic Domino" button,
+  and the app's Settings → Share Magic Domino.
+  ============================================================================
+-->
+<meta name="description" content="Play real dominoes online with friends, and keep the score at the table. Free on iPhone, iPad and Android.">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="/app-icon.png">
+<link rel="apple-touch-icon" href="/app-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Magic Domino™">
+<meta property="og:title" content="Magic Domino™: Score &amp; Play">
+<meta property="og:description" content="Play real dominoes online with friends, and keep the score at the table. Free on iPhone, iPad and Android.">
+<meta property="og:url" content="https://magicdomino.com/get">
+<meta property="og:image" content="https://magicdomino.com/get-card.jpg?v=20261023a">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Magic Domino™: Score &amp; Play">
+<meta name="twitter:description" content="Play real dominoes online with friends, and keep the score at the table. Free on iPhone, iPad and Android.">
+<meta name="twitter:image" content="https://magicdomino.com/get-card.jpg?v=20261023a">
+<script>
+(function () {
+  var APP_STORE = "https://apps.apple.com/app/id6747228055";
+  var PLAY = "https://play.google.com/store/apps/details?id=com.magicdomino.android";
+  var ua = navigator.userAgent || "";
+  // An iPad asks for the desktop site and reports itself as a Mac — the touch points give it away.
+  var apple = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+  var dest = apple ? APP_STORE : /Android/i.test(ua) ? PLAY : "/";
+  location.replace(dest);
+})();
+</script>
+<style>
+  body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+         font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif; background: #f4f6fa; color: #12233d; }
+  main { text-align: center; padding: 24px; }
+  img.icon { width: 96px; height: 96px; border-radius: 22px; }
+  h1 { font-size: 22px; margin: 16px 0 20px; }
+  a.store { display: inline-block; margin: 6px; }
+  a.store img { height: 48px; }
+</style>
+</head>
+<body>
+<main>
+  <img class="icon" src="/app-icon.png" alt="">
+  <h1>Magic Domino™: Score &amp; Play</h1>
+  <a class="store" href="https://apps.apple.com/app/id6747228055"><img src="/badge_app_store_en.svg" alt="Download on the App Store"></a>
+  <a class="store" href="https://play.google.com/store/apps/details?id=com.magicdomino.android"><img src="/badge_google_play_en.svg" alt="Get it on Google Play"></a>
+</main>
+</body>
+</html>
