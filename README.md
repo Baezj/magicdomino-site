@@ -59,3 +59,36 @@ Need help? Email us at: [magicdominoapp@gmail.com](mailto:magicdominoapp@gmail.c
 ---
 
 © 2025 Magic Domino. All rights reserved.
+
+## Android App Links — `/.well-known/assetlinks.json` (prepared 2026-10-23, NOT live yet)
+
+The Android app (`com.magicdomino.android`, 2.0+) verifies `/j/*` (Play invites and Live Share)
+and `/d/*` (Daily Deal) on **magicdomino.com, www.magicdomino.com, magicdominoapp.com and
+www.magicdominoapp.com**. Android refuses a redirected file, so each host must answer the path
+itself with a 200 and `application/json`:
+
+| Host | Who serves `/.well-known/assetlinks.json` |
+|---|---|
+| magicdomino.com | GitHub Pages, straight from **this repo's `.well-known/assetlinks.json`** (`.nojekyll` lets the dot-folder through) |
+| www.magicdomino.com | the relay Worker (route in the relay's `wrangler.toml`), proxying this repo's file from raw.githubusercontent.com |
+| magicdominoapp.com, www.magicdominoapp.com | the relay Worker, same proxy — **and** the path must be excluded from the old zone's Single Redirect rule (dashboard), like the AASA and app-ads.txt |
+
+⛔️ **The file does not exist yet on purpose**: it needs the SHA-256 of the **Play App Signing key**
+(Play Console → Test and release → App integrity → App signing), which only the Play Console shows.
+A made-up fingerprint would make Android mark the links as failed. To turn it on:
+
+1. Copy `tools/assetlinks/assetlinks.template.json` to `.well-known/assetlinks.json`, put the real
+   fingerprint(s) in (format `AB:CD:…`, 32 colon-separated pairs, uppercase), and check it parses:
+   `python3 -m json.tool .well-known/assetlinks.json`.
+2. Commit and push (Pages publishes it on magicdomino.com).
+3. Deploy the relay (`wrangler deploy` in magic-domino-relay — the proxy is committed there, fff5e5f)
+   between hands, and add `/.well-known/assetlinks.json` to the exclusions of magicdominoapp.com's
+   redirect rule.
+4. Check every host answers 200 JSON with no redirect:
+   `for h in magicdomino.com www.magicdomino.com magicdominoapp.com www.magicdominoapp.com; do curl -s -o /dev/null -w "$h %{http_code} %{content_type}\n" https://$h/.well-known/assetlinks.json; done`
+   and Google's checker: `https://digitalassetlinks.googleapis.com/v1/statements:list?source.web.site=https://magicdomino.com&relation=delegate_permission/common.handle_all_urls`.
+5. On a phone: `adb shell pm verify-app-links --re-verify com.magicdomino.android`, then
+   `adb shell pm get-app-links com.magicdomino.android` → every host `verified`.
+
+⚠️ `.well-known/apple-app-site-association` here is NOT what iPhones read: the relay Worker serves the
+AASA on both apexes (its routes win over Pages). Leave this repo's copy alone.
