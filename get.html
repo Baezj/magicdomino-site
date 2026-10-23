@@ -21,8 +21,10 @@
   ⚠️ The tags are English on purpose: the preview is fetched by a server that
      runs no script, so it cannot read the reader's language.
   ⚠️ Change the picture → bump ?v= on both image tags (Messages caches by URL).
-  ⚠️ NO og:site_name: Apple's link previews drop a title's leading words when they
-     repeat the site name — "Magic Domino™: Score & Play" showed as "Score & Play".
+  ⚠️ Apple's link previews drop a title's leading words when they repeat the site's
+     name (og:site_name, or the domain itself) — "Magic Domino™: Score & Play" showed
+     as "Score & Play". So the title is "Magic Domino™ — Play dominoes and keep score":
+     trimmed, it still reads as a headline, and magicdomino.com sits under it.
   Shared from: the portal (header button + Settings → Share the app) and the
   homepage's "Share Magic Domino" buttons. Not in the app, by decision (Juan,
   2026-10-23): Play's invite and Daily Deal links already bring friends in.
@@ -33,14 +35,14 @@
 <link rel="icon" type="image/png" href="/app-icon.png">
 <link rel="apple-touch-icon" href="/app-icon.png">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Magic Domino™: Score &amp; Play">
+<meta property="og:title" content="Magic Domino™ — Play dominoes and keep score">
 <meta property="og:description" content="Play real dominoes online with friends, and keep the score at the table. Free on iPhone, iPad and Android.">
 <meta property="og:url" content="https://magicdomino.com/get">
 <meta property="og:image" content="https://magicdomino.com/get-card.jpg?v=20261023a">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Magic Domino™: Score &amp; Play">
+<meta name="twitter:title" content="Magic Domino™ — Play dominoes and keep score">
 <meta name="twitter:description" content="Play real dominoes online with friends, and keep the score at the table. Free on iPhone, iPad and Android.">
 <meta name="twitter:image" content="https://magicdomino.com/get-card.jpg?v=20261023a">
 <script>
