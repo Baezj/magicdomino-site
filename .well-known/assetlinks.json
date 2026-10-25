@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.magicdomino.android",
+      "sha256_cert_fingerprints": [
+        "05:3A:24:EA:51:A9:B1:C2:7E:BD:8A:D5:BB:DF:1B:E9:71:C0:D5:DF:27:AC:57:65:2C:44:F9:41:44:6B:DA:31"
+      ]
+    }
+  }
+]
