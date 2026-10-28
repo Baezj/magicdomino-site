@@ -653,7 +653,10 @@
       // (2026-10-12). `fonts.ready` alone was NOT enough on Chrome for Mac: it can
       // resolve before the web font has even been requested. So fit again whenever
       // any font finishes loading, when the page has loaded, and once more after.
-      (function (s) {
+      // ⚠️ Hooked ONCE per control (2026-10-28): apply() runs on every language
+      // change, and each run used to add another set of listeners.
+      if (!sel.getAttribute("data-fit-hooked")) (function (s) {
+        s.setAttribute("data-fit-hooked", "1");
         var refit = function () { fitSwitch(s); };
         if (document.fonts) {
           if (document.fonts.ready) document.fonts.ready.then(refit);

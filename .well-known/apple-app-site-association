@@ -2,11 +2,17 @@
   "applinks": {
     "details": [
       {
-        "appIDs": ["P2W4JTZ6GV.MagicDomino.Magic-Domino"],
+        "appIDs": [
+          "P2W4JTZ6GV.MagicDomino.Magic-Domino"
+        ],
         "components": [
           {
             "/": "/j/*",
             "comment": "Magic Domino share codes"
+          },
+          {
+            "/": "/d/*",
+            "comment": "Daily Deal"
           }
         ]
       }
