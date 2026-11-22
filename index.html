@@ -345,16 +345,19 @@
             if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
             if (!('IntersectionObserver' in window) || !Element.prototype.animate) return;
             var SPEED = 34;         // px per second at full glide
-            var RAMP = 70;          // px spent easing in and easing out of each leg
+            // Juan, 2026-11-22: "starts too slow … should be noticeable off the bat" — so it
+            // is up to speed in under a second, and keeps the long gentle ease only INTO an end.
+            var RAMP_IN = 14;       // px spent easing in (≈0.8 s at SPEED)
+            var RAMP_OUT = 60;      // px spent easing out into an end
             var REST = 1600;        // ms resting at each end
-            var IDLE_RESUME = 4000; // ms after the last touch before it picks up again
-            var START_DELAY = 900;  // ms after the strip comes on screen
+            var IDLE_RESUME = 5000; // ms after a swipe ENDS (finger up, strip still) before it picks up again
+            var START_DELAY = 300;  // ms after the strip comes on screen
             var EASE_IN = 'cubic-bezier(0.333, 0, 0.667, 0.333)';  // exactly t²
             var EASE_OUT = 'cubic-bezier(0.333, 0.667, 0.667, 1)'; // exactly 1−(1−t)²
 
             function pan(row) {
                 var shots = Array.prototype.slice.call(row.children).filter(function (c) { return c.classList.contains('shot'); });
-                var sign = 1, dir = 1, anims = [], timer = 0, visible = false, heldUntil = 0, loaded = false;
+                var sign = 1, dir = 1, anims = [], timer = 0, visible = false, heldUntil = 0, loaded = false, touching = false;
 
                 function rtl() { return getComputedStyle(row).direction === 'rtl'; }
                 function shots_() { // figures can be removed (a missing shot leaves the strip)
@@ -384,6 +387,7 @@
                 function leg() {
                     timer = 0;
                     if (!visible || document.hidden) return;
+                    if (touching) return;   // the finger's lift reschedules it
                     var wait = heldUntil - performance.now();
                     if (wait > 0) { timer = setTimeout(leg, wait + 30); return; }
                     settle();
@@ -403,13 +407,14 @@
                     row.classList.add('auto-pan');
                     // Hold the offset in the transform from here on (same picture).
                     row.scrollLeft = 0;
-                    var r = Math.min(RAMP, d / 3);
-                    var tRamp = 2 * r / SPEED, tMid = (d - 2 * r) / SPEED, total = 2 * tRamp + tMid;
+                    var rIn = Math.min(RAMP_IN, d / 4), rOut = Math.min(RAMP_OUT, d / 3);
+                    var tIn = 2 * rIn / SPEED, tOut = 2 * rOut / SPEED, tMid = (d - rIn - rOut) / SPEED;
+                    var total = tIn + tMid + tOut;
                     var x = function (off) { return 'translate3d(' + (-sign * off) + 'px,0,0)'; };
                     var frames = [
                         { transform: x(o), offset: 0, easing: EASE_IN },
-                        { transform: x(o + dir * r), offset: tRamp / total, easing: 'linear' },
-                        { transform: x(to - dir * r), offset: (tRamp + tMid) / total, easing: EASE_OUT },
+                        { transform: x(o + dir * rIn), offset: tIn / total, easing: 'linear' },
+                        { transform: x(to - dir * rOut), offset: (tIn + tMid) / total, easing: EASE_OUT },
                         { transform: x(to), offset: 1 }
                     ];
                     anims = shots_().map(function (s) {
@@ -432,10 +437,19 @@
                     if (visible) timer = setTimeout(leg, IDLE_RESUME + 30);
                 }
 
-                ['pointerdown', 'touchstart', 'wheel', 'keydown'].forEach(function (ev) {
+                // A finger (or mouse button) down holds it for as long as it stays down; the
+                // 5 s count starts when it lifts, and every scroll of the fling after that
+                // restarts it — so it resumes 5 s after the strip has come to rest.
+                function down() { touching = true; hold(); }
+                function up() { if (!touching) return; touching = false; hold(); }
+                row.addEventListener('pointerdown', down, { passive: true });
+                row.addEventListener('touchstart', down, { passive: true });
+                ['pointerup', 'pointercancel', 'touchend', 'touchcancel'].forEach(function (ev) {
+                    window.addEventListener(ev, up, { passive: true });
+                });
+                ['wheel', 'keydown'].forEach(function (ev) {
                     row.addEventListener(ev, hold, { passive: true });
                 });
-                // A fling keeps scrolling after the finger lifts; keep holding while it does.
                 row.addEventListener('scroll', function () {
                     if (!anims.length && performance.now() < heldUntil) heldUntil = performance.now() + IDLE_RESUME;
                 }, { passive: true });
