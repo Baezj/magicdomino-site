@@ -322,63 +322,114 @@
         }
 
         // ── The strips glide on their own (Juan, 2026-11-22: "auto scroll to the right
-        // at a nice speed … when it reaches the end it scrolls opposite direction") ──
-        // A slow pan, end to end and back: it eases in after each turn, slows into each
-        // end, rests there, then turns. It starts only once the strip is on screen,
-        // stops while it is off screen or the tab is hidden, and steps aside the moment
-        // a person touches, drags, wheels or taps an arrow — picking up from wherever
-        // they left it after a few quiet seconds. Never with Reduce Motion, never on a
-        // strip that fits without scrolling.
-        // ⚠️ Scroll-snap is OFF while it pans (.auto-pan): mandatory snap pulls a slow
-        // scroll back to the nearest phone every frame, which reads as a stutter.
-        // ⚠️ The position is kept in `pos`, never read back from scrollLeft between
-        // frames: browsers round scrollLeft, and at ~0.5px a frame reading it back
-        // would stall the pan.
+        // at a nice speed … when it reaches the end it scrolls opposite direction", then
+        // "how can it be even more smoother?") ──
+        // End to end and back: each leg eases in, glides at a steady speed, eases out into
+        // the end, rests, turns. Starts once the strip is on screen, pauses off screen,
+        // steps aside the moment a person touches, drags, wheels or taps an arrow and picks
+        // up from where they left it after a few quiet seconds. Never with Reduce Motion,
+        // never on a strip that fits.
+        // ⛔️ THE GLIDE IS A COMPOSITOR ANIMATION OF THE PHONES' TRANSFORM, NOT A SCROLL.
+        // The first version wrote scrollLeft every frame: browsers round it, so at ~0.5px
+        // a frame the strip moved in 1px steps every other frame, and any busy moment on
+        // the main thread was a hitch. Now each leg is ONE Web Animation (translateX with
+        // eased keyframes) that the GPU runs at sub-pixel precision on its own clock. While
+        // it runs the strip's scrollLeft is held at 0 and the offset lives in the transform;
+        // `settle()` folds it back into a real scroll position (same picture) whenever a
+        // person touches it or between legs. The velocity is continuous: t² in, linear,
+        // 1−(1−t)² out, the ramps sized so their end speed IS the glide speed.
+        // ⚠️ Scroll-snap is OFF once it pans (.auto-pan) — snap would yank the settled
+        // position to the nearest phone. The strip's images load eagerly once it pans
+        // (lazy-loading does not count a transform as "near the screen" everywhere).
         (function () {
             if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-            if (!('IntersectionObserver' in window)) return;
+            if (!('IntersectionObserver' in window) || !Element.prototype.animate) return;
             var SPEED = 34;         // px per second at full glide
-            var REST = 1600;        // ms paused at each end
-            var EASE_IN = 1100;     // ms to reach full speed after a turn
-            var SLOW_ZONE = 60;     // px before an end where it starts slowing
+            var RAMP = 70;          // px spent easing in and easing out of each leg
+            var REST = 1600;        // ms resting at each end
             var IDLE_RESUME = 4000; // ms after the last touch before it picks up again
             var START_DELAY = 900;  // ms after the strip comes on screen
+            var EASE_IN = 'cubic-bezier(0.333, 0, 0.667, 0.333)';  // exactly t²
+            var EASE_OUT = 'cubic-bezier(0.333, 0.667, 0.667, 1)'; // exactly 1−(1−t)²
 
             function pan(row) {
-                // RTL scrollLeft runs 0 → −max. Read when it starts moving, not once: the
-                // language (and its direction) is applied after this script runs.
-                var sign = 1;
-                var pos = 0, dir = 1, last = 0, frame = 0;
-                var visible = false, heldUntil = 0, restUntil = 0, movingSince = 0;
+                var shots = Array.prototype.slice.call(row.children).filter(function (c) { return c.classList.contains('shot'); });
+                var sign = 1, dir = 1, anims = [], timer = 0, visible = false, heldUntil = 0, loaded = false;
 
-                function max() { return Math.max(0, row.scrollWidth - row.clientWidth); }
-
-                function tick(now) {
-                    frame = 0;
-                    if (!visible || document.hidden) return;
-                    var dt = last ? Math.min(50, now - last) : 16; last = now;
-                    var m = max();
-                    if (m < 2 || now < heldUntil || now < restUntil) { schedule(); return; }
-                    if (!movingSince) {
-                        sign = getComputedStyle(row).direction === 'rtl' ? -1 : 1;
-                        pos = Math.min(m, Math.abs(row.scrollLeft)); // start from where it is
-                        movingSince = now;
-                        row.classList.add('auto-pan');
-                    }
-                    var ease = Math.min(1, (now - movingSince) / EASE_IN);
-                    ease = ease * ease * (3 - 2 * ease);
-                    var toEnd = dir > 0 ? m - pos : pos;
-                    var slow = Math.max(0.35, Math.min(1, toEnd / SLOW_ZONE));
-                    pos += dir * SPEED * ease * slow * dt / 1000;
-                    if (dir > 0 && pos >= m) { pos = m; dir = -1; restUntil = now + REST; movingSince = 0; }
-                    else if (dir < 0 && pos <= 0) { pos = 0; dir = 1; restUntil = now + REST; movingSince = 0; }
-                    row.scrollLeft = sign * pos;
-                    schedule();
+                function rtl() { return getComputedStyle(row).direction === 'rtl'; }
+                function shots_() { // figures can be removed (a missing shot leaves the strip)
+                    shots = shots.filter(function (s) { return s.isConnected; });
+                    return shots;
                 }
-                function schedule() { if (!frame) frame = requestAnimationFrame(tick); }
+                // Current offset from the strip's start, whichever form it is held in.
+                function offsetNow() {
+                    var o = Math.abs(row.scrollLeft);
+                    var s = shots_()[0];
+                    if (anims.length && s) {
+                        var m = new DOMMatrixReadOnly(getComputedStyle(s).transform);
+                        o += -sign * m.m41;
+                    }
+                    return o;
+                }
+                // Back to a plain scroll at the same picture.
+                function settle() {
+                    var o = offsetNow();
+                    anims.forEach(function (a) { a.cancel(); });
+                    anims = [];
+                    shots_().forEach(function (s) { s.style.transform = ''; s.style.willChange = ''; });
+                    row.scrollLeft = sign * o;
+                }
+                function maxOffset() { return Math.max(0, row.scrollWidth - row.clientWidth); }
+
+                function leg() {
+                    timer = 0;
+                    if (!visible || document.hidden) return;
+                    var wait = heldUntil - performance.now();
+                    if (wait > 0) { timer = setTimeout(leg, wait + 30); return; }
+                    settle();
+                    sign = rtl() ? -1 : 1;
+                    var m = maxOffset();
+                    if (m < 2) { timer = setTimeout(leg, 2000); return; } // fits (or not laid out yet)
+                    var o = Math.min(m, Math.abs(row.scrollLeft));
+                    if (dir > 0 && o >= m - 1) dir = -1;
+                    else if (dir < 0 && o <= 1) dir = 1;
+                    var to = dir > 0 ? m : 0;
+                    var d = Math.abs(to - o);
+                    if (d < 1) { dir = -dir; timer = setTimeout(leg, REST); return; }
+                    if (!loaded) {
+                        loaded = true;
+                        row.querySelectorAll('img[loading="lazy"]').forEach(function (i) { i.loading = 'eager'; });
+                    }
+                    row.classList.add('auto-pan');
+                    // Hold the offset in the transform from here on (same picture).
+                    row.scrollLeft = 0;
+                    var r = Math.min(RAMP, d / 3);
+                    var tRamp = 2 * r / SPEED, tMid = (d - 2 * r) / SPEED, total = 2 * tRamp + tMid;
+                    var x = function (off) { return 'translate3d(' + (-sign * off) + 'px,0,0)'; };
+                    var frames = [
+                        { transform: x(o), offset: 0, easing: EASE_IN },
+                        { transform: x(o + dir * r), offset: tRamp / total, easing: 'linear' },
+                        { transform: x(to - dir * r), offset: (tRamp + tMid) / total, easing: EASE_OUT },
+                        { transform: x(to), offset: 1 }
+                    ];
+                    anims = shots_().map(function (s) {
+                        s.style.willChange = 'transform';
+                        s.style.transform = x(o);
+                        return s.animate(frames, { duration: total * 1000, fill: 'forwards' });
+                    });
+                    var first = anims[0];
+                    if (first) first.onfinish = function () {
+                        if (anims[0] !== first) return;
+                        dir = -dir;
+                        timer = setTimeout(leg, REST);
+                    };
+                }
+                function stop() { clearTimeout(timer); timer = 0; }
                 function hold() {
                     heldUntil = performance.now() + IDLE_RESUME;
-                    movingSince = 0; // ease in again from wherever they leave it
+                    if (anims.length) settle();
+                    stop();
+                    if (visible) timer = setTimeout(leg, IDLE_RESUME + 30);
                 }
 
                 ['pointerdown', 'touchstart', 'wheel', 'keydown'].forEach(function (ev) {
@@ -386,23 +437,30 @@
                 });
                 // A fling keeps scrolling after the finger lifts; keep holding while it does.
                 row.addEventListener('scroll', function () {
-                    if (performance.now() < heldUntil) hold();
+                    if (!anims.length && performance.now() < heldUntil) heldUntil = performance.now() + IDLE_RESUME;
                 }, { passive: true });
+                // A turned phone or resized window: start the leg over from where it is.
+                window.addEventListener('resize', function () {
+                    if (!anims.length) return;
+                    settle(); stop();
+                    if (visible) timer = setTimeout(leg, 300);
+                });
 
                 new IntersectionObserver(function (entries) {
                     var was = visible;
                     visible = entries[0].isIntersecting;
                     if (visible && !was) {
-                        last = 0;
-                        if (!movingSince && !restUntil) restUntil = performance.now() + START_DELAY;
-                        schedule();
+                        if (anims.length) anims.forEach(function (a) { a.play(); });
+                        else if (!timer) timer = setTimeout(leg, START_DELAY);
+                    } else if (!visible && was) {
+                        anims.forEach(function (a) { a.pause(); });
                     }
                 }, { threshold: 0.35 }).observe(row);
                 document.addEventListener('visibilitychange', function () {
-                    if (!document.hidden) { last = 0; schedule(); }
+                    if (!document.hidden && visible && !anims.length && !timer) timer = setTimeout(leg, START_DELAY);
                 });
 
-                row._pan = { hold: hold };
+                row._pan = { hold: hold, offset: offsetNow };
             }
 
             ['scoreStrip', 'playStrip'].forEach(function (id) {
