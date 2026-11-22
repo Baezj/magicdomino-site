@@ -392,6 +392,9 @@ section { padding: 6rem 0; }
     justify-content: safe center;
     padding: 0.75rem 0.5rem 1.5rem; scrollbar-width: thin; scrollbar-color: var(--card-border) transparent;
 }
+/* The home page pans the strips slowly (index.html, "The strips glide"); mandatory snap
+   would pull every frame back to the nearest phone, so it is off while that runs. */
+.strip.auto-pan { scroll-snap-type: none; }
 .strip::-webkit-scrollbar { height: 6px; }
 .strip::-webkit-scrollbar-thumb { background: var(--card-border); border-radius: 3px; }
 .shot { flex: 0 0 auto; scroll-snap-align: center; display: grid; gap: 0.6rem; justify-items: center; }

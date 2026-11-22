@@ -26,7 +26,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="site.css?v=20261023s">
+    <link rel="stylesheet" href="site.css?v=20261122a">
     <script src="/i18n.js?v=20261105"></script>
     <script src="/site-stats.js?v=20261028" defer></script>
 </head>
@@ -316,8 +316,100 @@
 
         function scrollStrip(id, dir) {
             var row = document.getElementById(id);
-            if (row) row.scrollBy({ left: dir * 500, behavior: 'smooth' });
+            if (!row) return;
+            if (row._pan) row._pan.hold();
+            row.scrollBy({ left: dir * 500, behavior: 'smooth' });
         }
+
+        // ── The strips glide on their own (Juan, 2026-11-22: "auto scroll to the right
+        // at a nice speed … when it reaches the end it scrolls opposite direction") ──
+        // A slow pan, end to end and back: it eases in after each turn, slows into each
+        // end, rests there, then turns. It starts only once the strip is on screen,
+        // stops while it is off screen or the tab is hidden, and steps aside the moment
+        // a person touches, drags, wheels or taps an arrow — picking up from wherever
+        // they left it after a few quiet seconds. Never with Reduce Motion, never on a
+        // strip that fits without scrolling.
+        // ⚠️ Scroll-snap is OFF while it pans (.auto-pan): mandatory snap pulls a slow
+        // scroll back to the nearest phone every frame, which reads as a stutter.
+        // ⚠️ The position is kept in `pos`, never read back from scrollLeft between
+        // frames: browsers round scrollLeft, and at ~0.5px a frame reading it back
+        // would stall the pan.
+        (function () {
+            if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            if (!('IntersectionObserver' in window)) return;
+            var SPEED = 34;         // px per second at full glide
+            var REST = 1600;        // ms paused at each end
+            var EASE_IN = 1100;     // ms to reach full speed after a turn
+            var SLOW_ZONE = 60;     // px before an end where it starts slowing
+            var IDLE_RESUME = 4000; // ms after the last touch before it picks up again
+            var START_DELAY = 900;  // ms after the strip comes on screen
+
+            function pan(row) {
+                // RTL scrollLeft runs 0 → −max. Read when it starts moving, not once: the
+                // language (and its direction) is applied after this script runs.
+                var sign = 1;
+                var pos = 0, dir = 1, last = 0, frame = 0;
+                var visible = false, heldUntil = 0, restUntil = 0, movingSince = 0;
+
+                function max() { return Math.max(0, row.scrollWidth - row.clientWidth); }
+
+                function tick(now) {
+                    frame = 0;
+                    if (!visible || document.hidden) return;
+                    var dt = last ? Math.min(50, now - last) : 16; last = now;
+                    var m = max();
+                    if (m < 2 || now < heldUntil || now < restUntil) { schedule(); return; }
+                    if (!movingSince) {
+                        sign = getComputedStyle(row).direction === 'rtl' ? -1 : 1;
+                        pos = Math.min(m, Math.abs(row.scrollLeft)); // start from where it is
+                        movingSince = now;
+                        row.classList.add('auto-pan');
+                    }
+                    var ease = Math.min(1, (now - movingSince) / EASE_IN);
+                    ease = ease * ease * (3 - 2 * ease);
+                    var toEnd = dir > 0 ? m - pos : pos;
+                    var slow = Math.max(0.35, Math.min(1, toEnd / SLOW_ZONE));
+                    pos += dir * SPEED * ease * slow * dt / 1000;
+                    if (dir > 0 && pos >= m) { pos = m; dir = -1; restUntil = now + REST; movingSince = 0; }
+                    else if (dir < 0 && pos <= 0) { pos = 0; dir = 1; restUntil = now + REST; movingSince = 0; }
+                    row.scrollLeft = sign * pos;
+                    schedule();
+                }
+                function schedule() { if (!frame) frame = requestAnimationFrame(tick); }
+                function hold() {
+                    heldUntil = performance.now() + IDLE_RESUME;
+                    movingSince = 0; // ease in again from wherever they leave it
+                }
+
+                ['pointerdown', 'touchstart', 'wheel', 'keydown'].forEach(function (ev) {
+                    row.addEventListener(ev, hold, { passive: true });
+                });
+                // A fling keeps scrolling after the finger lifts; keep holding while it does.
+                row.addEventListener('scroll', function () {
+                    if (performance.now() < heldUntil) hold();
+                }, { passive: true });
+
+                new IntersectionObserver(function (entries) {
+                    var was = visible;
+                    visible = entries[0].isIntersecting;
+                    if (visible && !was) {
+                        last = 0;
+                        if (!movingSince && !restUntil) restUntil = performance.now() + START_DELAY;
+                        schedule();
+                    }
+                }, { threshold: 0.35 }).observe(row);
+                document.addEventListener('visibilitychange', function () {
+                    if (!document.hidden) { last = 0; schedule(); }
+                });
+
+                row._pan = { hold: hold };
+            }
+
+            ['scoreStrip', 'playStrip'].forEach(function (id) {
+                var row = document.getElementById(id);
+                if (row) pan(row);
+            });
+        })();
 
         // The bar turns dark while the felt section is under it.
         (function () {
